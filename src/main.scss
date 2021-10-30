@@ -1,15 +1,19 @@
-$primary:#0a6bbc;
+$primary:#5a68d1;
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
-.btn-primary {
-    @include button-variant(#0092ff, darken(#0092ff, 7.5%), darken(#0092ff, 10%), lighten(#0092ff, 5%), lighten(#0092ff, 10%), darken(#0092ff, 30%));
-}
-
 .sekunder {
     background-color: #eef9ff;
+}
+
+.primer {
+    background-color: #0092ff;
+}
+
+.text-primer {
+    color: #0092ff;
 }
 
 .text-sekunder {
