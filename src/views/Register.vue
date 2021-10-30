@@ -29,14 +29,14 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="password">Password</label>
-                                    <input type="password" :class="{'is-invalid': validate.password.length>0}" id="password" class="form-control" v-model="user.password"  placeholder="Masukkan Password">
+                                    <input type="password" autocomplete="" :class="{'is-invalid': validate.password.length>0}" id="password" class="form-control" v-model="user.password"  placeholder="Masukkan Password">
                                     <div class="invalid-feedback">
                                         {{validate.password}}
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="confirm_password">Konfirmasi Password</label>
-                                    <input type="password" v-model="user.password_confirmation" id="confirm_password" class="form-control"  placeholder="Masukkan Konfirmasi Password">
+                                    <input type="password" autocomplete="" v-model="user.password_confirmation" id="confirm_password" class="form-control"  placeholder="Masukkan Konfirmasi Password">
                                 </div>
                                 <button class="btn text-white btn-primary">Daftar Sekarang</button>
                             </form>
@@ -52,6 +52,8 @@
 import { reactive, ref } from '@vue/reactivity'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { useLoading } from 'vue3-loading-overlay';
+import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 export default {
     setup(){
         const user = reactive({
@@ -72,6 +74,12 @@ export default {
         const router = useRouter()
 
         function register() {
+            let loader = useLoading();
+            loader.show({
+                color: '#5a68d1',
+                loader: 'dots',
+            });
+                // simulate AJAX
             let name     = user.name
             let email    = user.email
             let password = user.password
@@ -85,10 +93,12 @@ export default {
                 password_confirmation
             })
             .then(()=>{
+                loader.hide()
                 console.log('ok')
                 router.push({name: 'login'})
             })
             .catch(err=>{
+                loader.hide()
                 validation.value = err
                 if(validation.value.name) {
                    validate.name = validation.value.name[0]
@@ -106,7 +116,7 @@ export default {
             user,
             validation,
             register,
-            validate
+            validate,
         }
     }
 }
