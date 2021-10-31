@@ -102,12 +102,18 @@ export default {
                 validation.value = err
                 if(validation.value.name) {
                    validate.name = validation.value.name[0]
+                }else{
+                    validate.name = ''
                 }
                 if(validation.value.email) {
                    validate.email = validation.value.email[0]
+                }else{
+                    validate.email = ''
                 }
                 if(validation.value.password) {
                    validate.password = validation.value.password[0]
+                }else{
+                    validate.password = ''
                 }
             })
         }
