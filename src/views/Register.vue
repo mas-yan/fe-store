@@ -54,8 +54,10 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { useLoading } from 'vue3-loading-overlay';
 import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
+import { inject } from 'vue'
 export default {
     setup(){
+        const swal = inject('$swal')
         const user = reactive({
             name: '',
             email: '',
@@ -72,14 +74,14 @@ export default {
         const validation = ref([])
         const store = useStore()
         const router = useRouter()
-
+        
         function register() {
             let loader = useLoading();
             loader.show({
                 color: '#5a68d1',
                 loader: 'dots',
             });
-                // simulate AJAX
+            
             let name     = user.name
             let email    = user.email
             let password = user.password
@@ -93,8 +95,13 @@ export default {
                 password_confirmation
             })
             .then(()=>{
+                swal({
+                    icon: 'success',
+                    title: 'Berhasil Register, Silahkan Login!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
                 loader.hide()
-                console.log('ok')
                 router.push({name: 'login'})
             })
             .catch(err=>{

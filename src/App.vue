@@ -32,12 +32,13 @@ export default {
         //  finish the progress bar
         internalInstance.appContext.config.globalProperties.$Progress.finish();
       });
+      
   },
   name: 'App',
   components: {
     Header,
     Footer
-  }
+  },
   
 }
 </script>

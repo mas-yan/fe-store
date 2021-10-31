@@ -7,10 +7,10 @@ import 'bootstrap/dist/js/bootstrap.min'
 import router from './router'
 import store from './store'
 import VueProgressBar from "@aacassandra/vue3-progressbar";
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const options = {
-    //     color: "#bffaf3",
-    //     failedColor: "#874b4b",
     thickness: "5px",
 };
 
@@ -20,4 +20,5 @@ app.mixin(mixins)
 app.use(router)
 app.use(VueProgressBar, options)
 app.use(store)
+app.use(VueSweetalert2);
 app.mount('#app')
