@@ -21,19 +21,10 @@ const auth = {
                         password_confirmation: user.password_confirmation
                     })
                     .then(response => {
-                        const token = response.data.token
-                        const user = response.data.data
-
-                        localStorage.setItem('token', token)
-                        localStorage.setItem('user', JSON.stringify(user))
-
-                        Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-
-                        commit('AUTH_SUCCESS', token, user)
+                        commit('')
                         resolve(response)
                     })
                     .catch(error => {
-                        localStorage.removeItem('token')
                         reject(error.response.data)
                     })
             })
