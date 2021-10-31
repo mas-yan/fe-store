@@ -19,7 +19,6 @@
                                         {{validate.name}}
                                     </div>
                                 </div>
-                                {{user.valName}}
                                 <div class="mb-3">
                                     <label for="email">Email</label>
                                     <input type="email" id="email" :class="{'is-invalid': validate.email.length>0}" class="form-control" v-model="user.email"  placeholder="Masukkan Email">
@@ -42,6 +41,9 @@
                             </form>
                         </div>
                     </div>
+                    <div class="text-center mt-3 mb-5">
+                        Sudah Punya Akun? <router-link :to="{name:'login'}">Login Disini</router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,7 +56,7 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { useLoading } from 'vue3-loading-overlay';
 import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
-import { inject } from 'vue'
+import { inject, onMounted } from 'vue'
 export default {
     setup(){
         const swal = inject('$swal')
@@ -124,6 +126,12 @@ export default {
                 }
             })
         }
+
+        onMounted(()=>{
+            if (store.getters['auth/isLoggedIn']) {
+                router.push({name: 'dashboard'})
+            }
+        })
 
         return{
             user,
