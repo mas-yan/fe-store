@@ -12,6 +12,11 @@ const auth = {
         },
         GET_USER(state, user) {
             state.user = user
+        },
+
+        AUTH_LOGOUT(state) {
+            state.token = ''
+            state.user = ''
         }
     },
     actions: {
@@ -55,6 +60,17 @@ const auth = {
                         localStorage.removeItem('token')
                         reject(err.response.data)
                     })
+            })
+        },
+
+        logout({ commit }) {
+            return new Promise((resolve) => {
+                commit('AUTH_LOGOUT')
+                localStorage.removeItem('token')
+                localStorage.removeItem('user')
+
+                delete Api.defaults.headers.common['AUTHORIZATION']
+                resolve()
             })
         }
     },
