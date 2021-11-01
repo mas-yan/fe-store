@@ -5,7 +5,7 @@
     <div class="d-lg-none">
         <button class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i> 0 | Rp. 0</button>
         <span class="mx-1 text-white" v-if="!login">|</span>
-        <router-link :to="{name:'dashboard'}" v-if="!login" class="btn btn-outline-light">Login</router-link>
+        <router-link :to="{name:'index'}" v-if="!login" class="btn btn-outline-light">Login</router-link>
     </div>
     <div class="container">
       <div class="d-flex justify-content-between">
@@ -82,7 +82,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <router-link :to="{name: 'dashboard'}" class="nav-link text-center">
+                <router-link :to="{name: 'index'}" class="nav-link text-center">
                     <span class="text-primary" style="font-size: 1.2em;"><i class="fas fa-user-alt"></i></span>
                     <span class="small d-block text-primary">Akun</span>
                 </router-link>

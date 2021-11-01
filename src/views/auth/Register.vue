@@ -128,7 +128,7 @@ export default {
 
         onMounted(()=>{
             if (store.getters['auth/isLoggedIn']) {
-                router.push({name: 'dashboard'})
+                router.push({name: 'index'})
             }
         })
 
