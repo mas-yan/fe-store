@@ -41,7 +41,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="text-center mt-3 mb-5">
+                    <div class="text-center mt-3 mb-5 d-lg-none d-xl-none d-xxl-none">
                         Sudah Punya Akun? <router-link :to="{name:'login'}">Login Disini</router-link>
                     </div>
                 </div>
@@ -55,7 +55,6 @@ import { reactive, ref } from '@vue/reactivity'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { useLoading } from 'vue3-loading-overlay';
-import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 import { inject, onMounted } from 'vue'
 export default {
     setup(){

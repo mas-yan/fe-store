@@ -46,6 +46,24 @@ const routes = [{
         name: 'dashboard',
         component: () =>
             import ('@/views/dashboard/Index.vue'),
+        children: [{
+                path: '',
+                name: 'index',
+                component: () =>
+                    import ('@/views/dashboard/Dashboard.vue')
+            },
+            {
+                path: '/dashboard/profile',
+                component: () =>
+                    import ('@/views/dashboard/Profile.vue')
+            },
+            {
+                path: '/dashboard/cart',
+                component: () =>
+                    import ('@/views/dashboard/Cart.vue')
+            },
+
+        ],
         meta: {
             progress: {
                 func: [

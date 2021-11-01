@@ -4,8 +4,8 @@
     <a class="navbar-brand fw-bold text-white fs-3 mb-lg-4" href="#">My-Store</a>
     <div class="d-lg-none">
         <button class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i> 0 | Rp. 0</button>
-        <span class="mx-1 text-white">|</span>
-        <router-link :to="{name:'login'}" class="btn btn-outline-light">Login</router-link>
+        <span class="mx-1 text-white" v-if="!login">|</span>
+        <router-link :to="{name:'dashboard'}" v-if="!login" class="btn btn-outline-light">Login</router-link>
     </div>
     <div class="container">
       <div class="d-flex justify-content-between">
@@ -16,8 +16,9 @@
         <div class="d-none d-lg-block d-xl-block ps-2 mt-2 ps-2 d-xxl-block">
           <button class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i> 0 | Rp. 0</button>
           <span class="me-2 my-auto text-white">|</span>
-          <router-link :to="{name:'login'}" class="btn me-2 btn-outline-light">Login</router-link>
-          <router-link :to="{name:'register'}" class="btn bg-white text-primary">Register</router-link>
+            <router-link :to="{name:'login'}" v-if="!login" class="btn me-2 btn-outline-light">Login</router-link>
+            <router-link :to="{name:'register'}" v-if="!login" class="btn bg-white text-primary">Register</router-link>
+            <a href="#" v-if="login" class="btn bg-white text-primary">akun</a>
         </div>
       <button class="navbar-toggler mt-2 bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
@@ -81,10 +82,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link text-center">
+                <router-link :to="{name: 'dashboard'}" class="nav-link text-center">
                     <span class="text-primary" style="font-size: 1.2em;"><i class="fas fa-user-alt"></i></span>
                     <span class="small d-block text-primary">Akun</span>
-                </a>
+                </router-link>
             </li>
         </ul>
     </nav>
@@ -100,3 +101,25 @@
   }  
 }
 </style>
+
+<script>
+import { computed, ref } from '@vue/reactivity'
+import { useStore } from 'vuex'
+
+export default{
+  setup() {
+    let cek = ref({
+      state: false
+    })
+    const store = useStore()
+    const login = computed(()=>{
+        if (store.getters['auth/isLoggedIn']) {
+            return cek.value.state = true
+        }
+    })
+    return {
+      login
+    }
+  },
+}
+</script>

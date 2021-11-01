@@ -8,6 +8,7 @@ import router from './router'
 import store from './store'
 import VueProgressBar from "@aacassandra/vue3-progressbar";
 import VueSweetalert2 from 'vue-sweetalert2';
+import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 const options = {

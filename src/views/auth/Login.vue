@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-lg-6 col-xl-6 col-xxl-6 col-12">
                     <div class="card border-0 rounded">
-                        <div class="card-body">
+                        <div class="card-body mt-4">
                             <h5 class="text-muted">Login</h5>
                             <hr style="height: 4px" />
                             <form @submit.prevent="login">
@@ -45,7 +45,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="text-center mt-3 mb-5">
+                    <div class="text-center mt-3 mb-5 d-lg-none d-xl-none d-xxl-none">
                         Belum Punya Akun? <router-link :to="{name:'register'}">Daftar Disini</router-link>
                     </div>
                 </div>
@@ -58,7 +58,6 @@
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useLoading } from "vue3-loading-overlay"
-import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 import { onMounted } from '@vue/runtime-core'
 
 
@@ -99,7 +98,7 @@ export default {
             })
             .then(()=>{
                 loader.hide()
-                router.push({name:'dashboard'})
+                router.push({name:'index'})
             })
             .catch(err=>{
                 loader.hide()
@@ -119,7 +118,7 @@ export default {
 
         onMounted(()=>{
             if (store.getters['auth/isLoggedIn']) {
-                router.push({name: 'dashboard'})
+                router.push({name:'index'})
             }
         })
 

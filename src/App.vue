@@ -14,10 +14,6 @@ import router from './router';
 export default {
   setup(){
     const internalInstance = getCurrentInstance();
-    // internalInstance.appContext.config.globalProperties.$Progress.start();
-    // setTimeout(() => {
-    //   internalInstance.appContext.config.globalProperties.$Progress.finish();
-    // }, 3500);
     router.beforeEach((to) => {
       if (to.meta.progress !== undefined) {
           let meta = to.meta.progress;
@@ -32,13 +28,14 @@ export default {
         //  finish the progress bar
         internalInstance.appContext.config.globalProperties.$Progress.finish();
       });
-      
   },
   name: 'App',
   components: {
     Header,
     Footer
   },
+
+
   
 }
 </script>
