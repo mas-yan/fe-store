@@ -119,7 +119,6 @@ export default{
     })
 
     const user = computed(()=>{
-      console.log(store.getters['auth/currentUser']);
       return store.getters['auth/currentUser']
     })
     return {
