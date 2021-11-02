@@ -18,7 +18,7 @@
           <span class="me-2 my-auto text-white">|</span>
             <router-link :to="{name:'login'}" v-if="!login" class="btn me-2 btn-outline-light">Login</router-link>
             <router-link :to="{name:'register'}" v-if="!login" class="btn bg-white text-primary">Register</router-link>
-            <a href="#" v-if="login" class="btn bg-white text-primary">akun</a>
+            <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary">{{user.name}}</router-link>
         </div>
       <button class="navbar-toggler mt-2 bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
@@ -117,8 +117,14 @@ export default{
             return cek.value.state = true
         }
     })
+
+    const user = computed(()=>{
+      console.log(store.getters['auth/currentUser']);
+      return store.getters['auth/currentUser']
+    })
     return {
-      login
+      login,
+      user
     }
   },
 }
