@@ -10,8 +10,8 @@
     <div class="container">
       <div class="d-flex justify-content-between">
         <div class="input-group mt-2 me-3">
-          <input type="text" class="form-control border-0" placeholder="Cari Barang Kesukaanmu" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn bg-white text-primary" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
+          <input type="text" class="form-control border-0" placeholder="Cari Barang Kesukaanmu">
+          <a class="btn bg-white text-primary"><i class="fas fa-search"></i></a>
         </div>
         <div class="d-none d-lg-block d-xl-block ps-2 mt-2 ps-2 d-xxl-block">
           <button class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i> 0 | Rp. 0</button>

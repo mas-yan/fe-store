@@ -4,11 +4,11 @@
             <h1 class="text-center text-primary text-muted mb-4">Masuk Untuk Mulai Belanja</h1>
             <div class="row">
                 <div class="col-6 mt-4 d-none d-lg-block d-xl-block d-xxl-block">
-                    <img class="img-fluid" src="@/assets/images/login.svg" alt />
+                        <img class="img-fluid" src="@/assets/images/login.svg" alt="">
                 </div>
-                <div class="col-lg-6 col-xl-6 col-xxl-6 col-12">
+                <div class="col-lg-6 col-xl-6 mt-lg-4 col-xxl-6 col-12">
                     <div class="card border-0 rounded">
-                        <div class="card-body mt-4">
+                        <div class="card-body">
                             <h5 class="text-muted">Login</h5>
                             <hr style="height: 4px" />
                             <form @submit.prevent="login">
@@ -41,6 +41,9 @@
                                         {{validate.password}}
                                     </div>
                                 </div>
+                                <div class="text-danger my-3" v-if="validate.message.length>0">
+                                    {{validate.message}}
+                                </div>
                                 <button class="btn text-white btn-primary">Masuk</button>
                             </form>
                         </div>
@@ -72,7 +75,8 @@ export default {
         // validation state
         const validate = reactive({
             email: '',
-            password: ''
+            password: '',
+            message:''
         })
         
         const validation = ref([])
@@ -113,6 +117,12 @@ export default {
                 }else{
                     validate.password = ''
                 }
+                if(validation.value.message) {
+                    validate.message = "Yakin itu benar? Coba diingat lagi."
+                }else{
+                    validate.message = ''
+                }
+                
             })
         }
 

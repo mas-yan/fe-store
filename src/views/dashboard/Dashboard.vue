@@ -15,7 +15,7 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="ms-3">
-            ahsba
+            {{user.name}}
           </div>
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">asas</div>
@@ -26,8 +26,28 @@
 </template>
 
 <script>
+import { useStore } from "vuex"
+import { computed, onMounted } from 'vue'
+
 export default {
   setup() {
+
+    const store = useStore()
+
+    onMounted(() => {
+        //panggil action "getUser" dari module "auth" vuex
+        store.dispatch('auth/getUser')
+
+    })
+
+    //data user login
+    const user = computed(() => {
+        return store.state.auth.user
+    })
+
+    return {
+      user
+    }
   },
 }
 </script>

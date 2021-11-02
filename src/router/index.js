@@ -54,6 +54,7 @@ const routes = [{
             },
             {
                 path: '/dashboard/profile',
+                name: 'profile',
                 component: () =>
                     import ('@/views/dashboard/Profile.vue')
             },

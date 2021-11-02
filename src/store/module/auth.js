@@ -16,7 +16,7 @@ const auth = {
 
         AUTH_LOGOUT(state) {
             state.token = ''
-            state.user = ''
+            state.user = {}
         }
     },
     actions: {
