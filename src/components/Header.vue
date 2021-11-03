@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold text-white fs-3 mb-lg-4" href="#">My-Store</a>
+    <router-link :to="{name: 'home'}" class="navbar-brand fw-bold text-white fs-3 mb-lg-4">My-Store</router-link>
     <div class="d-lg-none">
         <button class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i> 0 | Rp. 0</button>
         <span class="mx-1 text-white" v-if="!login">|</span>
@@ -64,10 +64,10 @@
     <nav class="navbar navbar-light bg-body p-0 border-top rounded-3 mt-5 shadow-lg navbar-expand fixed-bottom d-lg-none d-xl-none d-xxl-none">
         <ul class="navbar-nav nav-justified w-100">
             <li class="nav-item">
-                <a href="#" class="nav-link text-center">
+                <router-link :to="{name: 'home'}" class="nav-link text-center">
                     <span class="text-primary" style="font-size: 1.2em;"><i class="fas fa-home"></i></span>
                     <span class="small d-block text-primary">Beranda</span>
-                </a>
+                </router-link>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link text-center">
