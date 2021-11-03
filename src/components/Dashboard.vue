@@ -16,7 +16,7 @@
           <li class="list-group-item"><router-link to="/dashboard/cart" class="fw-bold text-decoration-none text-muted" href="#"><i class="fas fa-shopping-cart"></i> &nbsp;Keranjang</router-link></li>
           <li class="list-group-item"><a class="fw-bold text-decoration-none text-muted" href="#"><i class="fas fa-shopping-bag"></i> &nbsp;Pembelian</a></li>
           <li class="list-group-item"><router-link to="/dashboard/profile" class="fw-bold text-decoration-none text-muted" href="#"><i class="fas fa-user"></i> &nbsp;Profile</router-link></li>
-          <li class="list-group-item"><a @click="logout" class="fw-bold text-decoration-none text-muted" href="#"><i class="fas fa-sign-out-alt"></i> &nbsp;Logout</a></li>
+          <li class="list-group-item"><a @click="logout" class="fw-bold text-decoration-none text-muted" style="cursor: pointer;"><i class="fas fa-sign-out-alt"></i> &nbsp;Logout</a></li>
         </ul>
       </div>
     </div>

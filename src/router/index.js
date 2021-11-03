@@ -9,7 +9,7 @@ const routes = [{
         meta: {
             progress: {
                 func: [
-                    { call: "color", modifier: "temp", argument: "#fff" },
+                    { call: "color", modifier: "temp", argument: "#e1e8f0" },
                     { call: "fail", modifier: "temp", argument: "#6e0000" },
                     { call: "location", modifier: "temp", argument: "top" },
                     {
@@ -29,7 +29,7 @@ const routes = [{
         meta: {
             progress: {
                 func: [
-                    { call: "color", modifier: "temp", argument: "#fff" },
+                    { call: "color", modifier: "temp", argument: "#e1e8f0" },
                     { call: "fail", modifier: "temp", argument: "#6e0000" },
                     { call: "location", modifier: "temp", argument: "top" },
                     {
@@ -68,7 +68,7 @@ const routes = [{
         meta: {
             progress: {
                 func: [
-                    { call: "color", modifier: "temp", argument: "#fff" },
+                    { call: "color", modifier: "temp", argument: "#e1e8f0" },
                     { call: "fail", modifier: "temp", argument: "#6e0000" },
                     { call: "location", modifier: "temp", argument: "top" },
                     {
@@ -89,7 +89,7 @@ const routes = [{
         meta: {
             progress: {
                 func: [
-                    { call: "color", modifier: "temp", argument: "#fff" },
+                    { call: "color", modifier: "temp", argument: "#e1e8f0" },
                     { call: "fail", modifier: "temp", argument: "#6e0000" },
                     { call: "location", modifier: "temp", argument: "top" },
                     {

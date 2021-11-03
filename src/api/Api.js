@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 
 const Api = axios.create({
-    baseURL: 'https://aa74-103-105-55-87.ngrok.io/api'
+    baseURL: 'http://my-store.test/api'
 })
 
 export default Api

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow bg-primary" style="border-top: 5px solid #5a68d1;">
   <div class="container-fluid">
     <router-link :to="{name: 'home'}" class="navbar-brand fw-bold text-white fs-4">My-Store</router-link>
     <div class="d-lg-none">
@@ -17,11 +17,15 @@
           <button class="btn me-2 bg-white text-primary mt-2 d-lg-none d-xl-none d-xxl-none" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fas fa-list-ul"></i>
         </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <div class="dropdown-menu">
+          <ul class="list-group p-2" v-if="categories.length > 0" aria-labelledby="dropdownMenuButton1">
+            <a href="#" class="list-group-item d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</a>
+            <a href="#" class="list-group-item d-inline-block text-truncate rounded bg-primary shadow mb-2 text-white text-center" style="max-width:250px; width:100%;">Kategori Lainnya </a>
           </ul>
+          <ul class="list-group p-2" v-else aria-labelledby="dropdownMenuButton1">
+            <div class="list-group-item d-inline-block text-truncate rounded bg-danger shadow mb-2 text-white" style="max-width:250px; width:100%;">Kategori Belum Tersedia</div>
+          </ul>
+        </div>
         </div>
         <div class="input-group me-3 mt-2 mt-lg-0 mt-xl-0 mt-xxl-0">
           <input type="text" class="form-control border-0" placeholder="Cari Barang Kesukaanmu">
@@ -38,7 +42,7 @@
     </div>
   </div>
 </nav>
-<div class="mt-5">&nbsp;</div>
+<div class="mt-5 mt-lg-3 mt-xl-3 mt-xxl-3">&nbsp;</div>
 <!-- Bottom Navbar -->
     <nav class="navbar navbar-light bg-body p-0 rounded-3 mt-5 shadow-lg navbar-expand fixed-bottom d-lg-none d-xl-none d-xxl-none" style="border-top:5px solid #5a68d1;">
         <ul class="navbar-nav nav-justified w-100">
@@ -84,6 +88,7 @@
 <script>
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import { onMounted } from '@vue/runtime-core'
 
 export default{
   setup() {
@@ -100,9 +105,19 @@ export default{
     const user = computed(()=>{
       return store.getters['auth/currentUser']
     })
+
+    onMounted(() => {
+        store.dispatch('category/getCategoryHome')
+    })
+
+    //digunakan untuk get data state "categories" di module "category" 
+    const categories = computed(() => {
+        return store.state.category.categories
+    })
     return {
       login,
-      user
+      user,
+      categories
     }
   },
 }
