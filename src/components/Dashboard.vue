@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="col-lg-auto col-xl-auto col-xxl-auto col-12">
-        <h5 class="fw-bold text-center text-muted text-truncate">{{user.name}}</h5>
+        <h5 class="fw-bold text-center text-dark text-truncate">{{user.name}}</h5>
         <p class="text-center">{{user.email}}</p>
       </div>
       <div class="col-lg-auto col-xl-auto col-xxl-auto col-12 mb-3">

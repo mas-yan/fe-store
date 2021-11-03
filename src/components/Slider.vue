@@ -1,13 +1,13 @@
 <template>
-  <div class="my-5">
+  <div class="my-5 mx-3">
     <div v-if="sliders.length > 0">
-      <vueper-slides slide-image-inside autoplay lazy lazy-load-on-drag>
+      <vueper-slides slide-image-inside autoplay class="no-shadow">
             <template v-slot:arrow-left>
-              <i class="icon icon-arrow-left" />
+              <i class="fas fa-chevron-circle-left"></i>
           </template>
-              <vueper-slide class="rounded" v-for="(slider, i) in sliders" :key="i" :image="slider.image" :link="slider.link"/>              
+              <vueper-slide class="rounded-3" v-for="(slider, i) in sliders" :key="i" :image="slider.image" :link="slider.link"/>
           <template v-slot:arrow-right>
-              <i class="icon icon-arrow-right" />
+              <i class="fas fa-chevron-circle-right"></i>
           </template>
       </vueper-slides>
     </div>

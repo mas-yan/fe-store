@@ -1,59 +1,38 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow bg-primary">
   <div class="container-fluid">
-    <router-link :to="{name: 'home'}" class="navbar-brand fw-bold text-white fs-3 mb-lg-4">My-Store</router-link>
+    <router-link :to="{name: 'home'}" class="navbar-brand fw-bold text-white fs-4">My-Store</router-link>
     <div class="d-lg-none">
-        <button class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i> 0 | Rp. 0</button>
+        <button class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">0</span></button>
         <span class="mx-1 text-white" v-if="!login">|</span>
-        <router-link :to="{name:'index'}" v-if="!login" class="btn btn-outline-light">Login</router-link>
+        <router-link :to="{name:'index'}" v-if="!login" class="btn btn-outline-light">Login</router-link> &nbsp;
+        <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary d-inline-block text-truncate" style="max-width: 130px;">{{user.name}}</router-link>
     </div>
     <div class="container">
       <div class="d-flex justify-content-between">
-        <div class="input-group mt-2 me-3">
+        <div class="dropdown">
+          <button class="btn me-2 bg-white text-primary d-none d-lg-block d-xl-block ps-2 d-xxl-block" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-list-ul"></i> Kategori
+          </button>
+          <button class="btn me-2 bg-white text-primary mt-2 d-lg-none d-xl-none d-xxl-none" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-list-ul"></i>
+        </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div>
+        <div class="input-group me-3 mt-2 mt-lg-0 mt-xl-0 mt-xxl-0">
           <input type="text" class="form-control border-0" placeholder="Cari Barang Kesukaanmu">
           <a class="btn bg-white text-primary"><i class="fas fa-search"></i></a>
         </div>
-        <div class="d-none d-lg-block d-xl-block ps-2 mt-2 ps-2 d-xxl-block">
-          <button class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i> 0 | Rp. 0</button>
+        <div class="d-none d-lg-block d-xl-block ps-2 d-xxl-block">
+          <button class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">9999</span></button>
           <span class="me-2 my-auto text-white">|</span>
             <router-link :to="{name:'login'}" v-if="!login" class="btn me-2 btn-outline-light">Login</router-link>
             <router-link :to="{name:'register'}" v-if="!login" class="btn bg-white text-primary">Register</router-link>
             <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary">{{user.name}}</router-link>
-        </div>
-      <button class="navbar-toggler mt-2 bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-bars"></i>
-      </button>
-        </div>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 d-lg-none mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-white active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item text-black" href="#">Action</a></li>
-              <li><a class="dropdown-item text-black" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item text-black" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white disabled">Disabled</a>
-          </li>
-        </ul>
-      </div>
-      <div class="d-none d-lg-block d-xl-block ps-2 d-xxl-block">
-        <div class="navbar-nav">
-          <a class="nav-link text-white active" aria-current="page" href="#">Home</a>
-          <a class="nav-link text-white" href="#">Features</a>
-          <a class="nav-link text-white" href="#">Pricing</a>
-          <a class="nav-link text-white disabled">Disabled</a>
         </div>
       </div>
     </div>
@@ -61,7 +40,7 @@
 </nav>
 <div class="mt-5">&nbsp;</div>
 <!-- Bottom Navbar -->
-    <nav class="navbar navbar-light bg-body p-0 border-top rounded-3 mt-5 shadow-lg navbar-expand fixed-bottom d-lg-none d-xl-none d-xxl-none">
+    <nav class="navbar navbar-light bg-body p-0 rounded-3 mt-5 shadow-lg navbar-expand fixed-bottom d-lg-none d-xl-none d-xxl-none" style="border-top:5px solid #5a68d1;">
         <ul class="navbar-nav nav-justified w-100">
             <li class="nav-item">
                 <router-link :to="{name: 'home'}" class="nav-link text-center">
@@ -97,7 +76,7 @@
 }  
 @media (min-width: 992px) { 
   .input-group{
-    width: 55%;
+    width: 49%;
   }  
 }
 </style>
