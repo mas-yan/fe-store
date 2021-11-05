@@ -1,7 +1,7 @@
 <template>
   <div class="mt-5 mb-4 mx-3">
     <div v-if="sliders.length > 0">
-      <vueper-slides slide-image-inside autoplay class="no-shadow">
+      <vueper-slides slide-image-inside autoplay :fixed-height="true" class="no-shadow">
             <template v-slot:arrow-left>
               <i class="fas fa-chevron-circle-left"></i>
           </template>
@@ -16,6 +16,17 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.vueperslides--fixed-height {
+    height: 150px; 
+}
+@media (min-width: 992px) { 
+  .vueperslides--fixed-height {
+    height: 400px; 
+  }
+}
+</style>
 
 <script>
     //hook vue
