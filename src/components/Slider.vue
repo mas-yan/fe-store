@@ -1,5 +1,5 @@
 <template>
-  <div class="my-5 mx-3">
+  <div class="mt-5 mb-4 mx-3">
     <div v-if="sliders.length > 0">
       <vueper-slides slide-image-inside autoplay class="no-shadow">
             <template v-slot:arrow-left>
