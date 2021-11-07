@@ -12,7 +12,7 @@
       </vueper-slides>
     </div>
     <div v-else>
-      <ContentLoader />
+      <ContentLoader class="shadow rounded" />
     </div>
   </div>
 </template>
@@ -21,6 +21,13 @@
 .vueperslides--fixed-height {
     height: 150px; 
 }
+
+@media (min-width: 768px) {
+    .vueperslides--fixed-height {
+      height: 250px; 
+    }
+  }
+
 @media (min-width: 992px) { 
   .vueperslides--fixed-height {
     height: 400px; 

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col">
         <Slider />
-        <Category />
+        <Product/>
       </div>
     </div>
   </div>
@@ -11,11 +11,11 @@
 
 <script>
 import Slider from '@/components/Slider.vue'
-import Category from '@/components/Category.vue'
+import Product from '@/components/Product.vue'
 export default {
   components: {
       Slider,
-      Category
+      Product
   },
   setup() {
     

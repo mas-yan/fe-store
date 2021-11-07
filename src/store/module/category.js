@@ -43,25 +43,6 @@ const category = {
 
                 })
         },
-
-        //action getCategory
-        // getCategory({ commit }) {
-
-        //     //get data sliders ke server
-        //     Api.get('/category')
-        //         .then(response => {
-
-        //             //commit ke mutation SET_CATEGORIES dengan response data
-        //             commit('SET_CATEGORIES', response.data.data.data)
-
-        //         }).catch(error => {
-
-        //             //show error log dari response
-        //             console.log(error)
-
-        //         })
-        // },
-
     },
 
     //getters
