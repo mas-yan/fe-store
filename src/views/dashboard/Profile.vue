@@ -228,8 +228,7 @@ export default {
           validate.password = ''
         }
         if(validation.value.message) {
-          console.log(validation.value.message);
-            validate.message = "Password Lama idak Sesuai"
+            validate.message = "Password Lama Tidak Sesuai"
         }else{
           validate.message = ''
         }
