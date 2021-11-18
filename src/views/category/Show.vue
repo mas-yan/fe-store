@@ -1,9 +1,8 @@
 <template>
   <div class="container my-5">
-    <h3> Produk</h3>
-    <hr style="height: 4px" class="bg-primary">
-    <div class="row" v-if="products">
-      <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="product in products" :key="product.id">
+    <h3> <i class="fa fa-list-ul"></i> Kategori <strong>{{ categories.name }}</strong></h3>
+    <div class="row">
+      <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="product in productCategory" :key="product.id">
         <div class="card border-0 mb-2 tes" style="background-color:#fff">
           <img :src="product.image">
           <div class="card-body py-0 m-0">
@@ -20,17 +19,8 @@
         </div>
       </div>
     </div>
-    <div class="row" v-else>
-      <div class="col-6 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="index in 12" :key="index">
-          <div class="card shadow border-0 mb-3" style="background-color: #ccc">
-          <div class="card-body">
-            <FacebookLoader class="fb"/>
-          </div>
-          </div>
-        </div>
-    </div>
-    <div class="text-center mt-4 mb-4" v-show="nextExists">
-        <a @click="loadMore"
+    <div class="text-center mt-4 " v-show="nextExists">
+        <a @click="loadMore(categories.name)"
             class=" p-2 px-3 rounded-md shadow btn btn-primary">LIHAT
             LEBIH BANYAK</a>
     </div>
@@ -38,51 +28,53 @@
 </template>
 
 <script>import { useStore } from "vuex"
-import { computed, onMounted } from '@vue/runtime-core'
-import { FacebookLoader } from 'vue-content-loader'
-
+import { computed, onMounted, watch } from '@vue/runtime-core'
+import { useRoute } from 'vue-router'
 
 export default {
-  components:{
-    FacebookLoader
-  },
   setup() {
     const store = useStore()
-    onMounted(() => {
-        store.dispatch('product/getProduct')
+    const route = useRoute()
+    onMounted(()=>{
+      store.dispatch('category/getDetailCategory',route.params.slug)
     })
 
-    //digunakan untuk get data state "categories" di module "category" 
-    const products = computed(() => {
-        return store.state.product.product.data
+    onMounted(()=>{
+      store.dispatch('category/getCategory')
     })
 
-    //get status NextExists
-            const nextExists = computed(() => {
-                return store.state.product.nextExists
-            })
+    const categories = computed(()=>{
+      return store.state.category.category
+    })
 
-            //get nextPage
-            const nextPage = computed(() => {
-                return store.state.product.nextPage
-            })
+    const productCategory = watch(()=>{
+      return store.state.category.productCategory
+    })
 
-            //loadMore function
-            function loadMore() {
-                store.dispatch('product/getLoadMore', nextPage.value)
-            }   
+    const nextExists = computed(() => {
+        return store.state.category.nextExists
+    })
+
+    //get nextPage
+    const nextPage = computed(() => {
+        return store.state.category.nextPage
+    })
+
+    //loadMore function
+    function loadMore(slug) {
+        store.dispatch('category/getLoadMore',slug)
+    }
 
     return {
-      products,
-           // <-- return products
-                nextExists,     // <-- return nextExists,
-                nextPage,       // <-- return nextPage
-                loadMore,  
+      categories,
+      productCategory,
+      nextExists,
+      nextPage,
+      loadMore
     }
   },
 }
 </script>
-
 
 <style scoped>
 .fb{
@@ -91,7 +83,7 @@ export default {
   }
 .card{
   border-radius: 16px !important;
-  height: 265px;
+  height: 255px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   transition: box-shadow 0.3s ease;
   cursor: pointer;
@@ -126,7 +118,7 @@ img{
 @media (min-width: 992px) { 
   .card{
     border-radius: 16px !important;
-    height: 265px;
+    height: 255px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     transition: box-shadow 0.3s ease;
     cursor: pointer;

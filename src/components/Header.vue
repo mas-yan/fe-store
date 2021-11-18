@@ -1,12 +1,12 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow bg-primary" style="border-top: 5px solid #5a68d1;">
   <div class="container-fluid">
-    <router-link :to="{name: 'home'}" class="navbar-brand fw-bold text-white fs-4">My-Store</router-link>
+    <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4" style="font-family: pacifico">My-Store</router-link>
     <div class="d-lg-none">
-        <button class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">0</span></button>
+        <button class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">999</span></button>
         <span class="mx-1 text-white" v-if="!login">|</span>
         <router-link :to="{name:'index'}" v-if="!login" class="btn btn-outline-light">Login</router-link> &nbsp;
-        <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary d-inline-block text-truncate" style="max-width: 130px;">{{user.name}}</router-link>
+        <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary d-inline-block text-truncate" style="max-width: 120px;">{{user.name}}</router-link>
     </div>
     <div class="container">
       <div class="d-flex justify-content-between">
@@ -19,8 +19,8 @@
         </button>
         <div class="dropdown-menu">
           <ul class="list-group p-2" v-if="categories.length > 0" aria-labelledby="dropdownMenuButton1">
-            <a href="#" class="list-group-item d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</a>
-            <a href="#" class="list-group-item d-inline-block text-truncate rounded bg-primary shadow mb-2 text-white text-center" style="max-width:250px; width:100%;">Kategori Lainnya </a>
+            <router-link :to="{name:'category.show',params:{slug: category.slug}}" class="list-group-item d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</router-link>
+            <router-link :to="{name: 'category'}" class="list-group-item d-inline-block text-truncate rounded bg-primary shadow mb-2 text-white text-center" style="max-width:250px; width:100%;">Kategori Lainnya </router-link>
           </ul>
           <ul class="list-group p-2" v-else aria-labelledby="dropdownMenuButton1">
             <div class="list-group-item d-inline-block text-truncate rounded bg-danger shadow mb-2 text-white" style="max-width:250px; width:100%;">Kategori Belum Tersedia</div>
@@ -114,6 +114,7 @@ export default{
     const categories = computed(() => {
         return store.state.category.categories
     })
+    
     return {
       login,
       user,

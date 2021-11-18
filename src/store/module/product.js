@@ -25,6 +25,7 @@ const product = {
             state.nextPage = nextPage
         },
         SET_LOADMORE(state, data) {
+            console.log(data);
             data.forEach(row => {
                 state.product.data.push(row);
             });
