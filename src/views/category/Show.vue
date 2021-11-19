@@ -1,7 +1,7 @@
 <template>
   <div class="container my-5">
     <h3> <i class="fa fa-list-ul"></i> Kategori <strong>{{ categories.name }}</strong></h3>
-    <div class="row">
+    <div class="row" v-if="productCategory.length > 0">
       <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="product in productCategory" :key="product.id">
         <div class="card border-0 mb-2 tes" style="background-color:#fff">
           <img :src="product.image">
@@ -17,6 +17,11 @@
             <small class="d-block"><i class="fas fa-star" style="color: yellow"></i>4.9 (999999)</small>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="alert alert-danger mt-5">
+        Kategori <strong>{{ categories.name }}</strong> Belum ersedia
       </div>
     </div>
     <div class="text-center mt-4 " v-show="nextExists">

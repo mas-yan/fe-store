@@ -53,10 +53,10 @@
                 </router-link>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link text-center">
+                <router-link :to="{name: 'category'}" class="nav-link text-center">
                     <span class="text-primary" style="font-size: 1.2em;"><i class="fas fa-grip-horizontal"></i></span>
                     <span class="small d-block text-primary">Kategori</span>
-                </a>
+                </router-link>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link text-center">

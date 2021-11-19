@@ -2,7 +2,7 @@
   <div class="container my-5">
     <h3> Produk</h3>
     <hr style="height: 4px" class="bg-primary">
-    <div class="row" v-if="products">
+    <div class="row" v-if="products.length > 0">
       <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="product in products" :key="product.id">
         <div class="card border-0 mb-2 tes" style="background-color:#fff">
           <img :src="product.image">
@@ -22,12 +22,12 @@
     </div>
     <div class="row" v-else>
       <div class="col-6 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="index in 12" :key="index">
-          <div class="card shadow border-0 mb-3" style="background-color: #ccc">
-          <div class="card-body">
-            <FacebookLoader class="fb"/>
-          </div>
-          </div>
+        <div class="card shadow border-0 mb-3" style="background-color: #ccc">
+        <div class="card-body">
+          <FacebookLoader class="fb"/>
         </div>
+        </div>
+      </div>
     </div>
     <div class="text-center mt-4 mb-4" v-show="nextExists">
         <a @click="loadMore"
@@ -54,7 +54,7 @@ export default {
 
     //digunakan untuk get data state "categories" di module "category" 
     const products = computed(() => {
-        return store.state.product.product.data
+        return store.state.product.product
     })
 
     //get status NextExists

@@ -36,7 +36,7 @@ const product = {
         getProduct({ commit }) {
             Api.get('/product')
                 .then(resp => {
-                    commit('SET_PRODUCT', resp.data.data)
+                    commit('SET_PRODUCT', resp.data.data.data)
 
                     if (resp.data.data.current_page < resp.data.data.last_page) {
 
