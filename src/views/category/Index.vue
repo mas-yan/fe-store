@@ -10,6 +10,11 @@
         </router-link>
       </div>
     </div>
+     <div class="text-center mt-4 " v-show="nextExists">
+        <a @click="loadMore"
+            class=" p-2 px-3 rounded-md shadow btn btn-primary">LIHAT
+            LEBIH BANYAK</a>
+    </div>
   </div>
 </template>
 
@@ -19,6 +24,7 @@ import { computed, onMounted } from '@vue/runtime-core'
 export default {
   setup() {
     const store = useStore()
+    
     onMounted(()=>{
       store.dispatch('category/getCategory')
     })
@@ -27,8 +33,25 @@ export default {
       return store.state.category.categories
     })
 
+    const nextExists = computed(() => {
+        return store.state.category.nextExists
+    })
+
+    //get nextPage
+    const nextPage = computed(() => {
+        return store.state.category.nextPage
+    })
+
+    //loadMore function
+    function loadMore() {
+        return store.dispatch('category/getLoadMoreAll')
+    }
+
     return {
-      categories
+      categories,
+      nextExists,
+      nextPage,
+      loadMore,
     }
   },
 }

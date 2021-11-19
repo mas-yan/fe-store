@@ -28,7 +28,7 @@
 </template>
 
 <script>import { useStore } from "vuex"
-import { computed, onMounted, watch } from '@vue/runtime-core'
+import { computed, onMounted } from '@vue/runtime-core'
 import { useRoute } from 'vue-router'
 
 export default {
@@ -39,15 +39,11 @@ export default {
       store.dispatch('category/getDetailCategory',route.params.slug)
     })
 
-    onMounted(()=>{
-      store.dispatch('category/getCategory')
-    })
-
     const categories = computed(()=>{
       return store.state.category.category
     })
 
-    const productCategory = watch(()=>{
+    const productCategory = computed(()=>{
       return store.state.category.productCategory
     })
 
@@ -62,7 +58,7 @@ export default {
 
     //loadMore function
     function loadMore(slug) {
-        store.dispatch('category/getLoadMore',slug)
+        return store.dispatch('category/getLoadMore',slug)
     }
 
     return {
@@ -70,7 +66,7 @@ export default {
       productCategory,
       nextExists,
       nextPage,
-      loadMore
+      loadMore,
     }
   },
 }

@@ -10,6 +10,7 @@ const category = {
 
         //index categories
         categories: [],
+        home: [],
         category: {},
         productCategory: [],
         //loadmore
@@ -23,6 +24,9 @@ const category = {
         //set state categories dengan data dari response 
         SET_CATEGORIES(state, data) {
             state.categories = data
+        },
+        SET_CATEGORIES_HOME(state, data) {
+            state.home = data
         },
         DETAIL_CATEGORY(state, data) {
             state.category = data
@@ -44,6 +48,11 @@ const category = {
                 state.productCategory.push(row);
             });
         },
+        SET_LOADMORE_ALL(state, data) {
+            data.forEach(row => {
+                state.categories.push(row);
+            });
+        },
     },
 
     //actions
@@ -57,7 +66,7 @@ const category = {
                 .then(response => {
 
                     //commit ke mutation SET_CATEGORIES dengan response data
-                    commit('SET_CATEGORIES', response.data.data)
+                    commit('SET_CATEGORIES_HOME', response.data.data)
 
                 }).catch(error => {
 
@@ -70,6 +79,20 @@ const category = {
             Api.get('/category')
                 .then(resp => {
                     commit('SET_CATEGORIES', resp.data.data.data)
+
+                    if (resp.data.data.current_page < resp.data.data.last_page) {
+
+                        //commit ke mutation SET_NEXTEXISTS dengan true
+                        commit('SET_NEXTEXISTS', true)
+
+                        //commit ke mutation SET_NEXTPAGE dengan current page + 1
+                        commit('SET_NEXTPAGE', resp.data.data.current_page + 1)
+
+                    } else {
+
+                        //commit ke mutation SET_NEXTEXISTS dengan false
+                        commit('SET_NEXTEXISTS', false)
+                    }
                 })
                 .catch(err => {
                     console.log(err);
@@ -113,6 +136,36 @@ const category = {
 
                         //commit ke mutation SET_NEXTPAGE dengan current page + 1
                         commit('SET_NEXTPAGE', response.data.data.lessons.current_page + 1)
+
+                    } else {
+
+                        //commit ke mutation SET_NEXTEXISTS dengan false
+                        commit('SET_NEXTEXISTS', false)
+                    }
+
+                }).catch(error => {
+
+                    //show error log dari response
+                    console.log(error)
+
+                })
+        },
+
+        getLoadMoreAll({ commit, state }) {
+            //get data campaign dengan page ke server
+            Api.get(`/category?page=${state.nextPage}`)
+                .then(response => {
+
+                    //commit ke mutation SET_LOADMORE_ALL dengan response data
+                    commit('SET_LOADMORE_ALL', response.data.data.data)
+
+                    if (response.data.data.current_page < response.data.data.last_page) {
+
+                        //commit ke mutation SET_NEXTEXISTS dengan true
+                        commit('SET_NEXTEXISTS', true)
+
+                        //commit ke mutation SET_NEXTPAGE dengan current page + 1
+                        commit('SET_NEXTPAGE', response.data.data.current_page + 1)
 
                     } else {
 

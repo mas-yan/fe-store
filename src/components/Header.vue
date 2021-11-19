@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4" style="font-family: pacifico">My-Store</router-link>
     <div class="d-lg-none">
-        <button class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">999</span></button>
+        <a class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">999</span></a>
         <span class="mx-1 text-white" v-if="!login">|</span>
         <router-link :to="{name:'index'}" v-if="!login" class="btn btn-outline-light">Login</router-link> &nbsp;
         <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary d-inline-block text-truncate" style="max-width: 120px;">{{user.name}}</router-link>
@@ -19,7 +19,7 @@
         </button>
         <div class="dropdown-menu">
           <ul class="list-group p-2" v-if="categories.length > 0" aria-labelledby="dropdownMenuButton1">
-            <router-link :to="{name:'category.show',params:{slug: category.slug}}" class="list-group-item d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</router-link>
+            <router-link :to="{name:'category.show',params:{slug:category.slug}}"  @click="linkToSearch(category.slug)" class="list-group-item d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</router-link>
             <router-link :to="{name: 'category'}" class="list-group-item d-inline-block text-truncate rounded bg-primary shadow mb-2 text-white text-center" style="max-width:250px; width:100%;">Kategori Lainnya </router-link>
           </ul>
           <ul class="list-group p-2" v-else aria-labelledby="dropdownMenuButton1">
@@ -89,6 +89,7 @@
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import { onMounted } from '@vue/runtime-core'
+// import { useRouter, useRoute } from 'vue-router'
 
 export default{
   setup() {
@@ -96,6 +97,13 @@ export default{
       state: false
     })
     const store = useStore()
+    // const route = useRoute()
+    // const router = useRouter()
+
+    function linkToSearch(params) {
+      store.dispatch('category/getDetailCategory',params)
+    }
+
     const login = computed(()=>{
         if (store.getters['auth/isLoggedIn']) {
             return cek.value.state = true
@@ -112,13 +120,14 @@ export default{
 
     //digunakan untuk get data state "categories" di module "category" 
     const categories = computed(() => {
-        return store.state.category.categories
+        return store.state.category.home
     })
-    
+
     return {
       login,
       user,
-      categories
+      categories,
+      linkToSearch
     }
   },
 }
