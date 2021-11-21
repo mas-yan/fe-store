@@ -1,13 +1,13 @@
 <template>
-  <div class="container my-5">
+  <div class="m-lg-5 m-3">
     <h3> Produk</h3>
     <hr style="height: 4px" class="bg-primary">
     <div class="row" v-if="products.length > 0">
       <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="product in products" :key="product.id">
-        <div class="card border-0 mb-2 tes" style="background-color:#fff">
+        <router-link :to="{name:'product.show',params:{'slug':product.slug}}" class="text-decoration-none card border-0 mb-2 tes">
           <img :src="product.image">
           <div class="card-body py-0 m-0">
-              <h6 class="text-lg-start text-xl-start text-xxl-start text-center d-block text-truncate pt-2">{{product.title}}</h6>
+              <h6 class="text-lg-start text-dark text-xl-start text-xxl-start text-center d-block text-truncate pt-2">{{product.title}}</h6>
             <div v-if="product.discount">
               <h6 class="fw-bold text-primary">{{formatPrice(product.price_discount)}}</h6>      
               <small><s>Rp.{{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
@@ -17,14 +17,20 @@
             </div>
             <small class="d-block"><i class="fas fa-star" style="color: yellow"></i>4.9 (999999)</small>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
     <div class="row" v-else>
-      <div class="col-6 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="index in 12" :key="index">
-        <div class="card shadow border-0 mb-3" style="background-color: #ccc">
-        <div class="card-body">
-          <FacebookLoader class="fb"/>
+      <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="index in 12" :key="index">
+        <div class="card shadow border-0 mb-3">
+        <div class="card-body p-0">
+          <ContentLoader style="width: 400%;" class="mt-3">
+            <circle cx="50" cy="30" r="30" />
+            <rect x="10" y="90" rx="3" ry="3" width="80" height="10" />
+            <rect x="10" y="70" rx="3" ry="3" width="35" height="10" />
+            <rect x="55" y="70" rx="3" ry="3" width="35" height="10" />
+            <rect x="15" y="110" rx="3" ry="3" width="67" height="10" />
+          </ContentLoader>
         </div>
         </div>
       </div>
@@ -39,12 +45,12 @@
 
 <script>import { useStore } from "vuex"
 import { computed, onMounted } from '@vue/runtime-core'
-import { FacebookLoader } from 'vue-content-loader'
+import { ContentLoader } from 'vue-content-loader'
 
 
 export default {
-  components:{
-    FacebookLoader
+  components: {
+    ContentLoader
   },
   setup() {
     const store = useStore()
@@ -86,8 +92,8 @@ export default {
 
 <style scoped>
 .fb{
-    width: 1300px;
-    height: 100%;
+    width: 30em;
+    height: 80%;
   }
 .card{
   border-radius: 16px !important;
@@ -95,6 +101,7 @@ export default {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   transition: box-shadow 0.3s ease;
   cursor: pointer;
+  background: #fff;
   overflow: hidden;
 }
 img{
@@ -108,6 +115,7 @@ img{
 
 @media (min-width: 768px) { 
   .card{
+    background: #fff;
     border-radius: 16px !important;
     height: 255px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -125,6 +133,7 @@ img{
 }
 @media (min-width: 992px) { 
   .card{
+    background: #fff;
     border-radius: 16px !important;
     height: 265px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -136,7 +145,7 @@ img{
     max-height: 230px;
   }
   .fb{
-    width: 900px;
+    width: 700px;
     height: 100%;
   }
 }

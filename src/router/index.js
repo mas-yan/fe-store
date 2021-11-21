@@ -141,6 +141,26 @@ const routes = [{
             },
         },
     },
+    {
+        path: '/product/:slug',
+        name: 'product.show',
+        component: () =>
+            import ('@/views/product/Index.vue'),
+        meta: {
+            progress: {
+                func: [
+                    { call: "color", modifier: "temp", argument: "#e1e8f0" },
+                    { call: "fail", modifier: "temp", argument: "#6e0000" },
+                    { call: "location", modifier: "temp", argument: "top" },
+                    {
+                        call: "transition",
+                        modifier: "temp",
+                        argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+                    },
+                ],
+            },
+        },
+    },
 ]
 
 const router = createRouter({

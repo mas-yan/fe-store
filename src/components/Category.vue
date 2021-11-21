@@ -4,10 +4,10 @@
     <hr style="height: 4px" class="bg-primary">
     <div class="row" v-if="categories.length > 0">
       <div class="col-4 p-1" v-for="category in categories" :key="category.id">
-        <div class="card shadow-lg border-0">
+        <div class="card shadow border-0">
           <div class="row g-0">
             <div class="col-lg-3">
-              <img :src="category.image" class="rounded d-block img">
+              <img :src="category.image" class="rounded d-block img p-2">
             </div>
             <div class="col-lg-9">
               <div class="card-body">
@@ -21,7 +21,7 @@
         <div class="card shadow border-0">
           <div class="row g-0">
             <div class="col-lg-3 pt-2 px-2 pb-5">
-              <img src="../assets/images/menu.png" class="rounded d-block img">
+              <img src="../assets/images/menu.png" class="rounded d-block img p-2 pb-5">
             </div>
             <div class="col-lg-9">
               <div class="card-body">
@@ -56,7 +56,7 @@ export default {
 
     //digunakan untuk get data state "categories" di module "category" 
     const categories = computed(() => {
-        return store.state.category.categories
+        return store.state.category.home
     })
 
     return {
@@ -69,7 +69,7 @@ export default {
 <style scoped>
   .img{
     width: 100%;
-    height: 6.5em;
+    height: 90%;
   }
   .card{
     overflow: hidden;
@@ -103,7 +103,7 @@ export default {
   }
   .img{
     width: 100%;
-    height: 100%;
+    height: 90%;
     margin: 0;
     padding: 0;
   }

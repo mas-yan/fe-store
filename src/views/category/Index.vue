@@ -13,9 +13,15 @@
     </div>
     <div class="row" v-else>
       <div class="col-6 col-md-3 p-2" v-for="index in 8" :key="index">
-        <div class="card border-0 mb-2 tes" style="background-color: #ccc">
-        <div class="card-body py-0 m-0 rounded shadow">
-          <FacebookLoader class="fb"/>
+        <div class="card shadow border-0 mb-3">
+        <div class="card-body p-0">
+          <ContentLoader style="width: 400%;" class="mt-3">
+            <circle cx="50" cy="20" r="20" />
+            <rect x="10" y="50" rx="3" ry="3" width="35" height="10" />
+            <rect x="55" y="50" rx="3" ry="3" width="35" height="10" />
+            <rect x="10" y="70" rx="3" ry="3" width="80" height="10" />
+            <rect x="15" y="90" rx="3" ry="3" width="67" height="10" />
+          </ContentLoader>
         </div>
         </div>
       </div>
@@ -29,12 +35,12 @@
 </template>
 
 <script>import { useStore } from "vuex"
-import { FacebookLoader } from 'vue-content-loader'
 import { computed, onMounted } from '@vue/runtime-core'
+import { ContentLoader } from 'vue-content-loader'
 
 export default {
-  components:{
-    FacebookLoader
+  components: {
+    ContentLoader
   },
   setup() {
     const store = useStore()

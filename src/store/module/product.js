@@ -5,6 +5,7 @@ const product = {
 
     state: {
         product: [],
+        detail: {},
         //loadmore
         nextExists: false,
         nextPage: 0,
@@ -13,6 +14,10 @@ const product = {
     mutations: {
         SET_PRODUCT(state, data) {
             state.product = data
+        },
+
+        DETAIL_PRODUCT(state, data) {
+            state.detail = data
         },
 
         //set state nextExists
@@ -54,6 +59,16 @@ const product = {
                 })
                 .catch(err => {
                     console.log(err.data);
+                })
+        },
+
+        getDetail({ commit }, slug) {
+            Api.get(`/product/${slug}`)
+                .then(resp => {
+                    commit('DETAIL_PRODUCT', resp.data.data)
+                })
+                .catch(err => {
+                    console.log(err);
                 })
         },
         //action getLoadMore

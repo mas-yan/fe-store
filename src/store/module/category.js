@@ -101,16 +101,16 @@ const category = {
         getDetailCategory({ commit }, slug) {
             Api.get(`/category/${slug}`)
                 .then(resp => {
-                    commit('DETAIL_CATEGORY', resp.data.data)
-                    commit('PRODUCT_CATEGORY', resp.data.data.lessons.data)
+                    commit('DETAIL_CATEGORY', resp.data.category)
+                    commit('PRODUCT_CATEGORY', resp.data.data.data)
 
-                    if (resp.data.data.lessons.current_page < resp.data.data.lessons.last_page) {
+                    if (resp.data.data.current_page < resp.data.data.last_page) {
 
                         //commit ke mutation SET_NEXTEXISTS dengan true
                         commit('SET_NEXTEXISTS', true)
 
                         //commit ke mutation SET_NEXTPAGE dengan current page + 1
-                        commit('SET_NEXTPAGE', resp.data.data.lessons.current_page + 1)
+                        commit('SET_NEXTPAGE', resp.data.data.current_page + 1)
 
                     } else {
 

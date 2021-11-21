@@ -1,11 +1,11 @@
 <template>
-  <div class="mt-5 mb-4 mx-3">
+  <div class="mt-5 mb-4 m-lg-5 m-3 mt-5">
     <div v-if="sliders.length > 0">
-      <vueper-slides slide-image-inside autoplay :fixed-height="true" class="no-shadow">
+      <vueper-slides slide-image-inside autoplay :fixed-height="true" class="no-shadow" style="border-radius: 20px;">
             <template v-slot:arrow-left>
               <i class="fas fa-chevron-circle-left"></i>
           </template>
-              <vueper-slide class="rounded-3" v-for="(slider, i) in sliders" :key="i" :image="slider.image" :link="slider.link"/>
+              <vueper-slide style="border-radius: 20px;" v-for="(slider, i) in sliders" :key="i" :image="slider.image" :link="slider.link"/>
           <template v-slot:arrow-right>
               <i class="fas fa-chevron-circle-right"></i>
           </template>
