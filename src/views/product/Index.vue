@@ -20,7 +20,7 @@
             <hr>
             <div v-if="product.discount">
               <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.discount.price_discount)}}</h4>      
-              <small class="text-danger"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount.discount}}%</span></small>
+              <small class="text-muted"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount.discount}}%</span></small>
             </div>
             <div v-else>
               <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.price)}}</h4>
@@ -28,16 +28,16 @@
               <p class="d-block mt-4"><i class="fas fa-star" style="color: yellow"></i>(4.9) 999999 Reviews</p>
               <hr>
               <div class="bottom text-center text-lg-start mt-4 mb-lg-4">
-                <button class="btn btn-primary mx-auto">Beli Sekarang</button>
-                <button class="btn ms-5 btn-outline-primary d-none d-lg-inline d-xl-inline ps-2 d-xxl-inline"><i class="fas fa-shopping-cart"></i> Tambah Ke Keranjang</button>
-                <button class="btn ms-3 btn-outline-primary d-inline d-lg-none d-xl-none ps-2 d-xxl-none"><i class="fas fa-shopping-cart"></i></button>
+                <button @click="tes" id="deskrispsi" class="btn btn-primary mx-auto">Beli Sekarang</button>
+                <button @click="addCart(product.slug)" class="btn ms-5 btn-outline-primary d-none d-lg-inline d-xl-inline ps-2 d-xxl-inline"><i class="fas fa-shopping-cart"></i> Tambah Ke Keranjang</button>
+                <button @click="addCart(product.slug)" class="btn ms-3 btn-outline-primary d-inline d-lg-none d-xl-none ps-2 d-xxl-none"><i class="fas fa-shopping-cart"></i></button>
               </div>
           </div>
         </div>
       </div>
     </div>
     <div class="card mt-3">
-      <div class="card-body" id="deskrispsi">
+      <div class="card-body">
         <h3>Deskripsi Produk</h3>
         <p v-html="product.detail_product" class="mt-4"></p>
       </div>
@@ -47,13 +47,20 @@
 
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, inject, onMounted, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useLoading } from 'vue3-loading-overlay';
+import { useRoute, useRouter } from 'vue-router'
 export default {
   setup() {
     const store = useStore()
     const route = useRoute()
+    const router = useRouter()
+    const swal = inject('$swal')
+
+    let cek = ref({
+      state: false
+    })
 
     onMounted(()=>{
       store.dispatch('product/getDetail',route.params.slug)
@@ -62,9 +69,49 @@ export default {
     const product = computed(()=>{
       return store.state.product.detail
     })
+    
+    const login = computed(()=>{
+        if (store.getters['auth/isLoggedIn']) {
+            return cek.value.state = true
+        }
+    })
 
+    function addCart(id) {
+      let loader = useLoading();
+            loader.show({
+                color: '#5a68d1',
+                loader: 'dots',
+            });
+      if (login.value) {
+        store.dispatch('cart/addCart',id)
+        .then(()=>{
+          loader.hide()
+          store.dispatch('cart/totalCart')
+          swal({
+              icon: 'success',
+              title: 'Ditambahkan Ke Keranjang',
+              showCancelButton: true,
+              showConfimrButton: true,
+              confirmButtonText: 'Lihat Keranjang Sekarang',
+              cancelButtonText: 'oke',
+          })
+          .then((result) => {
+            loader.hide()
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              router.push({name: 'cart'})
+            }
+          })
+        })
+      }else{
+        loader.hide()
+        router.push({name: 'login'})
+      }
+    }
     return {
-      product
+      product,
+      addCart,
+      login,
     }
   },
 }

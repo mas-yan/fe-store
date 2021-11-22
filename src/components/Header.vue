@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4" style="font-family: pacifico">My-Store</router-link>
     <div class="d-lg-none">
-        <a class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">999</span></a>
+        <router-link :to="{name:'cart'}" class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
         <span class="mx-1 text-white" v-if="!login">|</span>
         <router-link :to="{name:'index'}" v-if="!login" class="btn btn-outline-light">Login</router-link> &nbsp;
         <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary d-inline-block text-truncate" style="max-width: 120px;">{{user.name}}</router-link>
@@ -19,7 +19,7 @@
         </button>
         <div class="dropdown-menu">
           <ul class="list-group p-2" v-if="categories.length > 0" aria-labelledby="dropdownMenuButton1">
-            <router-link :to="{name:'category.show',params:{slug:category.slug}}"  @click="linkToSearch(category.slug)" class="list-group-item d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</router-link>
+            <router-link :to="{name:'category.show',params:{slug:category.slug}}"  @click="category(category.slug)" class="list-group-item d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</router-link>
             <router-link :to="{name: 'category'}" class="list-group-item d-inline-block text-truncate rounded bg-primary shadow mb-2 text-white text-center" style="max-width:250px; width:100%;">Kategori Lainnya </router-link>
           </ul>
           <ul class="list-group p-2" v-else aria-labelledby="dropdownMenuButton1">
@@ -32,7 +32,7 @@
           <a class="btn bg-white text-primary"><i class="fas fa-search"></i></a>
         </div>
         <div class="d-none d-lg-block d-xl-block ps-2 d-xxl-block">
-          <button class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">9999</span></button>
+          <router-link :to="{name:'cart'}" class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
           <span class="me-2 my-auto text-white">|</span>
             <router-link :to="{name:'login'}" v-if="!login" class="btn me-2 btn-outline-light">Login</router-link>
             <router-link :to="{name:'register'}" v-if="!login" class="btn bg-white text-primary">Register</router-link>
@@ -59,10 +59,10 @@
                 </router-link>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link text-center">
+                <router-link :to="{name:'cart'}" class="nav-link text-center">
                     <span class="text-primary" style="font-size: 1.2em;"><i class="fas fa-shopping-cart"></i></span>
                     <span class="small d-block text-primary">Keranjang</span>
-                </a>
+                </router-link>
             </li>
             <li class="nav-item">
                 <router-link :to="{name: 'index'}" class="nav-link text-center">
@@ -89,25 +89,26 @@
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import { onMounted } from '@vue/runtime-core'
-// import { useRouter, useRoute } from 'vue-router'
 
 export default{
   setup() {
     let cek = ref({
-      state: false
+      state: false,
     })
-    const store = useStore()
-    // const route = useRoute()
-    // const router = useRouter()
 
-    function linkToSearch(params) {
+    const store = useStore()
+
+    function category(params) {
       store.dispatch('category/getDetailCategory',params)
     }
-
-    const login = computed(()=>{
-        if (store.getters['auth/isLoggedIn']) {
-            return cek.value.state = true
-        }
+    
+    const login = computed(()=>{      
+      if (store.getters['auth/isLoggedIn']) {
+        store.dispatch('cart/totalCart')
+        return cek.value.state = true
+      }else{
+        return cek.value.state = false
+      }
     })
 
     const user = computed(()=>{
@@ -115,19 +116,30 @@ export default{
     })
 
     onMounted(() => {
-        store.dispatch('category/getCategoryHome')
+      store.dispatch('category/getCategoryHome')
     })
+
+      const total = computed(()=>{
+        if (cek.value.state == true) {
+          return store.state.cart.total
+        }else{
+          return store.state.cart.total = 0
+        }
+      })
 
     //digunakan untuk get data state "categories" di module "category" 
     const categories = computed(() => {
         return store.state.category.home
     })
 
+
     return {
       login,
       user,
       categories,
-      linkToSearch
+      category,
+      total,
+      cek
     }
   },
 }

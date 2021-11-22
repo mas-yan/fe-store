@@ -4,6 +4,7 @@ import profile from './module/profile'
 import slider from "./module/slider";
 import category from './module/category'
 import product from './module/product'
+import cart from './module/cart'
 export default createStore({
     modules: {
         auth,
@@ -11,5 +12,6 @@ export default createStore({
         slider,
         category,
         product,
+        cart,
     }
 })

@@ -161,6 +161,27 @@ const routes = [{
             },
         },
     },
+    {
+        path: '/cart',
+        name: 'cart',
+        component: () =>
+            import ('@/views/cart/Index.vue'),
+        meta: {
+            progress: {
+                func: [
+                    { call: "color", modifier: "temp", argument: "#e1e8f0" },
+                    { call: "fail", modifier: "temp", argument: "#6e0000" },
+                    { call: "location", modifier: "temp", argument: "top" },
+                    {
+                        call: "transition",
+                        modifier: "temp",
+                        argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+                    },
+                ],
+            },
+            requiresAuth: true
+        },
+    },
 ]
 
 const router = createRouter({
