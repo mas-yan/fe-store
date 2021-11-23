@@ -1,13 +1,6 @@
 <template>
   <Slider />
-  <!-- <div class="container"> -->
-    <!-- <div class="row"> -->
-      <!-- <div class="col"> -->
-        <!-- <Category/> -->
-        <Product/>
-      <!-- </div> -->
-    <!-- </div> -->
-  <!-- </div> -->
+    <Product/>
 </template>
 
 <script>

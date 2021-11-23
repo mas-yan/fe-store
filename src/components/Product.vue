@@ -10,7 +10,7 @@
               <h6 class="text-lg-start text-dark text-xl-start text-xxl-start text-center d-block text-truncate pt-2">{{product.title}}</h6>
             <div v-if="product.discount">
               <h6 class="fw-bold text-primary">{{formatPrice(product.price_discount)}}</h6>      
-              <small class="text-muted"><s>Rp.{{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
+              <small class="text-danger"><s>Rp.{{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
             </div>
             <div v-else>
               <h6 class="fw-bold text-primary">Rp.{{formatPrice(product.price)}}</h6>

@@ -190,6 +190,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    window.scrollTo(0, 0)
     if (to.matched.some(record => record.meta.requiresAuth)) {
         //cek nilai dari getters isLoggedIn di module auth
         if (store.getters['auth/isLoggedIn']) {

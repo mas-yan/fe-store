@@ -5,7 +5,7 @@
             <template v-slot:arrow-left>
               <i class="fas fa-chevron-circle-left"></i>
           </template>
-              <vueper-slide style="border-radius: 20px;" v-for="(slider, i) in sliders" :key="i" :image="slider.image" :link="slider.link"/>
+              <vueper-slide class="img-fluid" style="border-radius: 20px;" v-for="(slider, i) in sliders" :key="i" :image="slider.image" :link="slider.link"/>
           <template v-slot:arrow-right>
               <i class="fas fa-chevron-circle-right"></i>
           </template>

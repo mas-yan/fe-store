@@ -11,7 +11,7 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <h3 class="text-center mt-3 ">{{product.title}}</h3>
+            <h5 class="mt-3 title">{{product.title}}</h5>
             <hr>
             <p>Stok : {{product.stok}}</p>
             <p>Berat : 12 Kg</p>
@@ -20,7 +20,7 @@
             <hr>
             <div v-if="product.discount">
               <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.discount.price_discount)}}</h4>      
-              <small class="text-muted"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount.discount}}%</span></small>
+              <small class="text-danger"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount.discount}}%</span></small>
             </div>
             <div v-else>
               <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.price)}}</h4>
@@ -36,9 +36,12 @@
         </div>
       </div>
     </div>
-    <div class="card mt-3">
-      <div class="card-body">
+    <div class="card mt-3 border-0 shadow">
+      <div class="card-header bg-white">
         <h3>Deskripsi Produk</h3>
+      </div>
+      <div class="card-body">
+        <h4 v-html="product.title" class="text-center mb-5"></h4>
         <p v-html="product.detail_product" class="mt-4"></p>
       </div>
     </div>
@@ -119,12 +122,21 @@ export default {
 
 <style scoped>
 
+.title{
+  display: -webkit-box;
+    max-height: 3.5rem;
+    max-width: 40rem;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .txt{
   width:100%;
   
   /**Major Properties**/
   overflow:hidden;
-  max-height: 6rem;
+  max-height: 6.5rem;
   -webkit-box-orient: vertical;
   display: block;
   overflow: hidden !important;
