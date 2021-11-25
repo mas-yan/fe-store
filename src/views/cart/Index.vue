@@ -4,7 +4,7 @@
       <div class="col-lg-8 col">
         <div class="card" style="border-radius: 16px !important">
           <div class="card-body d-none d-lg-block d-xl-block ps-2 d-xxl-block">
-            <h5 class="card-title mb-3" style="font-family: Nunito Sans; font-weight: 800;font-size: 1.14286rem; line-height: 22px;"><i class="fas fa-shopping-cart"></i> Keranjang Saya</h5>
+            <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Keranjang Saya : </h4>
             <table class="table">
               <tbody>
                 <tr>
@@ -17,7 +17,7 @@
                     <img :src="cart.image" style="background:#f1f5f8" class="rounded product img-fluid">
                   </td>
                   <td>
-                    <p class="pt-4 d-inline-block text-truncate trun">{{cart.title}}</p>
+                    <router-link :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun">{{cart.title}}</router-link>
                   </td>
                   <td v-if="cart.discount">
                     <small class="text-danger"><s>Rp. {{formatPrice(cart.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{cart.discount}}%</span></small>
@@ -39,7 +39,8 @@
             </table>
           </div>
           <div class="card-body d-block d-lg-none d-xl-none ps-2 d-xxl-none">
-            <h5 class="card-title mb-3"><i class="fas fa-shopping-cart"></i> Keranjang Saya</h5>
+            <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Keranjang Saya : </h4>
+            <hr class="mb-0 mt-4">
             <table class="table">
               <tbody>
                 <tr v-for="cart in carts.cart" :key="cart.id">
@@ -49,7 +50,7 @@
                     </div>
                   </td>
                   <td>
-                    <p class="d-inline-block text-truncate mb-0 pb-0 trun">{{cart.title}}</p>
+                    <router-link :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun">{{cart.title}}</router-link>
                     <div class="mb-1" v-if="cart.discount">
                       <small class="text-danger"><s>Rp. {{formatPrice(cart.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{cart.discount}}%</span></small>
                       <p style="font-weight:600" v-bind="all = cart.price_discount">Rp. {{formatPrice(cart.price_discount)}}</p>
@@ -71,7 +72,7 @@
       <div class="col-lg-4 col">
         <div class="card shadow border-0 mt-3 mt-md-0" style="border-radius: 16px !important">
             <div class="card-body">
-              <h4 style="font-family: Nunito Sans; font-weight: 800;font-size: 1.14286rem; line-height: 22px;"><i class="fas fa-shopping-bag"></i>&nbsp;Ringkasan Belanja : </h4>
+              <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Ringkasan Belanja : </h4>
               <div class="mx-3">
                 <div class="row mt-3 text-muted fw-bold" style="font-family: open sans">
                   <div class="col">
@@ -121,11 +122,11 @@
       </div>
     </div>
     <div v-if="carts.cart.length == 0 && total == 0">
-      <img src="../../assets/images/empty.svg" class="img-fluid empty">
+      <img src="../../assets/images/cart_empty.svg" class="img-fluid empty">
       <p class="text-empty text-center">Yah Keranjangmu Kosong Nih</p>
       <p class="sub-empty text-center">Saya rasa tombol dibawah ini sangatlah penting, Yuk isi keranjang ini dengan barang kesukaanmu!</p>
       <div class="d-flex justify-content-center">
-        <router-link :to="{name: 'home'}" class="btn btn-primary btn-style text-center">Mulai Belanja</router-link>
+        <router-link :to="{name: 'home'}" class="btn btn-primary btn-lg btn-style text-center">Mulai Belanja</router-link>
       </div>
     </div>
   </div>
@@ -182,14 +183,6 @@ export default {
   width: 5rem;
   height: 5rem;
   padding: 5px;
-}
-
-.btn-style{
-  border-radius: 8px !important;
-  font-family: Nunito Sans;
-  font-weight: 600;
-  font-size: 1.rem; 
-  line-height: 22px;
 }
 
 .text-empty{

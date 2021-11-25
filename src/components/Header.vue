@@ -11,15 +11,15 @@
     <div class="container">
       <div class="d-flex justify-content-between">
         <div class="dropdown">
-          <button class="btn me-2 bg-white text-primary d-none d-lg-block d-xl-block ps-2 d-xxl-block" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn me-2 bg-white text-primary d-none ps-2 d-lg-block" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-list-ul"></i> Kategori
           </button>
-          <button class="btn me-2 bg-white text-primary mt-2 d-lg-none d-xl-none d-xxl-none" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn me-2 bg-white text-primary mt-2 d-lg-none" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fas fa-list-ul"></i>
         </button>
         <div class="dropdown-menu">
           <ul class="list-group p-2" v-if="categories.length > 0" aria-labelledby="dropdownMenuButton1">
-            <router-link :to="{name:'category.show',params:{slug:category.slug}}"  @click="category(category.slug)" class="list-group-item d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</router-link>
+            <button  @click="detail(category.slug)" class="list-group-item text-start d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded img-fluid float-start" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</button>
             <router-link :to="{name: 'category'}" class="list-group-item d-inline-block text-truncate rounded bg-primary shadow mb-2 text-white text-center" style="max-width:250px; width:100%;">Kategori Lainnya </router-link>
           </ul>
           <ul class="list-group p-2" v-else aria-labelledby="dropdownMenuButton1">
@@ -31,7 +31,7 @@
           <input type="text" class="form-control border-0" placeholder="Cari Barang Kesukaanmu">
           <a class="btn bg-white text-primary"><i class="fas fa-search"></i></a>
         </div>
-        <div class="d-none d-lg-block d-xl-block ps-2 d-xxl-block">
+        <div class="d-none ps-2 d-lg-block">
           <router-link :to="{name:'cart'}" class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
           <span class="me-2 my-auto text-white">|</span>
             <router-link :to="{name:'login'}" v-if="!login" class="btn me-2 btn-outline-light">Login</router-link>
@@ -44,7 +44,7 @@
 </nav>
 <div class="mt-5 mt-lg-3 mt-xl-3 mt-xxl-3">&nbsp;</div>
 <!-- Bottom Navbar -->
-    <nav class="navbar navbar-light bg-body p-0 rounded-3 mt-5 shadow-lg navbar-expand fixed-bottom d-lg-none d-xl-none d-xxl-none" style="border-top:5px solid #5a68d1;">
+    <nav class="navbar navbar-light bg-body p-0 rounded-3 mt-5 shadow-lg navbar-expand fixed-bottom d-md-none" style="border-top:5px solid #5a68d1;">
         <ul class="navbar-nav nav-justified w-100">
             <li class="nav-item">
                 <router-link :to="{name: 'home'}" class="nav-link text-center">
@@ -89,6 +89,7 @@
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import { onMounted } from '@vue/runtime-core'
+import { useRouter } from 'vue-router'
 
 export default{
   setup() {
@@ -97,9 +98,11 @@ export default{
     })
 
     const store = useStore()
+    const router = useRouter()
 
-    function category(params) {
+    function detail(params) {
       store.dispatch('category/getDetailCategory',params)
+      router.push({name:'category.show',params:{slug:params}})
     }
     
     const login = computed(()=>{      
@@ -137,7 +140,7 @@ export default{
       login,
       user,
       categories,
-      category,
+      detail,
       total,
       cek
     }

@@ -6,7 +6,6 @@ const product = {
     state: {
         product: [],
         detail: {},
-        //loadmore
         nextExists: false,
         nextPage: 0,
     },

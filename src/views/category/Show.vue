@@ -4,17 +4,16 @@
     <div class="row" v-if="productCategory.length > 0">
       <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="product in productCategory" :key="product.id">
         <router-link :to="{name:'product.show',params:{'slug':product.slug}}" class="text-decoration-none card border-0 mb-2 tes" style="background-color:#fff">
-          <img :src="product.image">
+          <img :src="product.image" class="img-fluid">
           <div class="card-body py-0 m-0">
-              <h6 class="text-lg-start text-dark text-xl-start text-xxl-start text-center d-block text-truncate pt-2">{{product.title}}</h6>
+              <h6 class="fw-bold text-lg-start text-dark text-xl-start text-xxl-start text-center d-block text-truncate pt-2">{{product.title}}</h6>
             <div v-if="product.discount">
-              <h6 class="fw-bold text-primary">{{formatPrice(product.price_discount)}}</h6>      
-              <small><s>Rp.{{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
+              <h6 class="fw-bold text-primary mb-0">Rp. {{formatPrice(product.price_discount)}}</h6>      
+              <small class="text-danger"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
             </div>
             <div v-else>
-              <h6 class="fw-bold text-primary">Rp.{{formatPrice(product.price)}}</h6>
+              <h6 class="fw-bold text-primary">Rp. {{formatPrice(product.price)}}</h6>
             </div>
-            <small class="d-block"><i class="fas fa-star" style="color: yellow"></i>4.9 (999999)</small>
           </div>
         </router-link>
       </div>
@@ -83,16 +82,17 @@ export default {
     height: 100%;
   }
 .card{
+  height: 305px;
   border-radius: 16px !important;
-  height: 255px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   transition: box-shadow 0.3s ease;
   cursor: pointer;
   overflow: hidden;
+  text-decoration: none;
 }
 img{
-  max-height: 130px;
-  height: 130px;
+  max-height: 200px;
+  height: 200px;
 }
 
 .card:hover {
@@ -102,15 +102,17 @@ img{
 @media (min-width: 768px) { 
   .card{
     border-radius: 16px !important;
-    height: 255px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: box-shadow 0.3s ease;
     cursor: pointer;
     overflow: hidden;
+    text-decoration: none;
+    height: 300px;
   }
-  img{
-    max-height: 255px;
-  }
+img{
+  max-height: 200px;
+  height: 200px;
+}
   .fb{
     width: 1500px;
     height: 100%;
@@ -118,15 +120,17 @@ img{
 }
 @media (min-width: 992px) { 
   .card{
+    height: 330px;
     border-radius: 16px !important;
-    height: 255px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: box-shadow 0.3s ease;
     cursor: pointer;
     overflow: hidden;
+    text-decoration: none;
   }
   img{
-    max-height: 230px;
+    max-height: 220px;
+    height: 220px;
   }
   .fb{
     width: 900px;
