@@ -17,7 +17,7 @@
                     <img :src="cart.image" style="background:#f1f5f8" class="rounded product img-fluid">
                   </td>
                   <td>
-                    <router-link :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun">{{cart.title}}</router-link>
+                    <router-link @click="move" :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun">{{cart.title}}</router-link>
                   </td>
                   <td v-if="cart.discount">
                     <small class="text-danger"><s>Rp. {{formatPrice(cart.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{cart.discount}}%</span></small>
@@ -50,7 +50,7 @@
                     </div>
                   </td>
                   <td>
-                    <router-link :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun">{{cart.title}}</router-link>
+                    <router-link @click="move" :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun">{{cart.title}}</router-link>
                     <div class="mb-1" v-if="cart.discount">
                       <small class="text-danger"><s>Rp. {{formatPrice(cart.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{cart.discount}}%</span></small>
                       <p style="font-weight:600" v-bind="all = cart.price_discount">Rp. {{formatPrice(cart.price_discount)}}</p>
@@ -169,10 +169,15 @@ export default {
       return sum
     })
 
+    function move() {
+      store.dispatch('product/resetState')
+    }
+
     return {
       carts,
       total,
       data,
+      move
     }
   },
 }

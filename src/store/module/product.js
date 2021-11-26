@@ -11,6 +11,9 @@ const product = {
     },
 
     mutations: {
+        RESET_STATE(state, data) {
+            state.detail = data
+        },
         SET_PRODUCT(state, data) {
             state.product = data
         },
@@ -37,6 +40,9 @@ const product = {
     },
 
     actions: {
+        resetState({ commit }) {
+            commit('RESET_STATE', [''])
+        },
         getProduct({ commit }) {
             Api.get('/product')
                 .then(resp => {

@@ -4,7 +4,7 @@
     <hr style="height: 4px" class="bg-primary mt-0">
     <div class="row" v-if="products.length > 0">
       <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="product in products" :key="product.id">
-        <router-link :to="{name:'product.show',params:{'slug':product.slug}}" class="text-decoration-none card border-0 mb-2">
+        <router-link @click="move" :to="{name:'product.show',params:{'slug':product.slug}}" class="text-decoration-none card border-0 mb-2">
           <img :src="product.image" class="img-fluid">
           <div class="card-body py-0 m-0">
               <h6 class="fw-bold text-lg-start text-dark text-xl-start text-xxl-start text-center d-block text-truncate pt-2">{{product.title}}</h6>
@@ -46,7 +46,6 @@
 import { computed, onMounted } from '@vue/runtime-core'
 import { ContentLoader } from 'vue-content-loader'
 
-
 export default {
   components: {
     ContentLoader
@@ -63,26 +62,31 @@ export default {
     })
 
     //get status NextExists
-            const nextExists = computed(() => {
-                return store.state.product.nextExists
-            })
+    const nextExists = computed(() => {
+        return store.state.product.nextExists
+    })
 
-            //get nextPage
-            const nextPage = computed(() => {
-                return store.state.product.nextPage
-            })
+    //get nextPage
+    const nextPage = computed(() => {
+        return store.state.product.nextPage
+    })
 
-            //loadMore function
-            function loadMore() {
-                store.dispatch('product/getLoadMore', nextPage.value)
-            }   
+    //loadMore function
+    function loadMore() {
+        store.dispatch('product/getLoadMore', nextPage.value)
+    }   
+
+    function move() {
+      store.dispatch('product/resetState')
+    }
 
     return {
       products,
-           // <-- return products
-                nextExists,     // <-- return nextExists,
-                nextPage,       // <-- return nextPage
-                loadMore,  
+      // <-- return products
+      nextExists,     // <-- return nextExists,
+      nextPage,       // <-- return nextPage
+      loadMore,  
+      move
     }
   },
 }

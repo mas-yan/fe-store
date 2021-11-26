@@ -28,11 +28,11 @@
                 <div class="col-4 d-block d-md-none">
                   <h3 class=" mb-0" style="font-size: 18px;">Berat</h3>
                   <span class="text-center">{{product.berat}} kg</span>
-                  <h3 class="mt-2  mb-0" style="font-size: 18px;">Stok</h3>
+                  <h3 class="mt-2 mb-0" style="font-size: 18px;">Stok</h3>
                   <span class="text-center">{{product.stok}} Buku</span>
-                  <h3 class=" mb-0" style="font-size: 18px;">Lebar</h3>
+                  <h3 class=" mb-0 mt-2" style="font-size: 18px;">Lebar</h3>
                   <span class="text-center">{{product.lebar}} cm</span>
-                  <h3 class="mt-2  mb-0" style="font-size: 18px;">Panjang</h3>
+                  <h3 class="mt-2 mb-0" style="font-size: 18px;">Panjang</h3>
                   <span class="text-center">{{product.panjang}} cm</span>
                 </div>
                 <div class="col-3 d-none d-md-block">
@@ -65,15 +65,15 @@
               <hr>
               <div v-if="product.discount">
                 <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.discount.price_discount)}}</h4>      
-                <small class="text-danger"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount.discount}}%</span></small>
+                <small class="text-danger"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded px-2">{{product.discount.discount}}%</span></small>
               </div>
               <div v-else>
                 <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.price)}}</h4>
               </div>
                 <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>(4.9) 999999 Reviews</p>
-                <hr>
+                <hr id="deskrispsi">
                 <div class="bottom text-center text-lg-start mt-4 mb-lg-4">
-                  <button @click="tes" id="deskrispsi" class="btn btn-lg d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
+                  <button @click="tes" class="btn btn-lg d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
                   <button @click="addCart(product.slug)" class="btn ms-5 btn-lg btn-outline-primary d-none ps-2 d-md-inline"><i class="fas fa-shopping-cart"></i> Tambah Ke Keranjang</button>
                 </div>
             </div>
@@ -101,7 +101,7 @@
   </div>
 
   <div class="d-md-none p-0 rounded-3 mt-5 fixed-bottom">
-    <div class="card shadow-lg" style="border-radius: 16px !important; border-top:5px solid #5a68d1;">
+    <div class="card shadow-lg" style="border-radius: 16px 16px 0 0 !important; border-top:5px solid #5a68d1;">
       <div class="card-body">
         <div class="d-flex justify-content-between">
           <h4 class="text-muted" style="font-size: 18px;">Harga</h4>

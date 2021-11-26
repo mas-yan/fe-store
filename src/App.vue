@@ -1,6 +1,6 @@
 <template>
 <Header/>
-<router-view/>
+<router-view></router-view>
 <Footer></Footer>
 <vue-progress-bar></vue-progress-bar>
 </template>
@@ -13,6 +13,7 @@ import router from './router';
 
 export default {
   setup(){
+    // window.location.reload()
     const internalInstance = getCurrentInstance();
     router.beforeEach((to) => {
       if (to.meta.progress !== undefined) {

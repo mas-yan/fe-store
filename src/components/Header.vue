@@ -19,8 +19,11 @@
         </button>
         <div class="dropdown-menu">
           <ul class="list-group p-2" v-if="categories.length > 0" aria-labelledby="dropdownMenuButton1">
-            <button  @click="detail(category.slug)" class="list-group-item text-start d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0"><img :src="category.image" class="rounded img-fluid float-start" style="width: 35px;">&nbsp;&nbsp;{{ category.name }}</button>
-            <router-link :to="{name: 'category'}" class="list-group-item d-inline-block text-truncate rounded bg-primary shadow mb-2 text-white text-center" style="max-width:250px; width:100%;">Kategori Lainnya </router-link>
+            <button  @click="detail(category.slug)" class="list-group-item text-start d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0">
+              <img :src="category.image" class="rounded img-fluid" style="height: 35px;">
+              &nbsp;&nbsp;<span>{{ category.name }}</span>
+            </button>
+              <router-link :to="{name: 'category'}" class="list-group-item d-inline-block text-truncate rounded bg-primary shadow mb-2 text-white text-center" >Kategori Lainnya </router-link>
           </ul>
           <ul class="list-group p-2" v-else aria-labelledby="dropdownMenuButton1">
             <div class="list-group-item d-inline-block text-truncate rounded bg-danger shadow mb-2 text-white" style="max-width:250px; width:100%;">Kategori Belum Tersedia</div>

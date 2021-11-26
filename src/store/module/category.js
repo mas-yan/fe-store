@@ -11,7 +11,7 @@ const category = {
         //index categories
         categories: [],
         home: [],
-        category: {},
+        category: null,
         productCategory: [],
         //loadmore
         nextExists: false,
@@ -20,6 +20,10 @@ const category = {
 
     //mutations
     mutations: {
+
+        RESET_STATE(state, data) {
+            state.category = data
+        },
 
         //set state categories dengan data dari response 
         SET_CATEGORIES(state, data) {
@@ -99,6 +103,8 @@ const category = {
                 })
         },
         getDetailCategory({ commit }, slug) {
+
+            commit('RESET_STATE', null)
             Api.get(`/category/${slug}`)
                 .then(resp => {
                     commit('DETAIL_CATEGORY', resp.data.category)

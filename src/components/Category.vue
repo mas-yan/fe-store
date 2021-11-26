@@ -1,35 +1,12 @@
 <template>
-  <div class="container mb-5">
-    <h3> Kategory</h3>
+  <div class="mx-5 mb-5">
+    <h3 class="judul"> Kategory</h3>
     <hr style="height: 4px" class="bg-primary">
     <div class="row" v-if="categories.length > 0">
-      <div class="col-4 p-1" v-for="category in categories" :key="category.id">
-        <div class="card shadow border-0">
-          <div class="row g-0">
-            <div class="col-lg-3">
-              <img :src="category.image" class="rounded d-block img p-2">
-            </div>
-            <div class="col-lg-9">
-              <div class="card-body">
-                <span class="text-primary text-lg-start text-xl-start text-xxl-start text-center d-block">{{category.name}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-4 p-1">
-        <div class="card shadow border-0">
-          <div class="row g-0">
-            <div class="col-lg-3 pt-2 px-2 pb-5">
-              <img src="../assets/images/menu.png" class="rounded d-block img p-2 pb-5">
-            </div>
-            <div class="col-lg-9">
-              <div class="card-body">
-                <span class="text-primary text-lg-start text-xl-start text-xxl-start text-center d-block">Kategory Lainnya</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2" v-for="category in categories" :key="category.id">
+        <router-link :to="{name:'category.show',params:{slug: category.slug}}" class="card border-0">
+          <img :src="category.image" class="img-fluid">
+        </router-link>
       </div>
     </div>
     <div class="row" v-else>
@@ -67,46 +44,17 @@ export default {
 </script>
 
 <style scoped>
-  .img{
-    width: 100%;
-    height: 90%;
-  }
   .card{
+    border-radius: 16px !important;
+    /* height: 180px; */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
     overflow: hidden;
-    height: 175px;
-    border-radius: 15px;
+    text-decoration: none;
   }
-  span{
-    font-weight: 500;
+  .card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.6);
   }
-  @media (min-width: 768px) {
-    .card{
-      overflow: hidden;
-      height: 205px;
-      border-radius: 15px;
-    }
-    .img{
-      height: 7em;
-    }
-    span{
-      font-weight: bold;
-    }
-  }
-@media (min-width: 992px) { 
-  span{
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  .card{
-    height: 80px;
-    overflow: hidden;
-  }
-  .img{
-    width: 100%;
-    height: 90%;
-    margin: 0;
-    padding: 0;
-  }
-}
 </style>
 
