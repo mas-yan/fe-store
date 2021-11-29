@@ -12,7 +12,7 @@
               </div>
             </div>
             <div class="col-lg-8">
-              <h5 class="mt-3 title fw-bold text-muted text-center" style="font-family: 'Nunito Sans';">{{product.title}}</h5>
+              <h5 class="mt-3 title fw-bold text-dark text-center" style="font-family: 'Nunito Sans';">{{product.title}}</h5>
               <hr>
               <div class="row">
                 <div class="col-8 d-block d-md-none">
@@ -73,8 +73,8 @@
                 <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>(4.9) 999999 Reviews</p>
                 <hr id="deskrispsi">
                 <div class="bottom text-center text-lg-start mt-4 mb-lg-4">
-                  <button @click="tes" class="btn btn-lg d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
-                  <button @click="addCart(product.slug)" class="btn ms-5 btn-lg btn-outline-primary d-none ps-2 d-md-inline"><i class="fas fa-shopping-cart"></i> Tambah Ke Keranjang</button>
+                  <button @click="tes" class="btn d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
+                  <button @click="addCart(product.slug)" class="btn ms-5 btn-outline-primary d-none ps-2 d-md-inline"><i class="fas fa-shopping-cart"></i> Tambah Ke Keranjang</button>
                 </div>
             </div>
           </div>
@@ -85,7 +85,7 @@
           <h3 class="judul">Deskripsi Buku</h3>
         </div>
         <div class="card-body">
-          <h4 v-html="product.title" style="font-family: 'Nunito Sans';" class="title fw-bold text-muted text-center"></h4>
+          <h5 v-html="product.title" style="font-family: 'Nunito Sans';" class="title fw-bold text-dark text-center"></h5>
           <p v-html="product.deskripsi_product" class="mt-4"></p>
         </div>
       </div>

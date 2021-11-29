@@ -182,6 +182,27 @@ const routes = [{
             requiresAuth: true
         },
     },
+    {
+        path: '/cart/shipment',
+        name: 'shipment',
+        component: () =>
+            import ('@/views/cart/Shipment.vue'),
+        meta: {
+            progress: {
+                func: [
+                    { call: "color", modifier: "temp", argument: "#e1e8f0" },
+                    { call: "fail", modifier: "temp", argument: "#6e0000" },
+                    { call: "location", modifier: "temp", argument: "top" },
+                    {
+                        call: "transition",
+                        modifier: "temp",
+                        argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+                    },
+                ],
+            },
+            requiresAuth: true
+        },
+    },
 ]
 
 const router = createRouter({

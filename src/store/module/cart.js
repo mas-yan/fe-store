@@ -5,7 +5,8 @@ const cart = {
 
     state: {
         cart: [],
-        total: null
+        provinsi: [],
+        total: null,
     },
 
     mutations: {
@@ -15,10 +16,26 @@ const cart = {
 
         TOTAL_CART(state, data) {
             state.total = data
+        },
+        GET_PROVINSI(state, data) {
+            state.cart = data
         }
     },
 
     actions: {
+        getProvinsi({ commit }) {
+            const token = localStorage.getItem('token')
+
+            //set axios header dengan type Authorization + Bearer token
+            Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+            Api.get(`/cart`)
+                .then(resp => {
+                    commit('GET_PROVINSI', resp.data.data)
+                }).catch((err) => {
+                    console.log(err);
+                })
+        },
         cart({ commit }) {
             const token = localStorage.getItem('token')
 
@@ -40,7 +57,7 @@ const cart = {
                 //set axios header dengan type Authorization + Bearer token
                 Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-                Api.get(`/addCart/${data}`)
+                Api.get(`/store/${data}`)
                     .then(resp => {
                         commit('')
                         resolve(resp)
@@ -63,8 +80,57 @@ const cart = {
                 .catch((err) => {
                     console.log(err);
                 })
-        }
+        },
+        addQty({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                const token = localStorage.getItem('token')
+
+                //set axios header dengan type Authorization + Bearer token
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                Api.get(`/qty/${data}`)
+                    .then(resp => {
+                        commit('')
+                        resolve(resp)
+                    }).catch((err) => {
+                        reject(err.response.data)
+                    })
+            })
+        },
+        subtQty({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                const token = localStorage.getItem('token')
+
+                //set axios header dengan type Authorization + Bearer token
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                Api.get(`/subtQty/${data}`)
+                    .then(resp => {
+                        commit('')
+                        resolve(resp)
+                    }).catch((err) => {
+                        reject(err.response.data)
+                    })
+            })
+        },
+        deleteCart({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                const token = localStorage.getItem('token')
+
+                //set axios header dengan type Authorization + Bearer token
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                Api.get(`/destroyCart/${data}`)
+                    .then(resp => {
+                        commit('')
+                        resolve(resp)
+                    }).catch((err) => {
+                        reject(err.response.data)
+                    })
+            })
+        },
     },
+
     getters: {
         qty(state) {
             return state.cart

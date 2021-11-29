@@ -4,7 +4,7 @@
       <div class="col-lg-8 col">
         <div class="card" style="border-radius: 16px !important">
           <div class="card-body d-none d-lg-block d-xl-block ps-2 d-xxl-block">
-            <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Keranjang Saya : </h4>
+            <h4 class="ms-2 judul"><i class="fas fa-shopping-cart"></i>&nbsp;Keranjang Saya : </h4>
             <table class="table">
               <tbody>
                 <tr>
@@ -28,18 +28,18 @@
                   </td>
                   <td class="txt">
                     <div class="border d-inline rounded p-1 ps-1">
-                    <a href="#"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a href="#"><i class="fas fa-plus-circle"></i></a>
+                    <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
                     </div>
                   </td>
                   <td class="txt">
-                    <a class="text-danger" href="#"><i class="fas fa-trash"></i></a>
+                    <a @click="deleteCart(cart.slug)" class="qty text-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="card-body d-block d-lg-none d-xl-none ps-2 d-xxl-none">
-            <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Keranjang Saya : </h4>
+            <h4 class="judul"><i class="fas fa-shopping-cart"></i>&nbsp;Keranjang Saya : </h4>
             <hr class="mb-0 mt-4">
             <table class="table">
               <tbody>
@@ -53,15 +53,15 @@
                     <router-link @click="move" :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun">{{cart.title}}</router-link>
                     <div class="mb-1" v-if="cart.discount">
                       <small class="text-danger"><s>Rp. {{formatPrice(cart.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{cart.discount}}%</span></small>
-                      <p style="font-weight:600" v-bind="all = cart.price_discount">Rp. {{formatPrice(cart.price_discount)}}</p>
+                      <p style="font-weight:600">Rp. {{formatPrice(cart.price_discount)}}</p>
                     </div>
                     <div v-else>
                       <p style="font-weight:600">Rp. {{formatPrice(cart.price)}}</p>
                     </div>
                     <div class="border d-inline rounded p-1 ps-1">
-                      <a href="#"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a href="#"><i class="fas fa-plus-circle"></i></a>
+                      <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
                     </div> &nbsp; &nbsp;
-                    <a class="text-danger" href="#"><i class="fas fa-trash"></i></a>
+                    <a @click="deleteCart(cart.slug)" class="qty text-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
               </tbody>
@@ -101,7 +101,7 @@
                 </div>
               </div>
               <div class="d-grid gap-2">
-                <button class="btn btn-primary btn-style">Checkout</button>
+                <router-link :to="{name:'shipment'}" class="btn btn-primary btn-style">Checkout</router-link>
               </div>
             </div>
           </div>
@@ -133,9 +133,10 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, inject, onMounted } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { ContentLoader } from 'vue-content-loader'
+import { useLoading } from 'vue3-loading-overlay'
 
 export default {
   components: {
@@ -143,10 +144,45 @@ export default {
   },
   setup() {
     const store = useStore()
+    const loader = useLoading();
+    const swal = inject('$swal')
+
+    // const ongkir = reactive({
+    //   city_destination: "",
+    //   weight: "",
+    //   courier: ""
+    // })
 
     onMounted(()=>{
       store.dispatch('cart/cart')
     })
+    
+  //  const provinces = computed(()=>{
+  //     return store.state.provinces
+  //   })
+    
+  //   function getCitiesDestination() {
+  //     return store.state.cities_destination
+  //   }
+
+  //   function getCostOngkir() {
+  //     let loader = useLoading()
+  //     loader.show({
+  //         color: '#5a68d1',
+  //         loader: 'dots',
+  //     });
+
+  //     let city_destination = ongkir.city_destination
+  //     let weight = ongkir.weight
+  //     let courier = ongkir.courier
+
+  //       store.dispatch('auth/getCostOngkir',{
+  //           city_destination,
+  //           weight,
+  //           courier
+  //       })
+
+  //     }
 
     const carts = computed(()=>{
       return store.state.cart
@@ -173,11 +209,67 @@ export default {
       store.dispatch('product/resetState')
     }
 
+    function deleteCart(id) {
+      swal.fire({
+        title: 'Apakah yakin ingin menghapus dari keranjang?',
+        showCancelButton: true,
+        confirmButtonText: 'yakin',
+        denyButtonText: `cancel`,
+      }).then((result) => {
+        /* Read more about isConfirmed */
+        if (result.isConfirmed) {
+          loader.show({
+              color: '#5a68d1',
+              loader: 'dots',
+          });
+          store.dispatch('cart/deleteCart',id)
+          .then(()=>{
+            store.dispatch('cart/cart')
+            store.dispatch('cart/totalCart')
+            loader.hide()
+            swal.fire('Satu barang berhasil dihapus!', '', 'success')
+          })
+        }
+      })
+    }
+
+    function addQty(data) {
+      loader.show({
+          color: '#5a68d1',
+          loader: 'dots',
+      });
+      store.dispatch('cart/addQty',data)
+      .then(()=>{
+        store.dispatch('cart/cart')
+        store.dispatch('cart/totalCart')
+        loader.hide()
+      })
+    }
+    
+    function subtQty(data) {
+      loader.show({
+        color: '#5a68d1',
+        loader: 'dots',
+      });
+      store.dispatch('cart/subtQty',data)
+      .then(()=>{
+        store.dispatch('cart/cart')
+        store.dispatch('cart/totalCart')
+        loader.hide()
+      })
+    }
+
     return {
       carts,
       total,
       data,
-      move
+      move,
+      deleteCart,
+      addQty,
+      subtQty,
+      // getCitiesDestination,
+      // getCostOngkir,
+      // ongkir,
     }
   },
 }
@@ -188,6 +280,10 @@ export default {
   width: 5rem;
   height: 5rem;
   padding: 5px;
+}
+
+.qty{
+  cursor: pointer;
 }
 
 .text-empty{

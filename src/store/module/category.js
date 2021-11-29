@@ -11,6 +11,7 @@ const category = {
         //index categories
         categories: [],
         home: [],
+        rand: [],
         category: null,
         productCategory: [],
         //loadmore
@@ -25,6 +26,9 @@ const category = {
             state.category = data
         },
 
+        RAND_CATEGORIES(state, data) {
+            state.rand = data
+        },
         //set state categories dengan data dari response 
         SET_CATEGORIES(state, data) {
             state.categories = data
@@ -62,6 +66,16 @@ const category = {
     //actions
     actions: {
 
+        // random category
+        getRandom({ commit }) {
+            Api.get('randCategory')
+                .then(resp => {
+                    commit('RAND_CATEGORIES', resp.data.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
         //action getCategoryHome
         getCategoryHome({ commit }) {
 

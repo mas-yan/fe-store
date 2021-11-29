@@ -75,10 +75,7 @@ export default {
 </script>
 
 <style scoped>
-.fb{
-    width: 1300px;
-    height: 100%;
-  }
+
 .card{
   border-radius: 16px !important;
   /* height: 180px; */
@@ -90,18 +87,5 @@ export default {
 }
 .card:hover {
   box-shadow: 0 5px 15px rgba(0,0,0,0.6);
-}
-
-@media (min-width: 768px) {
-  .fb{
-    width: 1500px;
-    height: 100%;
-  }
-}
-@media (min-width: 992px) { 
-  .fb{
-    width: 900px;
-    height: 100%;
-  }
 }
 </style>
