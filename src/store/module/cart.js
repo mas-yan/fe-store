@@ -5,7 +5,6 @@ const cart = {
 
     state: {
         cart: [],
-        provinsi: [],
         total: null,
     },
 
@@ -17,25 +16,9 @@ const cart = {
         TOTAL_CART(state, data) {
             state.total = data
         },
-        GET_PROVINSI(state, data) {
-            state.cart = data
-        }
     },
 
     actions: {
-        getProvinsi({ commit }) {
-            const token = localStorage.getItem('token')
-
-            //set axios header dengan type Authorization + Bearer token
-            Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-
-            Api.get(`/cart`)
-                .then(resp => {
-                    commit('GET_PROVINSI', resp.data.data)
-                }).catch((err) => {
-                    console.log(err);
-                })
-        },
         cart({ commit }) {
             const token = localStorage.getItem('token')
 
@@ -121,6 +104,26 @@ const cart = {
                 Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
                 Api.get(`/destroyCart/${data}`)
+                    .then(resp => {
+                        commit('')
+                        resolve(resp)
+                    }).catch((err) => {
+                        reject(err.response.data)
+                    })
+            })
+        },
+
+        deleteSelected({ commit }, data) {
+            console.log(data.id);
+            return new Promise((resolve, reject) => {
+                const token = localStorage.getItem('token')
+
+                //set axios header dengan type Authorization + Bearer token
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                Api.post(`/cart/delete`, {
+                        id: data.id
+                    })
                     .then(resp => {
                         commit('')
                         resolve(resp)

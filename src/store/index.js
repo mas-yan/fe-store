@@ -6,6 +6,7 @@ import category from './module/category'
 import product from './module/product'
 import cart from './module/cart'
 import ongkir from './module/ongkir'
+import order from './module/order'
 export default createStore({
     modules: {
         auth,
@@ -15,5 +16,6 @@ export default createStore({
         product,
         cart,
         ongkir,
+        order,
     }
 })

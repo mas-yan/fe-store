@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow bg-primary" style="border-top: 5px solid #5a68d1;">
   <div class="container-fluid">
-    <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4" style="font-family: pacifico">My-Store</router-link>
+    <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4" style="font-family: pacifico">I-Buku</router-link>
     <div class="d-lg-none">
         <router-link :to="{name:'cart'}" class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
         <span class="mx-1 text-white" v-if="!login">|</span>
@@ -31,7 +31,7 @@
         </div>
         </div>
         <div class="input-group me-3 mt-2 mt-lg-0 mt-xl-0 mt-xxl-0">
-          <input type="text" class="form-control border-0" placeholder="Cari Barang Kesukaanmu">
+          <input type="text" class="form-control border-0" placeholder="Mau baca apa hari ini?">
           <a class="btn bg-white text-primary"><i class="fas fa-search"></i></a>
         </div>
         <div class="d-none ps-2 d-lg-block">

@@ -8,16 +8,28 @@
             <table class="table">
               <tbody>
                 <tr>
+                  <th>
+                    <div class="form-check">
+                      <input class="form-check-input" @click='selectAll()' v-model='product.isCheckAll' type="checkbox" id="flexCheckDefault">
+                    </div>
+                  </th>
                   <th colspan="2" class="text-lg-start">Product</th>
                   <th>Harga</th>
-                  <th colspan="2">QTY</th>
+                  <th :colspan="(product.check.length > 0) ? 0 : 2">QTY</th>
+                  <th v-show="product.check.length > 0"><a @click="deleteCheckProduck" class="text-danger text-decoration-none qty">Hapus</a></th>
                 </tr>
                 <tr v-for="cart in carts.cart" :key="cart.id">
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" v-bind:value='cart.id' v-model='product.check' @change='updateCheckall' id="flexCheckDefault">
+                    </div>
+                  </td>
                   <td class="img">
                     <img :src="cart.image" style="background:#f1f5f8" class="rounded product img-fluid">
                   </td>
                   <td>
-                    <router-link @click="move" :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun">{{cart.title}}</router-link>
+                    <router-link @click="move" :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold text-decoration-none text-dark trun">{{cart.title}}</router-link>
+                    <p class="fw-bold text-muted">Stok {{cart.stok}}</p>
                   </td>
                   <td v-if="cart.discount">
                     <small class="text-danger"><s>Rp. {{formatPrice(cart.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{cart.discount}}%</span></small>
@@ -28,10 +40,10 @@
                   </td>
                   <td class="txt">
                     <div class="border d-inline rounded p-1 ps-1">
-                    <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
+                    <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" v-if="cart.pivot.qty < cart.stok " class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
                     </div>
                   </td>
-                  <td class="txt">
+                  <td class="txt" :class="[product.check.length > 0 ? 'text-center' : '']">
                     <a @click="deleteCart(cart.slug)" class="qty text-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -40,10 +52,22 @@
           </div>
           <div class="card-body d-block d-lg-none d-xl-none ps-2 d-xxl-none">
             <h4 class="judul"><i class="fas fa-shopping-cart"></i>&nbsp;Keranjang Saya : </h4>
-            <hr class="mb-0 mt-4">
+            <div class="ms-2 mt-4 form-check">
+              <input class="form-check-input" @click='selectAll()' v-model='product.isCheckAll'  type="checkbox" id="flexCheckDefault">
+              <label class="form-check-label ms-4" for="flexCheckDefault">
+                Pilih Semua
+              </label>
+              <a @click="deleteCheckProduck" v-show="product.check.length > 0" class="text-danger float-end text-decoration-none qty">Hapus</a>
+            </div>
+            <hr class="mb-0 mt-0">
             <table class="table">
               <tbody>
                 <tr v-for="cart in carts.cart" :key="cart.id">
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" v-bind:value='cart.id' v-model='product.check' @change='updateCheckall' id="flexCheckDefault">
+                    </div>
+                  </td>
                   <td>
                     <div class="img">
                       <img :src="cart.image" style="background:#f1f5f8" class="rounded product img-fluid">
@@ -56,12 +80,13 @@
                       <p style="font-weight:600">Rp. {{formatPrice(cart.price_discount)}}</p>
                     </div>
                     <div v-else>
-                      <p style="font-weight:600">Rp. {{formatPrice(cart.price)}}</p>
+                      <p style="font-weight:600" class="mb-0">Rp. {{formatPrice(cart.price)}}</p>
                     </div>
+                      <span class="m-0 fw-bold text-muted">Stok 9999 &nbsp;</span>
                     <div class="border d-inline rounded p-1 ps-1">
                       <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
                     </div> &nbsp; &nbsp;
-                    <a @click="deleteCart(cart.slug)" class="qty text-danger"><i class="fas fa-trash"></i></a>
+                    <a @click="deleteCart(cart.slug)" class="qty text-danger float-end"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
               </tbody>
@@ -70,9 +95,9 @@
         </div>
       </div>
       <div class="col-lg-4 col">
-        <div class="card shadow border-0 mt-3 mt-md-0" style="border-radius: 16px !important">
+        <div class="posisi card shadow border-0 mt-3 mt-md-0" style="border-radius: 16px !important">
             <div class="card-body">
-              <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Ringkasan Belanja : </h4>
+              <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Ringkasan Belanja: </h4>
               <div class="mx-3">
                 <div class="row mt-3 text-muted fw-bold" style="font-family: open sans">
                   <div class="col">
@@ -101,13 +126,13 @@
                 </div>
               </div>
               <div class="d-grid gap-2">
-                <router-link :to="{name:'shipment'}" class="btn btn-primary btn-style">Checkout</router-link>
+                <button :disabled="product.check.length < 1" @click="shipment" class="btn btn-primary btn-style">Checkout</button>
               </div>
             </div>
-          </div>
+        </div>
       </div>
     </div>
-    <div v-else-if="total > 0 ||carts.cart.length == 0 && total == null">
+    <div v-else-if="cek > 0 ||carts.cart.length == 0 && cek == null">
       <div class="row">
         <div class="col-lg-8 col-12">
           <div class="card shadow border-0 mt-3 mt-md-0" style="border-radius: 16px !important">
@@ -121,7 +146,7 @@
         </div>
       </div>
     </div>
-    <div v-if="carts.cart.length == 0 && total == 0">
+    <div v-if="carts.cart.length == 0 && cek == 0">
       <img src="../../assets/images/cart_empty.svg" class="img-fluid empty">
       <p class="text-empty text-center">Yah Keranjangmu Kosong Nih</p>
       <p class="sub-empty text-center">Saya rasa tombol dibawah ini sangatlah penting, Yuk isi keranjang ini dengan barang kesukaanmu!</p>
@@ -133,69 +158,132 @@
 </template>
 
 <script>
-import { computed, inject, onMounted } from '@vue/runtime-core'
+import { computed, inject, onMounted, reactive } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { ContentLoader } from 'vue-content-loader'
 import { useLoading } from 'vue3-loading-overlay'
+import { useRouter } from 'vue-router'
 
 export default {
   components: {
     ContentLoader,
   },
+  
   setup() {
     const store = useStore()
     const loader = useLoading();
     const swal = inject('$swal')
+    const router = useRouter()
 
-    // const ongkir = reactive({
-    //   city_destination: "",
-    //   weight: "",
-    //   courier: ""
-    // })
+    let product = reactive({
+      isCheckAll: false,
+      prod: '',
+      check: []
+    })
 
     onMounted(()=>{
       store.dispatch('cart/cart')
     })
-    
-  //  const provinces = computed(()=>{
-  //     return store.state.provinces
-  //   })
-    
-  //   function getCitiesDestination() {
-  //     return store.state.cities_destination
-  //   }
 
-  //   function getCostOngkir() {
-  //     let loader = useLoading()
-  //     loader.show({
-  //         color: '#5a68d1',
-  //         loader: 'dots',
-  //     });
+    function shipment(){
+      let arr = JSON.parse(JSON.stringify(product.prod))
+      let check = JSON.parse(JSON.stringify(product.check))
+      let data = []
 
-  //     let city_destination = ongkir.city_destination
-  //     let weight = ongkir.weight
-  //     let courier = ongkir.courier
+      arr.filter(cek=>{
+        return check.indexOf(cek.id) !== -1
+      })
+      .map(total=>{
+        data.push(total)
+      })
+      store.dispatch('order/addProduct',data)
+      router.push({name: 'shipment'})
+    }
 
-  //       store.dispatch('auth/getCostOngkir',{
-  //           city_destination,
-  //           weight,
-  //           courier
-  //       })
+    function selectAll() {
+      product.isCheckAll = !product.isCheckAll;
+      product.check = [];
+      if(product.isCheckAll){ // Check all
+        for (var key in product.prod) {
+          product.check.push(product.prod[key].id);
+        }
+      }
+    }
 
-  //     }
+    function updateCheckall(){
+      if(product.check.length == product.prod.length){
+         product.isCheckAll = true;
+      }else{
+         product.isCheckAll = false;
+      }
+    }
+
+    function deleteCheckProduck() {
+      let arr = JSON.parse(JSON.stringify(product.prod))
+      let check = JSON.parse(JSON.stringify(product.check))
+      let del = []
+
+      arr.filter(cek=>{
+        return check.indexOf(cek.id) !== -1
+      })
+      .map(total=>{
+        del.push(total.id)
+      })
+      let total = del.toString()
+      console.log(total);
+      swal.fire({
+        title: 'Apakah yakin ingin menghapus dari keranjang?',
+        showCancelButton: true,
+        confirmButtonText: 'yakin',
+        denyButtonText: `cancel`,
+      }).then((result) => {
+        /* Read more about isConfirmed */
+        if (result.isConfirmed) {
+          loader.show({
+              color: '#5a68d1',
+              loader: 'dots',
+          });
+          store.dispatch('cart/deleteSelected',{
+            id: total
+          })
+          .then(()=>{
+            store.dispatch('cart/cart')
+            store.dispatch('cart/totalCart')
+            product.check = []
+            loader.hide()
+            swal.fire(`${del.length} barang berhasil dihapus!`, '', 'success')
+          })
+        }
+      })
+    }
 
     const carts = computed(()=>{
+      product.prod = JSON.parse(JSON.stringify(store.state.cart.cart))
       return store.state.cart
     })
 
     const total = computed(()=>{
-      return store.state.cart.total
+      let arr = JSON.parse(JSON.stringify(product.prod))
+      let check = JSON.parse(JSON.stringify(product.check))
+      let sum = 0
+      arr.filter(cek=>{
+        return check.indexOf(cek.id) !== -1
+      })
+      .map(total=>{
+        sum = sum + total.pivot.qty
+      })
+      return sum
     })
 
     const data = computed(()=>{
       let arr = JSON.parse(JSON.stringify(store.getters['cart/qty']))
-      let sum=0
-      arr.map(harga=>{
+      let check = JSON.parse(JSON.stringify(product.check))
+      let sum = 0
+
+      arr.filter(cek=>{
+        return check.indexOf(cek.id) !== -1
+      })
+      .map(harga=>{
         let grand_total = harga.price
         if (harga.price_discount) {
           grand_total = harga.price_discount
@@ -203,6 +291,10 @@ export default {
         sum = sum + (grand_total * harga.pivot.qty)
       })
       return sum
+    })
+
+    const cek = computed(()=>{
+      return store.state.cart.total
     })
 
     function move() {
@@ -267,9 +359,12 @@ export default {
       deleteCart,
       addQty,
       subtQty,
-      // getCitiesDestination,
-      // getCostOngkir,
-      // ongkir,
+      product,
+      selectAll,
+      updateCheckall,
+      cek,
+      deleteCheckProduck,
+      shipment,
     }
   },
 }
@@ -280,6 +375,11 @@ export default {
   width: 5rem;
   height: 5rem;
   padding: 5px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
 }
 
 .qty{
@@ -324,18 +424,26 @@ export default {
 }
 
 .img{
-  width: 100%;
+  width: 4rem;
 }
 @media (min-width: 768px) {
-
   .trun{
     max-width: 200px;
+  }
+
+  .posisi{
+    position: sticky !important;
+    position: -webkit-sticky !important;
+    top: 130px !important; /* required */
   }
 
   .empty{
     display: block;
     max-width: 400px;
     margin: auto auto;
+  }
+  .img{
+    width: 5rem;
   }
 }
 @media (min-width: 992px) { 
@@ -344,7 +452,7 @@ export default {
   }
 
   .trun{
-    max-width: 230px;
+    max-width: 200px;
   }
 }
 </style>
