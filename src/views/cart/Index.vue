@@ -29,7 +29,8 @@
                   </td>
                   <td>
                     <router-link @click="move" :to="{name: 'product.show',params:{'slug':cart.slug}}" class="d-inline-block text-truncate fw-bold text-decoration-none text-dark trun">{{cart.title}}</router-link>
-                    <p class="fw-bold text-muted">Stok {{cart.stok}}</p>
+                    <p class="fw-bold m-0 text-muted">Stok {{cart.stok}}</p>
+                    <p class="m-0">Berat: {{cart.berat}} kg</p>
                   </td>
                   <td v-if="cart.discount">
                     <small class="text-danger"><s>Rp. {{formatPrice(cart.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{cart.discount}}%</span></small>
@@ -82,11 +83,11 @@
                     <div v-else>
                       <p style="font-weight:600" class="mb-0">Rp. {{formatPrice(cart.price)}}</p>
                     </div>
-                      <span class="m-0 fw-bold text-muted">Stok 9999 &nbsp;</span>
+                      <span class="m-0 fw-bold text-muted">Stok {{cart.stok}} &nbsp;</span>
                     <div class="border d-inline rounded p-1 ps-1">
                       <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
                     </div> &nbsp; &nbsp;
-                    <a @click="deleteCart(cart.slug)" class="qty text-danger float-end"><i class="fas fa-trash"></i></a>
+                    <a @click="deleteCart(cart.slug)" class="qty text-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
               </tbody>
@@ -134,12 +135,12 @@
     </div>
     <div v-else-if="cek > 0 ||carts.cart.length == 0 && cek == null">
       <div class="row">
-        <div class="col-lg-8 col-12">
+        <div class="col-md-6 col-12">
           <div class="card shadow border-0 mt-3 mt-md-0" style="border-radius: 16px !important">
             <ContentLoader class="rounded" />
           </div>
         </div>
-        <div class="col-lg-4 col-12">
+        <div class="col-md-6 col-12">
           <div class="card shadow border-0 mt-3 mt-md-0" style="border-radius: 16px !important">
             <ContentLoader class="shadow rounded" />
           </div>

@@ -16,6 +16,10 @@ const cart = {
         TOTAL_CART(state, data) {
             state.total = data
         },
+
+        DESTROY_CART(state) {
+            state.cart = []
+        },
     },
 
     actions: {
@@ -114,7 +118,6 @@ const cart = {
         },
 
         deleteSelected({ commit }, data) {
-            console.log(data.id);
             return new Promise((resolve, reject) => {
                 const token = localStorage.getItem('token')
 
@@ -131,6 +134,9 @@ const cart = {
                         reject(err.response.data)
                     })
             })
+        },
+        destroyCart({ commit }) {
+            commit('DESTROY_CART')
         },
     },
 

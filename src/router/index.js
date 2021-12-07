@@ -50,18 +50,41 @@ const routes = [{
                 path: '',
                 name: 'index',
                 component: () =>
-                    import ('@/views/dashboard/Dashboard.vue')
+                    import ('@/views/dashboard/Dashboard.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresScroll: true
+                }
             },
             {
                 path: '/dashboard/profile',
                 name: 'profile',
                 component: () =>
-                    import ('@/views/dashboard/Profile.vue')
+                    import ('@/views/dashboard/Profile.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresScroll: true
+                }
             },
             {
-                path: '/dashboard/cart',
+                path: '/dashboard/order',
+                name: 'order',
                 component: () =>
-                    import ('@/views/dashboard/Cart.vue')
+                    import ('@/views/dashboard/Order.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresScroll: true
+                }
+            },
+            {
+                path: '/order/:slug',
+                name: 'order.detail',
+                component: () =>
+                    import ('@/views/cart/Order.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresScroll: true
+                }
             },
 
         ],
@@ -78,7 +101,7 @@ const routes = [{
                     },
                 ],
             },
-            requiresAuth: true
+            requiresAuth: true,
         },
     },
     {
@@ -206,11 +229,29 @@ const routes = [{
 ]
 
 const router = createRouter({
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        }
+    },
     history: createWebHistory(),
     routes
 })
 
 router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresScroll)) {
+        if (to.matched.some(record => record.meta.requiresAuth)) {
+            //cek nilai dari getters isLoggedIn di module auth
+            if (store.getters['auth/isLoggedIn']) {
+                next()
+                return { top: 0 }
+            }
+            next('/login')
+        } else {
+            next()
+        }
+        return { top: 0 }
+    }
     window.scrollTo(0, 0)
     if (to.matched.some(record => record.meta.requiresAuth)) {
         //cek nilai dari getters isLoggedIn di module auth

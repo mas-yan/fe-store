@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4" style="font-family: pacifico">I-Buku</router-link>
     <div class="d-lg-none">
-        <router-link :to="{name:'cart'}" class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
+        <router-link :to="{name:'cart'}" @click="destroyCart" class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
         <span class="mx-1 text-white" v-if="!login">|</span>
         <router-link :to="{name:'index'}" v-if="!login" class="btn btn-outline-light">Login</router-link> &nbsp;
         <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary d-inline-block text-truncate" style="max-width: 120px;">{{user.name}}</router-link>
@@ -19,7 +19,7 @@
         </button>
         <div class="dropdown-menu">
           <ul class="list-group p-2" v-if="categories.length > 0" aria-labelledby="dropdownMenuButton1">
-            <button  @click="detail(category.slug)" class="list-group-item text-start d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0">
+            <button @click="detail(category.slug)" class="list-group-item text-start d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0">
               <img :src="category.image" class="rounded img-fluid" style="height: 35px;">
               &nbsp;&nbsp;<span>{{ category.name }}</span>
             </button>
@@ -35,7 +35,7 @@
           <a class="btn bg-white text-primary"><i class="fas fa-search"></i></a>
         </div>
         <div class="d-none ps-2 d-lg-block">
-          <router-link :to="{name:'cart'}" class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
+          <router-link :to="{name:'cart'}" @click="destroyCart" class="btn me-2 bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
           <span class="me-2 my-auto text-white">|</span>
             <router-link :to="{name:'login'}" v-if="!login" class="btn me-2 btn-outline-light">Login</router-link>
             <router-link :to="{name:'register'}" v-if="!login" class="btn bg-white text-primary">Register</router-link>
@@ -62,7 +62,7 @@
                 </router-link>
             </li>
             <li class="nav-item">
-                <router-link :to="{name:'cart'}" class="nav-link text-center">
+                <router-link :to="{name:'cart'}" @click="destroyCart" class="nav-link text-center">
                     <span class="text-primary" style="font-size: 1.2em;"><i class="fas fa-shopping-cart"></i></span>
                     <span class="small d-block text-primary">Keranjang</span>
                 </router-link>
@@ -125,13 +125,17 @@ export default{
       store.dispatch('category/getCategoryHome')
     })
 
-      const total = computed(()=>{
-        if (cek.value.state == true) {
-          return store.state.cart.total
-        }else{
-          return store.state.cart.total = 0
-        }
-      })
+    function destroyCart() {
+      store.dispatch('cart/destroyCart')
+    }
+
+    const total = computed(()=>{
+      if (cek.value.state == true) {
+        return store.state.cart.total
+      }else{
+        return store.state.cart.total = 0
+      }
+    })
 
     //digunakan untuk get data state "categories" di module "category" 
     const categories = computed(() => {
@@ -145,7 +149,8 @@ export default{
       categories,
       detail,
       total,
-      cek
+      cek,
+      destroyCart
     }
   },
 }

@@ -1,42 +1,62 @@
 <template>
   <div class="m-lg-5 m-3 my-5">
-      <!-- {{getProduct}} -->
-      <h3 class="judul ms-3">Checkout</h3>
+      <h3 class="judul ms-3 mb-3">Checkout</h3>
       <div class="row">
-        <div class="col">
-          <p class="fw-bold mb-0 ms-3">Alamat Pengiriman</p>
+        <div class="col-lg-8 col-12">
+          <div class="me-3">
+          <h6 class="fw-bold mb-0 ms-3">Alamat Pengiriman</h6>
           <hr class="ms-3 my-0" style="width: 97%">
-          <h1 class="fw-bold mb-0 mt-0 pt-0 ms-3">-</h1>
-          <div class="mb-3" v-if="ongkir.city > 0">
-            <label for="kab">Kurir</label>
-            <select id="kab" @change="getCostOngkir" v-model="ongkir.courier" class="form-control">
-              <option value="">Pilih Kurir</option>
-              <option class="py-1" value="jne">JNE</option>
-              <option class="py-1" value="tiki">TIKI</option>
-              <option class="py-1" value="pos">POS</option>
-            </select>
+          <div class="ms-3 mt-2" v-if="address.name && address.city > 0">
+            <p class="mb-0 fw-bolder">{{address.name}}</p>
+            <p class="m-0 p-0">{{address.noTelp}}</p>
+            <p class="mb-0">{{address.provinsi_name}} - {{address.city_name}}</p>
+            <p class="text-muted m-0 p-0">{{address.fullAddress}}</p>
+            <a class="btn btn-outline-primary mt-1 btn-sm" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Ubah Alamat</a>
           </div>
-          <a class="btn btn-outline-primary btn-sm ms-3" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Tambah Alamat</a>
-          <hr class="ms-3" style="width: 97%">
-          <p class="fw-bold mb-0 ms-3">Detail Pesanan</p>
-          <div class="card border-0" v-for="(product,index) in getProduct" :key="product.id">
-            <div class="card-body pb-0">
+          <div v-else>
+            <h1 class="fw-bold mb-0 mt-0 ms-3">-</h1>
+            <a class="btn btn-outline-primary btn-sm ms-3" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Tambah Alamat</a>
+          </div>
+          <div class="mb-3 ms-3" v-if="address.city > 0">
+            <h6 class="fw-bold mb-0 mt-3">Pililh Pengiriman</h6>
+            <hr class="mb-2 mt-0">
+            <div class="mb-3">
+              <label for="kab">Kurir</label>
+              <select id="kab" @change="getCostOngkir" v-model="address.courier" class="form-control">
+                <option value="" v-if="address.courier == 0">Pilih Kurir</option>
+                <option class="py-1" value="jne">JNE</option>
+                <option class="py-1" value="tiki">TIKI</option>
+                <option class="py-1" value="pos">POS</option>
+              </select>
+            </div>
+            <div v-if="cost && address.courier">
+              <h6 class="fw-bold mb-0 mt-3">{{cost.code.toUpperCase()}} | {{cost.name}}</h6>
+              <div class="form-check" v-for="(service,index) in cost.costs" :key="index">
+                  <input class="form-check-input" @change="serviceName(service.service)" type="radio" :value="service.cost[0].value" v-model="address.ongkir">
+                  <label>{{service.service}} - {{service.description}} - Rp. {{formatPrice(service.cost[0].value)}} ({{service.cost[0].etd}} hari)</label>
+              </div>
+            </div>
+          </div>
+          </div>
+          <p class="fw-bold p-0 m-0 mt-3 ms-3" v-if="getProduct.length > 0">Detail Pesanan</p>
+          <div class="card m-0 p-0 border-0" v-for="(product,index) in getProduct" :key="product.id">
+            <div class="card-body pt-0">
               <hr class="m-0 p-0 text-primary" style="height:4px">
-              <p class="fw-bold">Pesanan {{index +1}}</p>
+              <p class="fw-bold mt-2">Pesanan {{index +1}}</p>
               <div class="row">
                 <div class="col-lg-2 col-3">
                   <img :src="product.image" class="img-fluid rounded img">
                 </div>
                 <div class="col-lg-10 col-9">
                   <h6 class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun" style="font-family: 'Nunito Sans';">{{product.title}}</h6>
-                  <p class="mb-0 mt-lg-3">{{product.pivot.qty}} barang ({{product.berat}} gr)</p>
                   <div v-if="product.discount">
-                    <small class="text-danger"><s>{{formatPrice(product.old)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
-                    <p style="font-weight:600" class="m-0">{{formatPrice(product.price_discount)}}</p>
+                    <small class="text-danger"><s>Rp. {{formatPrice(product.old)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
+                    <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.price_discount)}}</p>
                   </div>
                   <div v-else>
-                    <p style="font-weight:600" class="m-0">{{formatPrice(product.price)}}</p>
+                    <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.price)}}</p>
                   </div>
+                  <p style="font-weight:600">Berat: {{product.berat * product.pivot.qty}} ({{product.pivot.qty}} barang) </p>
                 </div>
                   <hr class="ms-2 mb-0 mt-3" style="width: 97%">
                   <div class="d-flex justify-content-between">
@@ -47,22 +67,20 @@
                       <p class="m-0" style="cursor: pointer" @click="myFunction(product.id)"><span class="fw-bold">Rp. {{formatPrice(product.price * product.pivot.qty)}} &nbsp; </span><i class="fas fa-caret-down text-muted" id="toggle"></i></p>
                     </div>
                   </div>
-                  <div class="d-flex justify-content-between mb-3">
+                  <div class="d-flex justify-content-between">
                     <div style="display: none" v-bind:id="`title${product.id}`">
                       <p class="m-0">Harga ({{product.pivot.qty}} barang)</p>
-                      <p class="m-0">Ongkos Kirim</p>
                     </div>
                     <div style="display: none" v-bind:id="`harga${product.id}`">
-                      <p class="m-0">Rp. {{formatPrice(product.price * product.pivot.qty)}}</p>
-                      <p class="m-0">Rp. {{formatPrice(product.price)}}</p>
+                      <p class="m-0">Rp. {{formatPrice(product.price)}} x {{product.pivot.qty}}</p>
                     </div>
                   </div>
               </div>
             </div>
           </div>
-          <hr class="m-0 ms-3 p-0 text-primary" style="height:4px; width:95%">
+          <hr class="m-0 ms-3 p-0 text-primary" style="height:4px; width:96%">
         </div>
-        <div class="col-lg-4 col">
+        <div class="col-lg-4 col-12">
           <div class="card shadow posisi border-0 mt-4 mt-md-0" style="border-radius: 16px !important ">
               <div class="card-body">
               <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Ringkasan Belanja: </h4>
@@ -77,10 +95,10 @@
                 </div>
                 <div class="row text-muted fw-bold" style="font-family: open sans">
                   <div class="col">
-                    Total Ongkos Kirim
+                    Total Ongkir <small>({{Math.floor(berat * 100) / 100}} Kg)</small>
                   </div>
                   <div class="col">
-                    <p class="text-end">Rp.999.000</p>
+                    <p class="text-end">Rp. {{formatPrice(address.ongkir)}}</p>
                   </div>
                 </div>
                 <hr class="m-0 mb-3" style="height:4px">
@@ -89,19 +107,18 @@
                     Total Tagihan
                   </div>
                   <div class="col">
-                    <p class="text-end">Rp. 990.000</p>
+                    <p class="text-end text-danger">Rp. {{formatPrice(address.grand_total)}}</p>
                   </div>
                 </div>
               </div>
               <div class="d-grid gap-2">
-                <button class="btn btn-primary btn-style">Piliih Pembayaran</button>
+                <button @click="storeTransaction" class="btn btn-primary btn-style" :disabled="address.ongkir < 1">{{!address.name || !address.city ? 'Pilih Alamat Dulu' : !address.courier || !address.ongkir ? 'Pilih Pengiriman Dulu' : 'Pilih Pembayaran'}}</button>
               </div>
             </div>
             </div>
         </div>
       </div>
     </div>
-
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -114,37 +131,37 @@
               <div class="col">
                 <div class="mb-3">
                   <label for="name">Nama Lengkap</label>
-                  <input type="text" id="name" class="form-control" placeholder="Nama Lengkap">
+                  <input type="text" id="name" v-model="address.name" class="form-control" placeholder="Nama Lengkap">
                 </div>
               </div>
               <div class="col">
                 <div class="mb-3">
                   <label for="no">No Telepon</label>
-                  <input type="number" id="no" class="form-control" placeholder="No Telepon">
+                  <input type="number" id="no" v-model="address.noTelp" class="form-control" placeholder="No Telepon">
                 </div>
               </div>
             </div>
             <div class="mb-3">
                 <label for="provinsi">Provinsi</label>
-                <select id="provinsi" @change="getCitiesDestination" v-model="ongkir.provinsi" class="form-control">
+                <select id="provinsi" @change="provisiName($event)" v-model="address.provinsi" class="form-control">
                   <option value="">Pilih Provinsi</option>
-                  <option class="py-1" v-for="province in provinsi" :key="province.id" :value="province.province_id">{{ province.name }}</option>
+                  <option class="py-1" v-for="province in provinsi" :key="province.id" :value="province.province_id">{{ province.province }}</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="kab">Kabupaten/Kota</label>
-                <select id="kab" v-model="ongkir.city" class="form-control">
+                <select id="kab" @change="cityName($event)" v-model="address.city" class="form-control">
                   <option value="">Pilih Kabupaten/Kota</option>
-                  <option class="py-1" v-for="city in cities" :key="city.id" :value="city.city_id">{{ city.name }}</option>
+                  <option class="py-1" v-for="city in cities" :key="city.id" :value="city.city_id">{{city.type}} {{ city.city_name }}</option>
                 </select>
             </div>
             <div class="mb-3">
               <label for="alamat">Alamat Lengkap</label>
-              <textarea name="alamat" id="alamat" rows="3" placeholder="Alamat Lengkap" class="form-control"></textarea>
+              <textarea name="alamat" v-model="address.fullAddress" id="alamat" rows="3" placeholder="Alamat Lengkap" class="form-control"></textarea>
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary">Simpan</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">simpan</button>
           </div>
         </div>
       </div>
@@ -154,16 +171,67 @@
 <script>
 import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import { useLoading } from 'vue3-loading-overlay'
+import { useRouter } from 'vue-router'
 export default {
   setup() {
-    let pesanan = 1
+
     const store = useStore()
-    const ongkir = reactive({
+    const router = useRouter()
+    const address = reactive({
+      name:'',
+      noTelp:'',
+      fullAddress:'',
       provinsi:'',
+      provinsi_name:'',
+      city_name:'',
       city:'',
       weight: 0,
-      courier: ""
+      courier: '',
+      service: '',
+      ongkir:0,
+      grand_total: 0,
+      product:[],
+      qty: []
     })
+
+     function storeTransaction() {
+       let loader = useLoading()
+        loader.show({
+            color: '#5a68d1',
+            loader: 'dots',
+        });
+        store.dispatch('order/storeTransaction', address)
+        .then(() => {
+          loader.hide()
+          window.snap.pay(store.state.order.snap_token, {
+              onSuccess: function () {
+                window.scrollTo(0, 0)
+                store.dispatch('order/destroyProduct')
+                store.dispatch('cart/cart')
+                store.dispatch('cart/totalCart')
+                router.push({name: 'order.detail',params:{slug: store.state.order.invoice}})  
+              },
+              onPending: function () {
+                window.scrollTo(0, 0)
+                store.dispatch('order/destroyProduct')
+                store.dispatch('cart/cart')
+                store.dispatch('cart/totalCart')
+                router.push({name: 'order.detail',params:{slug: store.state.order.invoice}})
+              },
+              onError: function () {
+                window.scrollTo(0, 0)
+                store.dispatch('order/destroyProduct')
+                store.dispatch('cart/cart')
+                store.dispatch('cart/totalCart')
+                router.push({name: 'order.detail',params:{slug: store.state.order.invoice}})  
+              },
+          })
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
 
     const data = computed(()=>{
       let arr = JSON.parse(JSON.stringify(store.state.order.product))
@@ -176,25 +244,49 @@ export default {
         }
         sum = sum + (grand_total * harga.pivot.qty)
       })
+      address.grand_total = sum + address.ongkir
       return sum
     })
-    function getCitiesDestination() {
-      store.dispatch('ongkir/getCities',ongkir.provinsi)
+    function provisiName(e) {
+      address.provinsi_name = e.target.options[e.target.options.selectedIndex].text
+      store.dispatch('ongkir/getCities',address.provinsi)
+    }
+    
+    function cityName(e) {
+      address.city_name = e.target.options[e.target.options.selectedIndex].text
+      store.dispatch('ongkir/getCities',address.provinsi)
+    }
+    
+    function serviceName(e) {
+      address.service = e
+      store.dispatch('ongkir/getCities',address.provinsi)
     }
 
     function getCostOngkir() {
-      let city_destination = ongkir.city
-      let weight = ongkir.weight
-      let courier = ongkir.courier
+      let city_destination = address.city
+      let weight = address.weight
+      let courier = address.courier
 
-      console.log(city_destination);
-      console.log(weight);
-      console.log(courier);
+      if (weight < 1) {
+        weight = 1
+      }
+
+      let loader = useLoading()
+      loader.show({
+          color: '#5a68d1',
+          loader: 'dots',
+      });
 
       store.dispatch('ongkir/getCostOngkir',{
           city_destination,
           weight,
           courier
+      })
+      .then(()=>{
+          loader.hide()
+      })
+      .catch(()=>{
+          loader.hide()
       })
     }
 
@@ -202,14 +294,12 @@ export default {
       store.dispatch('ongkir/getProvinsi')
     })
 
-    onMounted(()=>{
-      return store.state.order.product
-    })
-
     const getProduct = computed(()=>{
       let arr = JSON.parse(JSON.stringify(store.state.order.product))
       let sub = null
       let x = null
+      let id = []
+      let qty = []
 
       arr.filter(harga=>{
         let grand_total = harga.price
@@ -221,7 +311,11 @@ export default {
           x = JSON.parse(p);
         }
         x = arr
+        id.push(harga.id)
+        qty.push(harga.pivot.qty)
       })
+      address.product = id
+      address.qty = qty
       return x
     })
 
@@ -234,7 +328,18 @@ export default {
     })
     
     const cost = computed(()=>{
-      return store.state.ongkir.cost
+      return store.state.ongkir.cost[0]
+    })
+
+    const berat = computed(()=>{
+      const produk = JSON.parse(JSON.stringify(store.state.order.product))
+      let sum = 0
+        produk.map((value) => {
+        let grand_total = value.berat
+          sum = sum + (grand_total * value.pivot.qty)
+        })
+        address.weight = sum
+      return address.weight
     })
 
     function myFunction(id) {
@@ -254,15 +359,18 @@ export default {
 
     return {
       provinsi,
-      ongkir,
-      pesanan,
       myFunction,
-      getCitiesDestination,
+      provisiName,
+      cityName,
       getCostOngkir,
+      serviceName,
       cities,
       cost,
       getProduct,
-      data
+      data,
+      address,
+      berat,
+      storeTransaction
     }
   },
 }
@@ -275,6 +383,11 @@ export default {
 
 .img{
   height: 5.5rem;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
 }
 
 @media (min-width: 768px) {

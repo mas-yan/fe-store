@@ -186,6 +186,7 @@ export default {
             loader.hide()
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
+              store.dispatch('cart/destroyCart')
               router.push({name: 'cart'})
             }
           })

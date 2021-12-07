@@ -46,19 +46,22 @@ const ongkir = {
                 })
         },
         getCostOngkir({ commit }, data) {
-            const token = localStorage.getItem('token')
-            Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            Api.post(`/ongkir`, {
-                    city_destination: data.city_destination,
-                    weight: data.weight,
-                    courier: data.courier
-                })
-                .then(resp => {
-                    commit('GET_COST', resp.data.data)
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            return new Promise((resolve, reject) => {
+                const token = localStorage.getItem('token')
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+                Api.post(`/ongkir`, {
+                        city_destination: data.city_destination,
+                        weight: data.weight,
+                        courier: data.courier
+                    })
+                    .then(resp => {
+                        commit('GET_COST', resp.data.data)
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        reject(err.response.data);
+                    })
+            })
         }
     },
 
