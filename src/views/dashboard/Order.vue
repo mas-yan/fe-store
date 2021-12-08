@@ -1,6 +1,6 @@
 <template>
   <div class="card mt-3 mt-lg-0 mt-xl-0 mt-xxl-0 shadow border-0">
-    <!-- {{data}} -->
+    <!-- {{page}} -->
     <div class="card-body">
       <div v-if="data">
         <table class="table table-bordered table-responsive table-striped table-hover">
@@ -23,23 +23,9 @@
             </tr>
           </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <div class="d-flex justify-content-center">
+          <pagination v-model="page.page" :records="data.total" :per-page="data.per_page" @paginate="paginate(page.page)"/>
+        </div>
       </div>
       <div v-else class="alert alert-danger">
         Anda Belum Memiliki Riwayat Pembelian
@@ -49,25 +35,33 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, onMounted, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import Pagination from 'v-pagination-3';
 export default {
+  components: {
+    Pagination
+  },
   setup() {
+
+    const page = ref({
+      page: 1
+    })
 
     const router = useRouter()
     const store = useStore()
     onMounted(()=>{
       store.dispatch('order/destroyProduct')
-      store.dispatch('order/getOrder',2 )
+      store.dispatch('order/getOrder',1 )
     })
 
     const data = computed(()=>{
       return store.state.order.order
     })
 
-    function paginate(page = 1) {
-      store.dispatch('order/getOrder',page)
+    function paginate(params) { 
+      store.dispatch('order/getOrder',params)
     }
 
     function order(invoice) {
@@ -77,7 +71,8 @@ export default {
     return{
       data,
       order,
-      paginate
+      paginate,
+      page
     }
   },
 }

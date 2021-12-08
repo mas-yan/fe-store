@@ -78,16 +78,22 @@ const order = {
             commit('DESTROY_PRODUCT')
         },
 
-        getOrder({ commit }) {
-            //get data token dan user
-            const token = localStorage.getItem('token')
+        getOrder({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                const token = localStorage.getItem('token')
 
-            //set axios header dengan type Authorization + Bearer token
-            Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            Api.get('/order')
-                .then(response => {
-                    commit('SET_ORDER', response.data.data)
-                })
+                //set axios header dengan type Authorization + Bearer token
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                Api.get(`/order?page=${data}`)
+                    .then(response => {
+                        commit('SET_ORDER', response.data.data)
+                        resolve(response)
+                    })
+                    .catch(err => {
+                        reject(err)
+                    })
+            })
         },
         getDetail({ commit }, data) {
             //get data token dan user
