@@ -23,19 +23,21 @@
             </tr>
           </tbody>
         </table>
-        <nav class="d-flex justify-content-center">
-          <ul class="pagination" v-for="(item,index) in data.links" :key="index">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
             <li class="page-item">
-              <a class="page-link" href="{{item.url}}}">
-                <span>{{item.url}}</span>
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <!-- <li class="page-item active"><a class="page-link" href="#">2</a></li> -->
-            <!-- <li class="page-item">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
               <a class="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
-            </li> -->
+            </li>
           </ul>
         </nav>
       </div>
@@ -57,12 +59,16 @@ export default {
     const store = useStore()
     onMounted(()=>{
       store.dispatch('order/destroyProduct')
-      store.dispatch('order/getOrder')
+      store.dispatch('order/getOrder',2 )
     })
 
     const data = computed(()=>{
       return store.state.order.order
     })
+
+    function paginate(page = 1) {
+      store.dispatch('order/getOrder',page)
+    }
 
     function order(invoice) {
       router.push({name: 'order.detail',params:{slug: invoice}})
@@ -70,7 +76,8 @@ export default {
 
     return{
       data,
-      order
+      order,
+      paginate
     }
   },
 }
