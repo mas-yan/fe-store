@@ -6,13 +6,15 @@
         <table class="table table-bordered table-responsive table-striped table-hover">
           <thead>
             <tr class="text-center">
+              <th>No</th>
               <th>Invoice</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in data.data" :key="item.id" class="text-center">
+            <tr v-for="(item,index) in data.data" :key="index" class="text-center">
+              <td>{{index+data.from}}</td>
               <td>{{item.invoice}}</td>
               <td>
                 <button class="btn-warning btn btn-sm" v-if="item.status == 'pending'">{{item.status}}</button>
