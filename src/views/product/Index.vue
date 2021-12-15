@@ -73,7 +73,7 @@
                 <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>(4.9) 999999 Reviews</p>
                 <hr id="deskrispsi">
                 <div class="bottom text-center text-lg-start mt-4 mb-lg-4">
-                  <button @click="tes" class="btn d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
+                  <button @click="shipment" class="btn d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
                   <button @click="addCart(product.slug)" class="btn ms-5 btn-outline-primary d-none ps-2 d-md-inline"><i class="fas fa-shopping-cart"></i> Tambah Ke Keranjang</button>
                 </div>
             </div>
@@ -118,7 +118,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-between">
-          <button @click="tes" id="deskrispsi" class="btn d-md-none btn-style btn-primary">Beli Sekarang</button>
+          <button @click="shipment" id="deskrispsi" class="btn d-md-none btn-style btn-primary">Beli Sekarang</button>
           <button @click="addCart(product.slug)" class="btn-style btn btn-outline-primary ps-2 d-md-none"><i class="fas fa-shopping-cart"></i> Keranjang</button>
         </div>
       </div>
@@ -196,10 +196,20 @@ export default {
         router.push({name: 'login'})
       }
     }
+
+    function shipment(){
+      const detail = JSON.parse(JSON.stringify(store.state.product.detail))
+      const data = []
+      data.push(detail)
+      store.dispatch('order/addProduct',data)
+      router.push({name: 'shipment'})
+    }
+
     return {
       product,
       addCart,
       login,
+      shipment
     }
   },
 }

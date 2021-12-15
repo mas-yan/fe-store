@@ -2,9 +2,10 @@
   <div v-if="data.length > 0">
     <div class="card mt-3 mt-lg-0 mt-xl-0 mt-xxl-0 shadow border-0">
       <div class="card-header me-3 judul bg-white border-0">Info Pembelian</div>
+          <hr class="m-0 mx-3 p-0 text-primary" style="height:4px">
       <!-- {{data}} -->
       <div class="card-body">
-        <table class="table table-bordered table-responsive">
+        <table class="table table-borderless table-responsive">
           <tbody>
             <tr>
               <td class="text-muted fw-bold">No Invoice</td>
@@ -38,6 +39,13 @@
               <td class="text-muted fw-bold">Total Bayar</td>
               <td>Rp. {{formatPrice(data[0].grand_total)}}</td>
             </tr>
+            <tr>
+              <td class="text-muted fw-bold">Status</td>
+              <td v-if="data[0].status == 'pending'"><button class="btn-warning btn" @click="pay(data[0].snap_token)">Bayar</button></td>
+              <td v-else-if="data[0].status == 'success'"><button class="btn-success btn" disabled>Success</button></td>
+              <td v-else-if="data[0].status == 'expired'"><button class="btn-secondary btn" disabled>Expired</button></td>
+              <td v-else-if="data[0].status == 'failed'"><button class="btn-danger btn" disabled>Failed</button></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -60,9 +68,10 @@
                 <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.price_discount)}}</p>
               </div>
               <div v-else>
-                <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.price)}}</p>
+                <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.pivot.price)}}</p>
               </div>
               <p class="fw-bold text-muted">Qty : {{product.pivot.qty}}</p>
+              <button class="btn-primary btn btn-sm" v-if="data[0].status == 'success'">Review Barang</button>
             </div>
           </div>
         </div>
@@ -89,7 +98,7 @@
 <script>
 import { computed, onMounted } from '@vue/runtime-core'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ContentLoader } from 'vue-content-loader'
 
 export default {
@@ -99,16 +108,33 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
+    const router = useRouter()
+
     onMounted(()=>{
       store.dispatch('order/getDetail',route.params.slug)
     })
+
+    function pay(snap_token) {
+      window.snap.pay(snap_token, {
+          onSuccess: function () {
+            router.push({name: 'order.detail',params:{slug: route.params.slug}})  
+          },
+          onPending: function () {
+            router.push({name: 'order.detail',params:{slug: store.state.order.invoice}})
+          },
+          onError: function () {
+            router.push({name: 'order.detail',params:{slug: store.state.order.invoice}})  
+          },
+      })
+    }
 
     const data = computed(()=>{
       return store.state.order.detail
     })
 
     return{
-      data
+      data,
+      pay
     }
   },
 }

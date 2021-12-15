@@ -34,6 +34,7 @@ const order = {
             localStorage.setItem('product', JSON.stringify(data))
             commit('SET_PRODUCT', data)
         },
+
         storeTransaction({ commit }, data) {
 
             //define callback promise
@@ -57,6 +58,7 @@ const order = {
                         cost: data.ongkir,
                         grand_total: data.grand_total,
                         product: data.product,
+                        price: data.price,
                         qty: data.qty
                     })
                     .then(response => {

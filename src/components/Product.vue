@@ -7,7 +7,7 @@
         <router-link @click="move" :to="{name:'product.show',params:{'slug':product.slug}}" class="text-decoration-none card border-0 mb-2">
           <img :src="product.image" class="img-fluid">
           <div class="card-body py-0 m-0">
-              <h6 class="fw-bold text-lg-start text-dark text-xl-start text-xxl-start text-center d-block text-truncate pt-2">{{product.title}}</h6>
+              <h6 class="fw-bold text-lg-start text-dark text-xl-start text-start d-block text-truncate pt-2">{{product.title}}</h6>
             <div v-if="product.discount">
               <h6 class="fw-bold text-primary mb-0">Rp. {{formatPrice(product.price_discount)}}</h6>      
               <small class="text-danger"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>

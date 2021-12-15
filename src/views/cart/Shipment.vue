@@ -192,10 +192,11 @@ export default {
       ongkir:0,
       grand_total: 0,
       product:[],
-      qty: []
+      qty: [],
+      price: []
     })
 
-     function storeTransaction() {
+    function storeTransaction() {
        let loader = useLoading()
         loader.show({
             color: '#5a68d1',
@@ -247,6 +248,7 @@ export default {
       address.grand_total = sum + address.ongkir
       return sum
     })
+    
     function provisiName(e) {
       address.provinsi_name = e.target.options[e.target.options.selectedIndex].text
       store.dispatch('ongkir/getCities',address.provinsi)
@@ -300,6 +302,7 @@ export default {
       let x = null
       let id = []
       let qty = []
+      let price = []
 
       arr.filter(harga=>{
         let grand_total = harga.price
@@ -312,9 +315,11 @@ export default {
         }
         x = arr
         id.push(harga.id)
+        price.push(harga.price)
         qty.push(harga.pivot.qty)
       })
       address.product = id
+      address.price = price
       address.qty = qty
       return x
     })
