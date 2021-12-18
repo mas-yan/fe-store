@@ -70,7 +70,7 @@
               <div v-else>
                 <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.price)}}</h4>
               </div>
-                <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>(4.9) 999999 Reviews</p>
+                <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>(4.9) {{ count }} Reviews</p>
                 <hr id="deskrispsi">
                 <div class="bottom text-center text-lg-start mt-4 mb-lg-4">
                   <button @click="shipment" class="btn d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
@@ -89,6 +89,42 @@
           <p v-html="product.deskripsi_product" class="mt-4"></p>
         </div>
       </div>
+      <h5 class="mt-5 judul text-dark">Ulasan ({{ count }})</h5>
+      <hr style="height:4px" class="rounded">
+      <div v-if="count > 0">
+        <div class="card mb-3" v-for="review in reviews" :key="review.id">
+          <div class="card-body m-0 p-0">
+            <div class="container">
+              <div class="row mt-3">
+                <div class="col-auto">
+                  <div class="rounded-circle text-center mx-auto" style="width:40px">
+                  <img :src="review.avatar" style="width: 40px; height: 40px;" class="rounded-circle bg-white">
+                  </div>
+                </div>
+                <div class="col-auto mt-2">
+                    <h6 class="fw-bold d-inline-block text-truncate" style="max-width: 200px;">{{ review.name }}</h6>
+                </div>
+              </div>
+              <div class="ps-3 ms-5">
+                <div class="d-inline" v-for="i in parseInt(review.pivot.star)" :key="i"> <i class="fas fa-star" style="color: yellow"></i> </div>
+              </div>
+              <hr class="bg-secondary" style="height: 4px">
+              <p class="mt-2 mb-1"> {{ review.pivot.review }} </p>
+              <p class="float-end fst-italic">{{ formatdate(review.pivot.created_at) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="alert alert-danger">
+          Belum Ada Ulasan
+        </div>
+      </div>
+      <div class="text-center mt-4 mb-4" v-show="nextExists">
+        <a @click="loadMore"
+            class=" p-2 px-3 rounded-md shadow btn btn-primary">LIHAT
+            ULASAN LAINNYA</a>
+    </div>
     </div>
     <div v-else>
       <div class="card shadow border-0">
@@ -113,6 +149,7 @@
               <h3 class="text-primary fw-bold" style="font-size: 18px;">Rp. {{formatPrice(product.price)}}</h3>
             </div>
           </div>
+          
           <div v-else>
               <h3 class="text-primary fw-bold" style="font-size: 18px;">Rp. 0</h3>            
           </div>
@@ -128,7 +165,7 @@
 
 
 <script>
-import { computed, inject, onMounted, ref } from '@vue/runtime-core'
+import { computed, inject, onMounted, reactive, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { useLoading } from 'vue3-loading-overlay';
 import { useRoute, useRouter } from 'vue-router'
@@ -149,6 +186,11 @@ export default {
       state: false
     })
 
+    const page = reactive({
+      next : 0,
+      slug : ''
+    })
+
     onMounted(()=>{
       store.dispatch('product/getDetail',route.params.slug)
     })
@@ -156,6 +198,24 @@ export default {
     const product = computed(()=>{
       return store.state.product.detail
     })
+    
+    const reviews = computed(()=>{
+      return store.state.product.review
+    })
+    
+    const count = computed(()=>{
+      return store.state.product.countReview
+    })
+    //get status NextExists
+    const nextExists = computed(() => {
+        return store.state.product.nextExists
+    })
+
+    function loadMore() {
+      page.next = store.state.product.nextPage
+      page.slug = route.params.slug
+      store.dispatch('product/getLoadMoreReview', page)
+    } 
     
     const login = computed(()=>{
         if (store.getters['auth/isLoggedIn']) {
@@ -209,7 +269,12 @@ export default {
       product,
       addCart,
       login,
-      shipment
+      shipment,
+      reviews,
+      loadMore,
+      nextExists,
+      page,
+      count
     }
   },
 }

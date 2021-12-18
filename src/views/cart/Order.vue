@@ -62,7 +62,7 @@
               <img :src="product.image" class="img-fluid rounded img">
             </div>
             <div class="col-lg-10 col-9">
-              <h6 class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun" style="font-family: 'Nunito Sans';">{{product.title}}</h6>
+              <router-link :to="{name:'product.show',params:{'slug':product.slug}}" class="d-inline-block text-truncate fw-bold mb-0 text-decoration-none text-dark pb-0 trun" style="font-family: 'Nunito Sans';">{{product.title}}</router-link>
               <div v-if="product.discount">
                 <small class="text-danger"><s>Rp. {{formatPrice(product.old)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
                 <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.price_discount)}}</p>

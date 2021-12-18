@@ -6,6 +6,8 @@ const product = {
     state: {
         product: [],
         detail: {},
+        review: [],
+        countReview: 0,
         nextExists: false,
         nextPage: 0,
     },
@@ -16,6 +18,13 @@ const product = {
         },
         SET_PRODUCT(state, data) {
             state.product = data
+        },
+        SET_REVIEW(state, data) {
+            state.review = data
+        },
+
+        SET_COUNT_REVIEW(state, data) {
+            state.countReview = data
         },
 
         DETAIL_PRODUCT(state, data) {
@@ -32,9 +41,13 @@ const product = {
             state.nextPage = nextPage
         },
         SET_LOADMORE(state, data) {
-            console.log(data);
             data.forEach(row => {
-                state.product.data.push(row);
+                state.product.push(row);
+            });
+        },
+        SET_LOADMORE_REVIEW(state, data) {
+            data.forEach(row => {
+                state.review.push(row);
             });
         },
     },
@@ -71,12 +84,59 @@ const product = {
             Api.get(`/product/${slug}`)
                 .then(resp => {
                     commit('DETAIL_PRODUCT', resp.data.data)
+                    commit('SET_REVIEW', resp.data.review.data)
+                    commit('SET_COUNT_REVIEW', resp.data.count)
+
+                    if (resp.data.review.current_page < resp.data.review.last_page) {
+
+                        //commit ke mutation SET_NEXTEXISTS dengan true
+                        commit('SET_NEXTEXISTS', true)
+
+                        //commit ke mutation SET_NEXTPAGE dengan current page + 1
+                        commit('SET_NEXTPAGE', resp.data.review.current_page + 1)
+
+                    } else {
+
+                        //commit ke mutation SET_NEXTEXISTS dengan false
+                        commit('SET_NEXTEXISTS', false)
+                    }
                 })
                 .catch(err => {
                     console.log(err);
                 })
         },
         //action getLoadMore
+        getLoadMoreReview({ commit }, data) {
+
+            //get data campaign dengan page ke server
+            Api.get(`/product/${data.slug}?page=${data.next}`)
+                .then(response => {
+
+                    //commit ke mutation SET_LOADMORE dengan response data
+                    commit('SET_LOADMORE_REVIEW', response.data.review.data)
+
+                    //console.log(response.data.data.data)
+
+                    if (response.data.review.current_page < response.data.review.last_page) {
+
+                        //commit ke mutation SET_NEXTEXISTS dengan true
+                        commit('SET_NEXTEXISTS', true)
+
+                        //commit ke mutation SET_NEXTPAGE dengan current page + 1
+                        commit('SET_NEXTPAGE', response.data.review.current_page + 1)
+
+                    } else {
+                        //commit ke mutation SET_NEXTEXISTS dengan false
+                        commit('SET_NEXTEXISTS', false)
+                    }
+
+                }).catch(error => {
+
+                    //show error log dari response
+                    console.log(error)
+
+                })
+        },
         getLoadMore({ commit }, nextPage) {
 
             //get data campaign dengan page ke server

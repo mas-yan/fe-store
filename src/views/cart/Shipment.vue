@@ -6,7 +6,7 @@
           <div class="me-3">
           <h6 class="fw-bold mb-0 ms-3">Alamat Pengiriman</h6>
           <hr class="ms-3 my-0" style="width: 97%">
-          <div class="ms-3 mt-2" v-if="address.name && address.city > 0">
+          <div class="ms-3 mt-2" v-if="address.fullAddress && address.city > 0">
             <p class="mb-0 fw-bolder">{{address.name}}</p>
             <p class="m-0 p-0">{{address.noTelp}}</p>
             <p class="mb-0">{{address.provinsi_name}} - {{address.city_name}}</p>
@@ -17,7 +17,7 @@
             <h1 class="fw-bold mb-0 mt-0 ms-3">-</h1>
             <a class="btn btn-outline-primary btn-sm ms-3" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Tambah Alamat</a>
           </div>
-          <div class="mb-3 ms-3" v-if="address.city > 0">
+          <div class="mb-3 ms-3" v-if="address.fullAddress">
             <h6 class="fw-bold mb-0 mt-3">Pililh Pengiriman</h6>
             <hr class="mb-2 mt-0">
             <div class="mb-3">

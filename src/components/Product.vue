@@ -1,7 +1,6 @@
 <template>
   <div class="m-lg-5 mt-0 pt-0 m-3">
     <h3 class="judul"> Produk</h3>
-    <!-- <hr style="height: 4px" class="bg-primary mt-0"> -->
     <div class="row" v-if="products.length > 0">
       <div class="col-6 col-md-3 col-lg-2 col-xl-2 col-xxl-2 p-2" v-for="product in products" :key="product.id">
         <router-link @click="move" :to="{name:'product.show',params:{'slug':product.slug}}" class="text-decoration-none card border-0 mb-2">
