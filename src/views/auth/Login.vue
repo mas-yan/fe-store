@@ -105,7 +105,7 @@ export default {
                 router.push({name:'index'})
             })
             .catch(err=>{
-                loader.hide()
+                // loader.hide()
                 validation.value = err
                 if (validation.value.email) {
                     validate.email = validation.value.email[0]
