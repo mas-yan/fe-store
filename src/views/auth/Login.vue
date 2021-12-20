@@ -60,7 +60,7 @@
 <script>import { reactive,ref } from "@vue/reactivity"
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { useLoading } from "vue3-loading-overlay"
+// import { useLoading } from "vue3-loading-overlay"
 import { onMounted } from '@vue/runtime-core'
 
 
@@ -85,14 +85,14 @@ export default {
         const store = useStore()
 
         const router = useRouter()
-        const loader = useLoading()
+        // const loader = useLoading()
 
         // funcction login
         function login() {
-            loader.show({
-                color: '#5a68d1',
-                loader: 'dots',
-            });
+            // loader.show({
+            //     color: '#5a68d1',
+            //     loader: 'dots',
+            // });
             let email = user.email
             let password = user.password
 
@@ -102,7 +102,7 @@ export default {
             })
             .then(()=>{
                 console.log('success');
-                loader.hide()
+                // loader.hide()
                 router.push({name:'index'})
             })
             .catch(err=>{
@@ -122,7 +122,7 @@ export default {
                 }else{
                     validate.message = ''
                 }
-                loader.hide()
+                // loader.hide()
             })
         }
 
