@@ -101,11 +101,11 @@ export default {
                 password
             })
             .then(()=>{
+                console.log('success');
                 loader.hide()
                 router.push({name:'index'})
             })
             .catch(err=>{
-                // loader.hide()
                 validation.value = err
                 if (validation.value.email) {
                     validate.email = validation.value.email[0]
@@ -122,7 +122,7 @@ export default {
                 }else{
                     validate.message = ''
                 }
-                
+                loader.hide()
             })
         }
 
