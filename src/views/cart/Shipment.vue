@@ -38,7 +38,7 @@
             </div>
           </div>
           </div>
-          <p class="fw-bold p-0 m-0 mt-3 ms-3" v-if="getProduct.length > 0">Detail Pesanan</p>
+          <p class="fw-bold p-0 m-0 mt-3 ms-3">Detail Pesanan</p>
           <div class="card m-0 p-0 border-0" v-for="(product,index) in getProduct" :key="product.id">
             <div class="card-body pt-0">
               <hr class="m-0 p-0 text-primary" style="height:4px">
@@ -303,8 +303,8 @@ export default {
       let id = []
       let qty = []
       let price = []
-
-      arr.filter(harga=>{
+      
+       arr.filter(harga=>{
         let grand_total = harga.price
         if (harga.price_discount) {
           harga['old'] = harga.price
@@ -321,7 +321,8 @@ export default {
       address.product = id
       address.price = price
       address.qty = qty
-      return x
+      return x 
+      
     })
 
     const provinsi = computed(()=>{

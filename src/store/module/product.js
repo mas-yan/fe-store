@@ -8,6 +8,7 @@ const product = {
         detail: {},
         review: [],
         countReview: 0,
+        rating: 0,
         nextExists: false,
         nextPage: 0,
     },
@@ -21,6 +22,10 @@ const product = {
         },
         SET_REVIEW(state, data) {
             state.review = data
+        },
+
+        SET_RATING(state, data) {
+            state.rating = data
         },
 
         SET_COUNT_REVIEW(state, data) {
@@ -86,6 +91,7 @@ const product = {
                     commit('DETAIL_PRODUCT', resp.data.data)
                     commit('SET_REVIEW', resp.data.review.data)
                     commit('SET_COUNT_REVIEW', resp.data.count)
+                    commit('SET_RATING', resp.data.rating)
 
                     if (resp.data.review.current_page < resp.data.review.last_page) {
 

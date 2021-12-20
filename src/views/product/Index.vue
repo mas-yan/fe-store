@@ -70,7 +70,7 @@
               <div v-else>
                 <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.price)}}</h4>
               </div>
-                <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>(4.9) {{ count }} Reviews</p>
+                <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>({{ Math.floor(rating * 100) / 100 }}) {{ count }} Reviews</p>
                 <hr id="deskrispsi">
                 <div class="bottom text-center text-lg-start mt-4 mb-lg-4">
                   <button @click="shipment" class="btn d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
@@ -109,7 +109,10 @@
                 <div class="d-inline" v-for="i in parseInt(review.pivot.star)" :key="i"> <i class="fas fa-star" style="color: yellow"></i> </div>
               </div>
               <hr class="bg-secondary" style="height: 4px">
-              <p class="mt-2 mb-1"> {{ review.pivot.review }} </p>
+              <p class="mt-2 mb-3"> {{ review.pivot.review }} </p>
+              <td class="mb-3" v-if="review.image_review">
+                <img :src="review.image_review" style="background:#f1f5f8" class="rounded product img-fluid image">
+              </td>
               <p class="float-end fst-italic">{{ formatdate(review.pivot.created_at) }}</p>
             </div>
           </div>
@@ -206,6 +209,10 @@ export default {
     const count = computed(()=>{
       return store.state.product.countReview
     })
+    
+    const rating = computed(()=>{
+      return store.state.product.rating
+    })
     //get status NextExists
     const nextExists = computed(() => {
         return store.state.product.nextExists
@@ -274,7 +281,8 @@ export default {
       loadMore,
       nextExists,
       page,
-      count
+      count,
+      rating
     }
   },
 }
@@ -304,5 +312,25 @@ export default {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.image{
+  object-fit: cover;
+  height: 5rem;
+  width: 4rem;
+}
+@media (min-width: 768px) {
+  .image{
+    object-fit: cover;
+    height: 5rem;
+    width: 5rem;
+  }
+}
+@media (min-width: 992px) { 
+  .image{
+    object-fit: cover;
+    width: 5rem;
+    height: 5rem !important;
+  }
 }
 </style>

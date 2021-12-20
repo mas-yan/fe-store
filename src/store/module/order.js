@@ -2,7 +2,7 @@ import Api from "../../api/Api"
 const order = {
     namespaced: true,
     state: {
-        product: JSON.parse(localStorage.getItem('product')),
+        product: JSON.parse(localStorage.getItem('product')) || [],
         snap_token: '',
         order: null,
         detail: [],
@@ -25,7 +25,7 @@ const order = {
             state.invoice = data
         },
         DESTROY_PRODUCT(state) {
-            state.product = {}
+            state.product = []
             state.detail = []
         }
     },
@@ -59,7 +59,7 @@ const order = {
                         grand_total: data.grand_total,
                         product: data.product,
                         price: data.price,
-                        qty: data.qty
+                        qty: data.qty,
                     })
                     .then(response => {
                         commit('SET_SNAP_TOKEN', response.data[0].snap_token)
@@ -107,7 +107,20 @@ const order = {
                 .then(response => {
                     commit('SET_DETAIL', response.data.data)
                 })
-        }
+        },
+
+        postReview({ commit }, formData) {
+            const token = localStorage.getItem('token')
+
+            Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+            Api.post('/review', formData)
+                .then(() => {
+                    commit()
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
     },
     getters: {
 

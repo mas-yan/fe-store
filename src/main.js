@@ -15,7 +15,6 @@ const options = {
     thickness: "5px",
 };
 
-
 const app = createApp(App)
 app.mixin(mixins)
 app.use(router)

@@ -71,7 +71,36 @@
                 <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.pivot.price)}}</p>
               </div>
               <p class="fw-bold text-muted">Qty : {{product.pivot.qty}}</p>
-              <button class="btn-primary btn btn-sm" v-if="data[0].status == 'success'">Review Barang</button>
+              <!-- Button trigger modal -->
+              <button type="button" v-if="data[0].status == 'success'" class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="`#rating${product.id}`">
+                Review Barang
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" v-bind:id="`rating${product.id}`" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Review Buku {{product.title}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="d-flex justify-content-center">
+                      <star-rating @update:rating ="setRating" :show-rating="false" :star-size="50" :glow="10" glow-color="#ffd055"></star-rating>
+                      </div>
+                      <div class="input-group mb-3 mt-4">
+                        <input type="file" @change="onFIleChange" class="form-control" id="inputGroupFile02">
+                      </div>
+                      <div class="mt-4">
+                        <textarea class="form-control" v-model="rate.review" placeholder="Beri Ulasan"></textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" @click="review(product.id,product.slug)" class="btn btn-primary" data-bs-dismiss="modal">Kirim Ulasan</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -96,19 +125,29 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, inject, onMounted, reactive } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { ContentLoader } from 'vue-content-loader'
+import StarRating from 'vue-star-rating'
+import { useLoading } from 'vue3-loading-overlay'
 
 export default {
   components: {
     ContentLoader,
+    StarRating
   },
   setup() {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
+    const swal = inject('$swal')
+
+    let rate = reactive({
+      rating: 0,
+      image:'',
+      review:''
+    })
 
     onMounted(()=>{
       store.dispatch('order/getDetail',route.params.slug)
@@ -128,13 +167,70 @@ export default {
       })
     }
 
+    function setRating(rating) {
+      rate.rating = rating
+    }
+
     const data = computed(()=>{
       return store.state.order.detail
     })
 
+
+    function onFIleChange(e) {
+      rate.image = e.target.files[0]
+    }
+
+    function review(product,slug) {
+      
+        let loader = useLoading();
+        loader.show({
+            color: '#5a68d1',
+            loader: 'dots',
+        });
+
+        if (rate.rating < 1) {
+          loader.hide()
+          swal({
+              icon: 'error',
+              title: 'Harus Memberi Setidaknya 1 Bintang!',
+            })
+        }else{
+          //formdata
+        let formData = new FormData();
+
+        formData.append('star', rate.rating)
+        formData.append('image', rate.image)
+        formData.append('review', rate.review)
+        formData.append('product', product)
+
+        //panggil actions "updateProfile" dari module "profile"
+        store.dispatch('order/postReview', formData)
+        .then(() => {
+
+            router.push({name:'product.show',params:{'slug':slug}})
+            loader.hide()
+            swal({
+              icon: 'success',
+              title: 'Berhasil Memberi Ulasan!',
+            })
+
+            //set imageAvatar to null
+            rate.image = ''
+
+        }).catch(error => {
+          loader.hide()
+          console.log(error);
+        })
+        }
+    }
+    
     return{
       data,
-      pay
+      pay,
+      rate,
+      setRating,
+      onFIleChange,
+      review
     }
   },
 }
