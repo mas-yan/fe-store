@@ -81,6 +81,7 @@ export default {
         })
         
         const validation = ref([])
+        let loader = useLoading()
 
         // store Vuex
         const store = useStore()
