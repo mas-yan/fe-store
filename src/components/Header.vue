@@ -31,7 +31,7 @@
         </div>
         </div>
         <div class="input-group me-3 mt-2 mt-lg-0 mt-xl-0 mt-xxl-0">
-          <input type="text" class="form-control border-0" placeholder="Mau baca apa hari ini?">
+          <input type="text" @click="search" v-model="searchProduct" @keyup="searchQuery" class="form-control border-0" placeholder="Mau baca apa hari ini?">
           <a class="btn bg-white text-primary"><i class="fas fa-search"></i></a>
         </div>
         <div class="d-none ps-2 d-lg-block">
@@ -99,6 +99,7 @@ export default{
     let cek = ref({
       state: false,
     })
+    const searchProduct = ref(null)
 
     const store = useStore()
     const router = useRouter()
@@ -142,6 +143,15 @@ export default{
         return store.state.category.home
     })
 
+    function searchQuery() {
+        store.dispatch('product/searchProduct', searchProduct.value)
+      }
+
+    function search() {
+        router.push({
+          name: 'search'
+        })
+      }
 
     return {
       login,
@@ -150,7 +160,10 @@ export default{
       detail,
       total,
       cek,
-      destroyCart
+      destroyCart,
+      search,
+      searchProduct,
+      searchQuery
     }
   },
 }

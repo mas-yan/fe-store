@@ -175,6 +175,29 @@ const product = {
 
                 })
         },
+        //action searchCampaign
+        searchProduct({ commit }, querySearch = '') {
+
+            //get data token dan user
+            const token = localStorage.getItem('token')
+
+            //set axios header dengan type Authorization + Bearer token
+            Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+            //get data campaign ke server
+            Api.get(`/product?q=${querySearch}`)
+                .then(response => {
+
+                    //commit ke mutation SET_CAMPAIGNS dengan response data
+                    commit('SET_PRODUCT', response.data.data.data)
+
+                }).catch(error => {
+
+                    //show error log dari response
+                    console.log(error)
+
+                })
+        },
     },
 
     getters: {

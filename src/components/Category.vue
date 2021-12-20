@@ -119,7 +119,7 @@ export default {
 }
 @media (min-width: 992px) { 
   .vueperslides--fixed-height {
-    height: 17rem;
+    height: 14rem;
     margin-bottom: 4%;
   }
 }
