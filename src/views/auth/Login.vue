@@ -85,10 +85,10 @@ export default {
         const store = useStore()
 
         const router = useRouter()
+        const loader = useLoading()
 
         // funcction login
         function login() {
-            let loader = useLoading()
             loader.show({
                 color: '#5a68d1',
                 loader: 'dots',
