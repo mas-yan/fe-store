@@ -240,7 +240,10 @@ export default {
       updateProfile, 
       validate,
       user,
-      updatePassword
+      updatePassword,
+      isLoading,
+      fullPage,
+      dots
     }
   },
 }
