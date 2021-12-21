@@ -101,18 +101,26 @@
       </div>
     </div>
   </div>
+  <loading :active="isLoading" :loader="dots" :color="'#5a68d1'"
+        :is-full-page="fullPage"></loading>
 </template>
 
 <script>import { useStore } from "vuex"
 import { computed, inject, onMounted, ref, reactive } from '@vue/runtime-core'
 import { useRouter } from "vue-router"
-import { useLoading } from 'vue3-loading-overlay'
+import Loading from 'vue3-loading-overlay';
 
 export default {
+  components: {
+        Loading
+    },
   setup() {
     const store = useStore()
     const router = useRouter()
     const swal = inject('$swal')
+    const isLoading = ref(false);
+    const fullPage = ref(true);
+    const dots = ref('dots');
 
     onMounted(()=>{
       store.dispatch('profile/getProfile')
@@ -149,12 +157,7 @@ export default {
 
     // method update profile
     function updateProfile() {
-      
-        let loader = useLoading();
-        loader.show({
-            color: '#5a68d1',
-            loader: 'dots',
-        });
+        isLoading.value = true;
 
         //formdata
         let formData = new FormData();
@@ -165,9 +168,8 @@ export default {
         //panggil actions "updateProfile" dari module "profile"
         store.dispatch('profile/updateProfile', formData)
         .then(() => {
-
             router.push({name:'index'})
-            loader.hide()
+            isLoading.value = false;
             swal({
               icon: 'success',
               title: 'Profile Berhasil Diupdate!',
@@ -177,7 +179,7 @@ export default {
             imageAvatar.value = null
 
         }).catch(error => {
-          loader.hide()
+          isLoading.value = false;
             //assign validaation message
             validation.value = error
 
@@ -189,11 +191,7 @@ export default {
     }
     
     function updatePassword() {
-      let loader = useLoading();
-      loader.show({
-          color: '#5a68d1',
-          loader: 'dots',
-      });
+      isLoading.value = true;
 
       let old_password = user.old_password
       let password = user.password
@@ -205,7 +203,7 @@ export default {
         password_confirmation
       })
       .then(()=>{
-        loader.hide()
+        isLoading.value = false;
         swal({
           icon: 'success',
           title: 'Password Berhasil Diupdate!',
@@ -213,7 +211,7 @@ export default {
         router.push({name:'index'})
       })
       .catch(error=>{
-        loader.hide()
+        isLoading.value = false;
         validation.value = error
 
         //show validation name with toast
