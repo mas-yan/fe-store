@@ -60,10 +60,8 @@
 <script>import { reactive,ref } from "@vue/reactivity"
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
-import { useLoading } from "vue3-loading-overlay"
 import { onMounted } from '@vue/runtime-core'
-
+import { useLoading } from 'vue3-loading-overlay'
 
 export default {
     setup() {
@@ -87,7 +85,6 @@ export default {
         const store = useStore()
 
         const router = useRouter()
-        // const loader = useLoading()
 
         // funcction login
         function login() {
