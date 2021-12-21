@@ -54,22 +54,31 @@
                 </div>
             </div>
         </div>
+        <loading :active="isLoading" :loader="dots" :color="'#5a68d1'"
+        :is-full-page="fullPage"></loading>
     </div>
 </template>
 
 <script>import { reactive,ref } from "@vue/reactivity"
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+// Import component
+import Loading from 'vue3-loading-overlay';
 import { onMounted } from '@vue/runtime-core'
-import { useLoading } from 'vue3-loading-overlay'
 
 export default {
+    components: {
+        Loading
+    },
     setup() {
         // user state
         const user = reactive({
             email: '',
             password: ''
         })
+        const isLoading = ref(false);
+        const fullPage = ref(true);
+        const dots = ref('dots');
 
         // validation state
         const validate = reactive({
@@ -79,7 +88,6 @@ export default {
         })
         
         const validation = ref([])
-        let loader = useLoading()
 
         // store Vuex
         const store = useStore()
@@ -88,10 +96,7 @@ export default {
 
         // funcction login
         function login() {
-            loader.show({
-                color: '#5a68d1',
-                loader: 'dots',
-            });
+            isLoading.value = true;
             let email = user.email
             let password = user.password
 
@@ -101,7 +106,7 @@ export default {
             })
             .then(()=>{
                 console.log('success');
-                loader.hide()
+                isLoading.value = false;
                 router.push({name:'index'})
             })
             .catch(err=>{
@@ -133,7 +138,10 @@ export default {
         return{
             user,
             login,
-            validate
+            validate,
+            isLoading,
+            fullPage,
+            dots
         }
     },
     
