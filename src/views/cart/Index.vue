@@ -1,7 +1,7 @@
 <template>
   <div class="container my-5">
     <div class="row" v-if="carts.cart.length > 0">
-      <div class="col-lg-8 col">
+      <div class="col-lg-8 col-12">
         <div class="card" style="border-radius: 16px !important">
           <div class="card-body d-none d-lg-block d-xl-block ps-2 d-xxl-block">
             <h4 class="ms-2 judul"><i class="fas fa-shopping-cart"></i>&nbsp;Keranjang Saya : </h4>
@@ -95,7 +95,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col">
+      <div class="col-lg-4 col-12">
         <div class="posisi card shadow border-0 mt-3 mt-md-0" style="border-radius: 16px !important">
             <div class="card-body">
               <h4 class="judul"><i class="fas fa-shopping-bag"></i>&nbsp;Ringkasan Belanja: </h4>
