@@ -121,7 +121,6 @@ export default {
                 }else{
                     validate.message = ''
                 }
-                loader.hide()
             })
         }
 
