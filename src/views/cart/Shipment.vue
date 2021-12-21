@@ -118,6 +118,8 @@
             </div>
         </div>
       </div>
+      <loading :active="isLoading" :loader="dots" :color="'#5a68d1'"
+        :is-full-page="fullPage"></loading>
     </div>
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -169,13 +171,15 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive } from '@vue/runtime-core'
+import { computed, onMounted, reactive, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
-import { useLoading } from 'vue3-loading-overlay'
+import Loading from 'vue3-loading-overlay';
 import { useRouter } from 'vue-router'
 export default {
+  components: {
+        Loading
+    },
   setup() {
-
     const store = useStore()
     const router = useRouter()
     const address = reactive({
@@ -195,16 +199,15 @@ export default {
       qty: [],
       price: []
     })
+    const isLoading = ref(false);
+    const fullPage = ref(true);
+    const dots = ref('dots');
 
     function storeTransaction() {
-       let loader = useLoading()
-        loader.show({
-            color: '#5a68d1',
-            loader: 'dots',
-        });
+        isLoading.value = true;
         store.dispatch('order/storeTransaction', address)
         .then(() => {
-          loader.hide()
+          isLoading.value = false;
           window.snap.pay(store.state.order.snap_token, {
               onSuccess: function () {
                 window.scrollTo(0, 0)
@@ -272,23 +275,19 @@ export default {
       if (weight < 1) {
         weight = 1
       }
-
-      let loader = useLoading()
-      loader.show({
-          color: '#5a68d1',
-          loader: 'dots',
-      });
-
+      isLoading.value = true;
       store.dispatch('ongkir/getCostOngkir',{
           city_destination,
           weight,
           courier
       })
       .then(()=>{
-          loader.hide()
+        isLoading.value = false;
+
       })
       .catch(()=>{
-          loader.hide()
+        isLoading.value = false;
+
       })
     }
 
@@ -376,7 +375,10 @@ export default {
       data,
       address,
       berat,
-      storeTransaction
+      storeTransaction,
+      isLoading,
+      fullPage,
+      dots
     }
   },
 }

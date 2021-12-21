@@ -155,24 +155,29 @@
         <router-link :to="{name: 'home'}" class="btn btn-primary btn-lg btn-style text-center">Mulai Belanja</router-link>
       </div>
     </div>
+    <loading :active="isLoading" :loader="dots" :color="'#5a68d1'"
+        :is-full-page="fullPage"></loading>
   </div>
 </template>
 
 <script>
-import { computed, inject, onMounted, reactive } from '@vue/runtime-core'
+import { computed, inject, onMounted, reactive, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { ContentLoader } from 'vue-content-loader'
-import { useLoading } from 'vue3-loading-overlay'
+import Loading from 'vue3-loading-overlay';
 import { useRouter } from 'vue-router'
 
 export default {
   components: {
     ContentLoader,
+    Loading
   },
   
   setup() {
     const store = useStore()
-    const loader = useLoading();
+    const isLoading = ref(false);
+    const fullPage = ref(true);
+    const dots = ref('dots');
     const swal = inject('$swal')
     const router = useRouter()
 
@@ -240,10 +245,7 @@ export default {
       }).then((result) => {
         /* Read more about isConfirmed */
         if (result.isConfirmed) {
-          loader.show({
-              color: '#5a68d1',
-              loader: 'dots',
-          });
+          isLoading.value = true;
           store.dispatch('cart/deleteSelected',{
             id: total
           })
@@ -251,7 +253,7 @@ export default {
             store.dispatch('cart/cart')
             store.dispatch('cart/totalCart')
             product.check = []
-            loader.hide()
+            isLoading.value = false;
             swal.fire(`${del.length} barang berhasil dihapus!`, '', 'success')
           })
         }
@@ -311,15 +313,12 @@ export default {
       }).then((result) => {
         /* Read more about isConfirmed */
         if (result.isConfirmed) {
-          loader.show({
-              color: '#5a68d1',
-              loader: 'dots',
-          });
+          isLoading.value = true;
           store.dispatch('cart/deleteCart',id)
           .then(()=>{
             store.dispatch('cart/cart')
             store.dispatch('cart/totalCart')
-            loader.hide()
+            isLoading.value = false;
             swal.fire('Satu barang berhasil dihapus!', '', 'success')
           })
         }
@@ -327,28 +326,22 @@ export default {
     }
 
     function addQty(data) {
-      loader.show({
-          color: '#5a68d1',
-          loader: 'dots',
-      });
+      isLoading.value = true;
       store.dispatch('cart/addQty',data)
       .then(()=>{
         store.dispatch('cart/cart')
         store.dispatch('cart/totalCart')
-        loader.hide()
+        isLoading.value = false;
       })
     }
     
     function subtQty(data) {
-      loader.show({
-        color: '#5a68d1',
-        loader: 'dots',
-      });
+      isLoading.value = true;
       store.dispatch('cart/subtQty',data)
       .then(()=>{
         store.dispatch('cart/cart')
         store.dispatch('cart/totalCart')
-        loader.hide()
+        isLoading.value = false;
       })
     }
 
@@ -366,6 +359,9 @@ export default {
       cek,
       deleteCheckProduck,
       shipment,
+      isLoading,
+      fullPage,
+      dots
     }
   },
 }

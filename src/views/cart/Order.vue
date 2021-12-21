@@ -122,26 +122,32 @@
       </div>
     </div>
   </div>
+  <loading :active="isLoading" :loader="dots" :color="'#5a68d1'"
+        :is-full-page="fullPage"></loading>
 </template>
 
 <script>
-import { computed, inject, onMounted, reactive } from '@vue/runtime-core'
+import { computed, inject, onMounted, reactive, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { ContentLoader } from 'vue-content-loader'
 import StarRating from 'vue-star-rating'
-import { useLoading } from 'vue3-loading-overlay'
+import Loading from 'vue3-loading-overlay';
 
 export default {
   components: {
     ContentLoader,
-    StarRating
+    StarRating,
+    Loading
   },
   setup() {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
     const swal = inject('$swal')
+    const isLoading = ref(false);
+    const fullPage = ref(true);
+    const dots = ref('dots');
 
     let rate = reactive({
       rating: 0,
@@ -181,15 +187,9 @@ export default {
     }
 
     function review(product,slug) {
-      
-        let loader = useLoading();
-        loader.show({
-            color: '#5a68d1',
-            loader: 'dots',
-        });
-
+        isLoading.value = true;
         if (rate.rating < 1) {
-          loader.hide()
+          isLoading.value = false;
           swal({
               icon: 'error',
               title: 'Harus Memberi Setidaknya 1 Bintang!',
@@ -208,7 +208,7 @@ export default {
         .then(() => {
 
             router.push({name:'product.show',params:{'slug':slug}})
-            loader.hide()
+            isLoading.value = false;
             swal({
               icon: 'success',
               title: 'Berhasil Memberi Ulasan!',
@@ -218,7 +218,7 @@ export default {
             rate.image = ''
 
         }).catch(error => {
-          loader.hide()
+          isLoading.value = false;
           console.log(error);
         })
         }
@@ -230,7 +230,10 @@ export default {
       rate,
       setRating,
       onFIleChange,
-      review
+      review,
+      isLoading,
+      fullPage,
+      dots
     }
   },
 }

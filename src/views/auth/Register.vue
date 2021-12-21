@@ -47,6 +47,8 @@
                 </div>
             </div>
         </div>
+        <loading :active="isLoading" :loader="dots" :color="'#5a68d1'"
+        :is-full-page="fullPage"></loading>
     </div>
 </template>
 
@@ -54,9 +56,12 @@
 import { reactive, ref } from '@vue/reactivity'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { useLoading } from 'vue3-loading-overlay';
+import Loading from 'vue3-loading-overlay';
 import { inject, onMounted } from 'vue'
 export default {
+    components: {
+        Loading
+    },
     setup(){
         const swal = inject('$swal')
         const user = reactive({
@@ -75,14 +80,12 @@ export default {
         const validation = ref([])
         const store = useStore()
         const router = useRouter()
+        const isLoading = ref(false);
+        const fullPage = ref(true);
+        const dots = ref('dots');
         
         function register() {
-            let loader = useLoading();
-            loader.show({
-                color: '#5a68d1',
-                loader: 'dots',
-            });
-            
+            isLoading.value = true;
             let name     = user.name
             let email    = user.email
             let password = user.password
@@ -102,11 +105,11 @@ export default {
                     showConfirmButton: false,
                     timer: 2000
                 })
-                loader.hide()
+                isLoading.value = false;
                 router.push({name: 'login'})
             })
             .catch(err=>{
-                loader.hide()
+                isLoading.value = false;
                 validation.value = err
                 if(validation.value.name) {
                    validate.name = validation.value.name[0]
@@ -137,6 +140,9 @@ export default {
             validation,
             register,
             validate,
+            isLoading,
+            fullPage,
+            dots
         }
     }
 }

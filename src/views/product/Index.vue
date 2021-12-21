@@ -139,6 +139,9 @@
     </div>
   </div>
 
+  <loading :active="isLoading" :loader="dots" :color="'#5a68d1'"
+    :is-full-page="fullPage"></loading>
+
   <div class="d-md-none p-0 rounded-3 mt-5 fixed-bottom">
     <div class="card shadow-lg" style="border-radius: 16px 16px 0 0 !important; border-top:5px solid #5a68d1;">
       <div class="card-body">
@@ -170,13 +173,14 @@
 <script>
 import { computed, inject, onMounted, reactive, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
-import { useLoading } from 'vue3-loading-overlay';
 import { useRoute, useRouter } from 'vue-router'
+import Loading from 'vue3-loading-overlay';
 import { ContentLoader } from 'vue-content-loader'
 
 export default {
   components: {
     ContentLoader,
+    Loading
   },
   
   setup() {
@@ -184,6 +188,9 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const swal = inject('$swal')
+    const isLoading = ref(false);
+    const fullPage = ref(true);
+    const dots = ref('dots');
 
     let cek = ref({
       state: false
@@ -231,15 +238,11 @@ export default {
     })
 
     function addCart(id) {
-      let loader = useLoading();
-            loader.show({
-                color: '#5a68d1',
-                loader: 'dots',
-            });
+      isLoading.value = true;
       if (login.value) {
         store.dispatch('cart/addCart',id)
         .then(()=>{
-          loader.hide()
+          isLoading.value = false;
           store.dispatch('cart/totalCart')
           swal({
               icon: 'success',
@@ -250,7 +253,7 @@ export default {
               cancelButtonText: 'oke',
           })
           .then((result) => {
-            loader.hide()
+              isLoading.value = false;
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
               store.dispatch('cart/destroyCart')
@@ -259,7 +262,7 @@ export default {
           })
         })
       }else{
-        loader.hide()
+        isLoading.value = false;
         router.push({name: 'login'})
       }
     }
@@ -282,7 +285,10 @@ export default {
       nextExists,
       page,
       count,
-      rating
+      rating,
+      isLoading,
+      fullPage,
+      dots
     }
   },
 }

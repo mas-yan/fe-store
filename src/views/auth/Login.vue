@@ -105,7 +105,6 @@ export default {
                 password
             })
             .then(()=>{
-                console.log('success');
                 isLoading.value = false;
                 router.push({name:'index'})
             })
