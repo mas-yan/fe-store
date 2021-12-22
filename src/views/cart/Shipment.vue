@@ -56,7 +56,7 @@
                   <div v-else>
                     <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.price)}}</p>
                   </div>
-                  <p style="font-weight:600">Berat: {{product.berat * product.pivot.qty}} ({{product.pivot.qty}} barang) </p>
+                  <p style="font-weight:600">Berat: {{product.berat * product.pivot.qty}}Kg ({{product.pivot.qty}} barang) </p>
                 </div>
                   <hr class="ms-2 mb-0 mt-3" style="width: 97%">
                   <div class="d-flex justify-content-between">

@@ -268,9 +268,31 @@ export default {
     }
 
     function shipment(){
+      const res = []
       const detail = JSON.parse(JSON.stringify(store.state.product.detail))
       const data = []
-      data.push(detail)
+      res.push(detail)
+      res.forEach(tes=>{
+        let price = tes.price
+        let discount = null
+        let price_discount = null
+        if (tes.discount != null) {
+          discount = tes.discount.discount
+          price_discount = tes.discount.price_discount
+        }
+        data.push({
+          id : tes.id,
+          stok: tes.stok,
+          berat: tes.berat,
+          title: tes.title,
+          price: price,
+          image: tes.image,
+          discount: discount,
+          price_discount: price_discount,
+          old: tes.price,
+          pivot:{qty: tes.pivot.qty }
+        })
+      })
       store.dispatch('order/addProduct',data)
       router.push({name: 'shipment'})
     }
