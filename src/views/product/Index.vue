@@ -13,6 +13,7 @@
             </div>
             <div class="col-lg-8">
               <h5 class="mt-3 title fw-bold text-dark text-center" style="font-family: 'Nunito Sans';">{{product.title}}</h5>
+              <h6 class="title fw-bold text-secondary text-center" style="font-family: 'Nunito Sans';">Author: {{product.author}}</h6>
               <hr>
               <div class="row">
                 <div class="col-8 d-block d-md-none">
@@ -70,11 +71,16 @@
               <div v-else>
                 <h4 class="fw-bold text-primary">Rp. {{formatPrice(product.price)}}</h4>
               </div>
-                <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>({{ Math.floor(rating * 100) / 100 }}) {{ count }} Reviews</p>
+                <p class="d-block"><i class="fas fa-star" style="color: yellow"></i>({{ Math.floor(rating * 100) / 100 }}) {{ count }} <a href="#reviews" class="text-decoration-none"> Reviews</a></p>
                 <hr id="deskrispsi">
-                <div class="bottom text-center text-lg-start mt-4 mb-lg-4">
+                <div class="bottom text-center text-lg-start mt-4 mb-lg-4" v-if="product.stok > 0">
                   <button @click="shipment" class="btn d-md-inline d-none btn-primary mx-auto">Beli Sekarang</button>
                   <button @click="addCart(product.slug)" class="btn ms-5 btn-outline-primary d-none ps-2 d-md-inline"><i class="fas fa-shopping-cart"></i> Tambah Ke Keranjang</button>
+                </div>
+                <div v-else>
+                  <div class="d-grid gap-2">
+                    <button disabled class="btn btn-secondary d-none ps-2 d-md-inline"> Stok Habis</button>
+                  </div>
                 </div>
             </div>
           </div>
@@ -89,7 +95,7 @@
           <p v-html="product.deskripsi_product" class="mt-4"></p>
         </div>
       </div>
-      <h5 class="mt-5 judul text-dark">Ulasan ({{ count }})</h5>
+      <h5 class="mt-5 judul text-dark" id="reviews">Ulasan ({{ count }})</h5>
       <hr style="height:4px" class="rounded">
       <div v-if="count > 0">
         <div class="card mb-3" v-for="review in reviews" :key="review.id">
@@ -160,9 +166,14 @@
               <h3 class="text-primary fw-bold" style="font-size: 18px;">Rp. 0</h3>            
           </div>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between" v-if="product.stok > 0">
           <button @click="shipment" id="deskrispsi" class="btn d-md-none btn-style btn-primary">Beli Sekarang</button>
           <button @click="addCart(product.slug)" class="btn-style btn btn-outline-primary ps-2 d-md-none"><i class="fas fa-shopping-cart"></i> Keranjang</button>
+        </div>
+        <div v-else>
+          <div class="d-grid gap-2">
+          <button disabled id="deskrispsi" class="btn d-md-none btn-style btn-secondary">Stok Habis</button>
+          </div>
         </div>
       </div>
     </div>

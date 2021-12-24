@@ -206,7 +206,7 @@ export default {
         //panggil actions "updateProfile" dari module "profile"
         store.dispatch('order/postReview', formData)
         .then(() => {
-
+            store.dispatch('product/resetState')
             router.push({name:'product.show',params:{'slug':slug}})
             isLoading.value = false;
             swal({
@@ -218,6 +218,7 @@ export default {
             rate.image = ''
 
         }).catch(error => {
+          store.dispatch('product/resetState')
           isLoading.value = false;
           console.log(error);
         })

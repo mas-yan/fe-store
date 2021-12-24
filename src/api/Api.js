@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 
 const Api = axios.create({
-    baseURL: 'https://i-book-store.herokuapp.com/api'
+    baseURL: 'http://127.0.0.1:8000/api'
 })
 
 export default Api
