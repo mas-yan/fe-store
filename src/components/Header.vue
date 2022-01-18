@@ -6,7 +6,7 @@
         <router-link :to="{name:'cart'}" @click="destroyCart" class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
         <span class="mx-1 text-white" v-if="!login">|</span>
         <router-link :to="{name:'index'}" v-if="!login" class="btn btn-outline-light">Login</router-link> &nbsp;
-        <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary d-inline-block text-truncate" style="max-width: 120px;">{{user.name}}</router-link>
+        <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white fw-bold text-primary d-inline-block text-truncate" style="max-width: 120px; fw-bold">{{user.name}}</router-link>
     </div>
     <div class="container">
       <div class="d-flex justify-content-between">
@@ -39,7 +39,7 @@
           <span class="me-2 my-auto text-white">|</span>
             <router-link :to="{name:'login'}" v-if="!login" class="btn me-2 btn-outline-light">Login</router-link>
             <router-link :to="{name:'register'}" v-if="!login" class="btn bg-white text-primary">Register</router-link>
-            <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary">{{user.name}}</router-link>
+            <router-link :to="{name: 'index'}" v-if="login" class="btn bg-white text-primary fw-bold">{{user.name}}</router-link>
         </div>
       </div>
     </div>

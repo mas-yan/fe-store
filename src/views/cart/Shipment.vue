@@ -17,7 +17,7 @@
             <h1 class="fw-bold mb-0 mt-0 ms-3">-</h1>
             <a class="btn btn-outline-primary btn-sm ms-3" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Tambah Alamat</a>
           </div>
-          <div class="mb-3 ms-3" v-if="address.fullAddress">
+          <div class="mb-3 ms-3" v-if="address.fullAddress && address.city_name && address.name && address.noTelp">
             <h6 class="fw-bold mb-0 mt-3">Pililh Pengiriman</h6>
             <hr class="mb-2 mt-0">
             <div class="mb-3">

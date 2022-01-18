@@ -23,8 +23,8 @@
         <router-link :to="{name:'product.show',params:{'slug':product.slug}}" class="text-decoration-none product card border-0 mb-2" style="background-color:#fff">
           <img :src="product.image" class="img-fluid">
           <div class="card-body py-0 m-0">
-              <h6 class="fw-bold text-lg-start mb-0 pb-0 text-dark text-xl-start text-xxl-start text-center d-block text-truncate pt-2">{{product.title}}</h6>
-              <small class="title d-block text-truncate fw-bold mt-0 pt-0 text-secondary text-center" style="font-family: 'Nunito Sans';">{{product.author}}</small>
+              <h6 class="fw-bold text-lg-start mb-0 pb-0 text-dark text-xl-start text-xxl-start d-block text-truncate pt-2">{{product.title}}</h6>
+              <small class="title d-block text-truncate fw-bold mt-0 pt-0 text-secondary" style="font-family: 'Nunito Sans';">{{product.author}}</small>
             <div v-if="product.discount">
               <h6 class="fw-bold text-primary mb-0">Rp. {{formatPrice(product.price_discount)}}</h6>      
               <small class="text-danger"><s>Rp. {{formatPrice(product.price)}}</s> &nbsp;<span class="alert-danger rounded-pill px-1">{{product.discount}}%</span></small>
@@ -62,6 +62,7 @@ export default {
     const store = useStore()
     const route = useRoute()
     onMounted(()=>{
+      store.dispatch('product/resetState')
       store.dispatch('category/getDetailCategory',route.params.slug)
     })
 

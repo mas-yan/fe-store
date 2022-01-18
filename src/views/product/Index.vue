@@ -37,27 +37,27 @@
                   <span class="text-center">{{product.panjang}} cm</span>
                 </div>
                 <div class="col-3 d-none d-md-block">
-                  <h3 class="text-muted mb-0" style="font-size: 18px;">Jumah Halaman</h3>
+                  <h3 class="mb-0" style="font-size: 18px;">Jumah Halaman</h3>
                   <span class="text-center">{{product.jumlah_halaman}}</span>
-                  <h3 class="mt-2 text-muted mb-0" style="font-size: 18px;">Tanggal Terbit</h3>
+                  <h3 class="mt-2 mb-0" style="font-size: 18px;">Tanggal Terbit</h3>
                   <span class="text-center">{{product.tanggal_terbit}}</span>
                 </div>
                 <div class="col-3 d-none d-md-block">
-                  <h3 class="text-muted mb-0" style="font-size: 18px;">Berat</h3>
+                  <h3 class="mb-0" style="font-size: 18px;">Berat</h3>
                   <span class="text-center">{{product.berat}} kg</span>
-                  <h3 class="mt-2 text-muted mb-0" style="font-size: 18px;">Stok</h3>
+                  <h3 class="mt-2 mb-0" style="font-size: 18px;">Stok</h3>
                   <span class="text-center">{{product.stok}} Buku</span>
                 </div>
                 <div class="col-3 d-none d-md-block">
-                  <h3 class="text-muted mb-0" style="font-size: 18px;">Lebar</h3>
+                  <h3 class="mb-0" style="font-size: 18px;">Lebar</h3>
                   <span class="text-center">{{product.lebar}} cm</span>
-                  <h3 class="mt-2 text-muted mb-0" style="font-size: 18px;">Panjang</h3>
+                  <h3 class="mt-2 mb-0" style="font-size: 18px;">Panjang</h3>
                   <span class="text-center">{{product.panjang}} cm</span>
                 </div>
                 <div class="col-3 d-none d-md-block">
-                  <h3 class="text-muted mb-0" style="font-size: 18px;">Bahasa</h3>
+                  <h3 class="mb-0" style="font-size: 18px;">Bahasa</h3>
                   <span class="text-center">{{product.bahasa}}</span>
-                  <h3 class="mt-2 text-muted mb-0" style="font-size: 18px;">Penerbit</h3>
+                  <h3 class="mt-2 mb-0" style="font-size: 18px;">Penerbit</h3>
                   <span class="text-center d-inline-block text-truncate" style="max-width: 150px;">{{product.penerbit}}</span>
                 </div>
               </div>

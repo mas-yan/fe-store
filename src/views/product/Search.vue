@@ -23,11 +23,6 @@
           Pencarian Tidak Ditemukan
       </div>
     </div>
-    <div class="text-center mt-4 mb-4" v-show="nextExists">
-        <a @click="loadMore"
-            class=" p-2 px-3 rounded-md shadow btn btn-primary">LIHAT
-            LEBIH BANYAK</a>
-    </div>
   </div>
 </template>
 
@@ -46,31 +41,12 @@ export default {
         return store.state.product.product
     })
 
-    //get status NextExists
-    const nextExists = computed(() => {
-        return store.state.product.nextExists
-    })
-
-    //get nextPage
-    const nextPage = computed(() => {
-        return store.state.product.nextPage
-    })
-
-    //loadMore function
-    function loadMore() {
-        store.dispatch('product/getLoadMore', nextPage.value)
-    }   
-
     function move() {
       store.dispatch('product/resetState')
     }
 
     return {
       products,
-      // <-- return products
-      nextExists,     // <-- return nextExists,
-      nextPage,       // <-- return nextPage
-      loadMore,  
       move
     }
   },

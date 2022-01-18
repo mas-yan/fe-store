@@ -70,9 +70,9 @@
               <div v-else>
                 <p style="font-weight:600" class="m-0">Rp. {{formatPrice(product.pivot.price)}}</p>
               </div>
-              <p class="fw-bold text-muted">Qty : {{product.pivot.qty}}</p>
+              <p style="font-weight:600" class="m-0">Qty : {{product.pivot.qty}}</p>
               <!-- Button trigger modal -->
-              <button type="button" v-if="data[0].status == 'success'" class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="`#rating${product.id}`">
+              <button type="button" v-if="data[0].status == 'success'" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" :data-bs-target="`#rating${product.id}`">
                 Review Barang
               </button>
               <!-- Modal -->
@@ -156,6 +156,7 @@ export default {
     })
 
     onMounted(()=>{
+      store.dispatch('product/resetState')
       store.dispatch('order/getDetail',route.params.slug)
     })
 
@@ -206,7 +207,6 @@ export default {
         //panggil actions "updateProfile" dari module "profile"
         store.dispatch('order/postReview', formData)
         .then(() => {
-            store.dispatch('product/resetState')
             router.push({name:'product.show',params:{'slug':slug}})
             isLoading.value = false;
             swal({
@@ -218,7 +218,6 @@ export default {
             rate.image = ''
 
         }).catch(error => {
-          store.dispatch('product/resetState')
           isLoading.value = false;
           console.log(error);
         })
