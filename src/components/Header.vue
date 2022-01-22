@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow bg-primary" style="border-top: 5px solid #5a68d1;">
   <div class="container-fluid">
-    <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4" style="font-family: pacifico">I-Buku</router-link>
+    <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4 text" style="font-family: pacifico">Litera Media</router-link>
     <div class="d-lg-none">
         <router-link :to="{name:'cart'}" @click="destroyCart" class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
         <span class="mx-1 text-white" v-if="!login">|</span>
@@ -19,7 +19,7 @@
         </button>
         <div class="dropdown-menu">
           <ul class="list-group p-2" v-if="categories.length > 0" aria-labelledby="dropdownMenuButton1">
-            <button @click="detail(category.slug)" class="list-group-item text-start d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0">
+            <button @click="detail(category.slug)" class="list-group-item text-start d-inline-block text-truncate rounded mb-2 text-dark border-0" v-for="category in categories" :key="category.id" style="max-width:250px; width:100%; background-color: #e1e8f0;">
               <img :src="category.image" class="rounded img-fluid" style="height: 35px;">
               &nbsp;&nbsp;<span>{{ category.name }}</span>
             </button>
@@ -81,6 +81,11 @@
 .input-group{
   width: 100%;
 }  
+@media (max-width: 360px) { 
+  .text{
+    font-size: 21px !important;
+  }
+}
 @media (min-width: 992px) { 
   .input-group{
     width: 49%;

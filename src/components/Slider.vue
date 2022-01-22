@@ -19,18 +19,18 @@
 
 <style scoped>
 .vueperslides--fixed-height {
-    height: 150px; 
+    height: 180px; 
 }
 
 @media (min-width: 768px) {
     .vueperslides--fixed-height {
-      height: 250px; 
+      height: 300px; 
     }
   }
 
 @media (min-width: 992px) { 
   .vueperslides--fixed-height {
-    height: 400px; 
+    height: 450px; 
   }
 }
 </style>
