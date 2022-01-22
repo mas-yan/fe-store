@@ -29,7 +29,7 @@
   </div>
   <footer class="footer text-center mt-auto pb-4 pb-lg-3 pb-xl-3 pb-xxl-3 pt-3" style="background-color:#011d42">
   <div class="container">
-    <span class="text-white">© 2021 Tokoku</span>
+    <span class="text-white">© 2021 Litera Media</span>
   </div>
 </footer>
 <div class="mt-4 d-lg-none d-xl-none d-xxl-none">&nbsp;</div>

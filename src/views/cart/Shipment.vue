@@ -283,7 +283,7 @@ export default {
       })
       .then(()=>{
         isLoading.value = false;
-
+        address.ongkir = 0
       })
       .catch(()=>{
         isLoading.value = false;

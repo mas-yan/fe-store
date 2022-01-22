@@ -152,7 +152,7 @@
     <div v-if="carts.cart.length == 0 && cek == 0">
       <img src="../../assets/images/cart_empty.svg" class="img-fluid empty">
       <p class="text-empty text-center">Yah Keranjangmu Kosong Nih</p>
-      <p class="sub-empty text-center">Saya rasa tombol dibawah ini sangatlah penting, Yuk isi keranjang ini dengan barang kesukaanmu!</p>
+      <p class="sub-empty text-center">Saya rasa tombol dibawah ini sangatlah penting, Yuk isi keranjang ini dengan buku kesukaanmu!</p>
       <div class="d-flex justify-content-center">
         <router-link :to="{name: 'home'}" class="btn btn-primary btn-lg btn-style text-center">Mulai Belanja</router-link>
       </div>
@@ -253,9 +253,11 @@ export default {
           })
           .then(()=>{
             store.dispatch('cart/cart')
-            store.dispatch('cart/totalCart')
             product.check = []
-            isLoading.value = false;
+            store.dispatch('cart/totalCart')
+            .then(()=>{
+              isLoading.value = false;
+            })
             swal.fire(`${del.length} barang berhasil dihapus!`, '', 'success')
           })
         }
@@ -333,7 +335,9 @@ export default {
       .then(()=>{
         store.dispatch('cart/cart')
         store.dispatch('cart/totalCart')
-        isLoading.value = false;
+        .then(()=>{
+          isLoading.value = false;
+        })
       })
     }
     
@@ -343,7 +347,9 @@ export default {
       .then(()=>{
         store.dispatch('cart/cart')
         store.dispatch('cart/totalCart')
-        isLoading.value = false;
+        .then(()=>{
+          isLoading.value = false;
+        })
       })
     }
 

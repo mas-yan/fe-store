@@ -1,5 +1,8 @@
 <template>
-    <div class="card mt-3 mt-lg-0 mt-xl-0 mt-xxl-0 shadow border-0 text-center">
+<div class="alert alert-primary">
+  Selamat Datang <b>{{ user.name }}</b>
+</div>
+    <!-- <div class="card mt-3 mt-lg-0 mt-xl-0 mt-xxl-0 shadow border-0 text-center">
       <div class="card-header bg-white">
        <nav>
         <div class="nav nav-tabs card-header-tabs" id="nav-tab" role="tablist">
@@ -25,7 +28,7 @@
         </div>
         
       </div>
-    </div>
+    </div> -->
 </template>
 
 <script>

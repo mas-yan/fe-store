@@ -1,6 +1,5 @@
 <template>
   <div class="card mt-3 mt-lg-0 mt-xl-0 mt-xxl-0 shadow border-0">
-    <!-- {{data}} -->
     <div class="card-body">
       <div v-if="data">
         <div v-if="data.data.length > 0">
@@ -17,10 +16,10 @@
               <tr v-for="(item,index) in data.data" :key="index" class="text-center">
                 <td>{{item.invoice}}</td>
                 <td>
-                  <button class="btn-warning btn btn-sm" v-if="item.status == 'pending'">{{item.status}}</button>
-                  <button class="btn-success btn btn-sm" v-else-if="item.status == 'success'">{{item.status}}</button>
-                  <button class="btn-muted btn btn-sm" v-else-if="item.status == 'expired'">{{item.status}}</button>
-                  <button class="btn-danger btn btn-sm" v-else-if="item.status == 'failed'">{{item.status}}</button>
+                  <button class="btn-warning btn btn-sm" v-if="item.status == 'pending'"><i class="fas fa-sync-alt fa-spin"></i> {{item.status}}</button>
+                  <button class="btn-success btn btn-sm" v-else-if="item.status == 'success'"><i class="far fa-check-circle"></i> {{item.status}}</button>
+                  <button class="btn-muted btn btn-sm btn-secondary btn" v-else-if="item.status == 'expired'"><i class="fas fa-exclamation-circle"></i> {{item.status}}</button>
+                  <button class="btn-danger btn btn-sm" v-else-if="item.status == 'failed'"><i class="far fa-times-circle"></i> {{item.status}}</button>
                   </td>
                 <td>
                   <a @click="order(item.invoice)" class="btn btn-sm btn-primary">Detail</a>
