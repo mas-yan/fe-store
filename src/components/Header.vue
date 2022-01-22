@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow bg-primary" style="border-top: 5px solid #5a68d1;">
   <div class="container-fluid">
-    <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4 text" style="font-family: pacifico">Litera Media</router-link>
+    <router-link :to="{name: 'home'}" class="navbar-brand text-white p-0 m-0 fs-4 text" style="font-family: pacifico">Literasiku</router-link>
     <div class="d-lg-none">
         <router-link :to="{name:'cart'}" @click="destroyCart" class="btn bg-white text-primary"><i class="fas fa-shopping-cart"></i>&nbsp;|&nbsp;<span class="badge bg-primary">{{total}}</span></router-link>
         <span class="mx-1 text-white" v-if="!login">|</span>
