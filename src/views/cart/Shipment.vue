@@ -23,7 +23,7 @@
             <div class="mb-3">
               <label for="kab">Kurir</label>
               <select id="kab" @change="getCostOngkir" v-model="address.courier" class="form-control">
-                <option value="" v-if="address.courier == 0">Pilih Kurir</option>
+                <option value="" v-if="address.courier == 0" disabled>Pilih Kurir</option>
                 <option class="py-1" value="jne">JNE</option>
                 <option class="py-1" value="tiki">TIKI</option>
                 <option class="py-1" value="pos">POS</option>
@@ -146,14 +146,14 @@
             <div class="mb-3">
                 <label for="provinsi">Provinsi</label>
                 <select id="provinsi" @change="provisiName($event)" v-model="address.provinsi" class="form-control">
-                  <option value="">Pilih Provinsi</option>
+                  <option value="" disabled>Pilih Provinsi</option>
                   <option class="py-1" v-for="province in provinsi" :key="province.id" :value="province.province_id">{{ province.province }}</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="kab">Kabupaten/Kota</label>
                 <select id="kab" @change="cityName($event)" v-model="address.city" class="form-control">
-                  <option value="">Pilih Kabupaten/Kota</option>
+                  <option value="" v-if="address.city == 0" disabled>Pilih Kabupaten/Kota</option>
                   <option class="py-1" v-for="city in cities" :key="city.id" :value="city.city_id">{{city.type}} {{ city.city_name }}</option>
                 </select>
             </div>
@@ -255,11 +255,18 @@ export default {
     function provisiName(e) {
       address.provinsi_name = e.target.options[e.target.options.selectedIndex].text
       store.dispatch('ongkir/getCities',address.provinsi)
+      .then(()=>{
+        address.courier = ''
+        address.city_name = ''
+      })
     }
     
     function cityName(e) {
       address.city_name = e.target.options[e.target.options.selectedIndex].text
       store.dispatch('ongkir/getCities',address.provinsi)
+      .then(()=>{
+        address.courier = ''
+      })
     }
     
     function serviceName(e) {
