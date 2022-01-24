@@ -41,7 +41,7 @@
                   </td>
                   <td class="txt">
                     <div class="border d-inline rounded p-1 ps-1">
-                    <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" v-if="cart.pivot.qty < cart.stok " class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
+                    <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" v-if="parseInt(cart.pivot.qty) < parseInt(cart.stok) " class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
                     </div>
                   </td>
                   <td class="txt" :class="[product.check.length > 0 ? 'text-center' : '']">
@@ -277,7 +277,7 @@ export default {
         return check.indexOf(cek.id) !== -1
       })
       .map(total=>{
-        sum = sum + total.pivot.qty
+        sum = parseInt(sum) + parseInt(total.pivot.qty)
       })
       return sum
     })
