@@ -276,7 +276,7 @@ export default {
 
     function getCostOngkir() {
       let city_destination = address.city
-      let weight = address.weight
+      let weight = parseInt(address.weight)
       let courier = address.courier
 
       if (weight < 1) {
