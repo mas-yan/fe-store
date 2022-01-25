@@ -279,9 +279,6 @@ export default {
       let weight = berat.value * 1000
       let courier = address.courier
 
-      if (weight < 1) {
-        weight = 1
-      }
       isLoading.value = true;
       store.dispatch('ongkir/getCostOngkir',{
           city_destination,
