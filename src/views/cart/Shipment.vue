@@ -95,7 +95,7 @@
                 </div>
                 <div class="row text-muted fw-bold" style="font-family: open sans">
                   <div class="col">
-                    Total Ongkir <small>({{Math.floor(berat * 100) / 100}} Kg)</small>
+                    Ongkir <small>({{Math.floor(berat * 100) / 100}} Kg)</small>
                   </div>
                   <div class="col">
                     <p class="text-end">Rp. {{formatPrice(address.ongkir)}}</p>
