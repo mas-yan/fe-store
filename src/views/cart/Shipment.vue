@@ -95,7 +95,7 @@
                 </div>
                 <div class="row text-muted fw-bold" style="font-family: open sans">
                   <div class="col">
-                    Ongkir <small>({{Math.floor(berat * 100) / 100}} Kg)</small>
+                    Ongkir <small>({{berat}} Kg)</small>
                   </div>
                   <div class="col">
                     <p class="text-end">Rp. {{formatPrice(address.ongkir)}}</p>
@@ -276,9 +276,8 @@ export default {
 
     function getCostOngkir() {
       let city_destination = address.city
-      let weight = parseInt(address.weight)
+      let weight = berat.value * 1000
       let courier = address.courier
-      console.log(weight);
 
       if (weight < 1) {
         weight = 1
@@ -352,7 +351,7 @@ export default {
           sum = sum + (grand_total * value.pivot.qty)
         })
         address.weight = sum
-      return address.weight
+      return Math.floor(address.weight * 100) / 100
     })
 
     function myFunction(id) {
