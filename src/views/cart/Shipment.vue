@@ -278,6 +278,7 @@ export default {
       let city_destination = address.city
       let weight = parseInt(address.weight)
       let courier = address.courier
+      console.log(weight);
 
       if (weight < 1) {
         weight = 1
