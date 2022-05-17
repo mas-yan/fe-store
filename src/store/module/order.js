@@ -48,19 +48,19 @@ const order = {
 
                 //send data donatiion ke server
                 Api.post('/transaction', {
-                        phone: data.noTelp,
-                        full_name: data.name,
-                        city: data.city_name,
-                        province: data.provinsi_name,
-                        address: data.fullAddress,
-                        courir: data.courier,
-                        service: data.service,
-                        cost: data.ongkir,
-                        grand_total: data.grand_total,
-                        product: data.product,
-                        price: data.price,
-                        qty: data.qty,
-                    })
+                    phone: data.noTelp,
+                    full_name: data.name,
+                    city: data.city_name,
+                    province: data.provinsi_name,
+                    address: data.fullAddress,
+                    courir: data.courier,
+                    service: data.service,
+                    cost: data.ongkir,
+                    grand_total: data.grand_total,
+                    product: data.product,
+                    price: data.price,
+                    qty: data.qty,
+                })
                     .then(response => {
                         commit('SET_SNAP_TOKEN', response.data[0].snap_token)
                         commit('SET_INVOICE', response.data.data.invoice)
@@ -77,6 +77,7 @@ const order = {
 
         },
         destroyProduct({ commit }) {
+            localStorage.removeItem('product')
             commit('DESTROY_PRODUCT')
         },
 
