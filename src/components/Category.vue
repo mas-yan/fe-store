@@ -1,9 +1,9 @@
 <template>
 <div class="m-lg-5 m-3">
   <h3 class="judul mb-3"> Kategori yang mungkin kamu suka</h3>
- <div v-if="categories.length > 0" class="m-2 d-none d-lg-block">
+  <div v-if="categories.length > 0" class="m-2 d-none d-lg-block">
     <vueper-slides
-    :fixed-height="true"
+      :fixed-height="true"
       class="no-shadow "
       :visible-slides="6"
       slide-multiple
@@ -120,6 +120,12 @@ export default {
 @media (min-width: 992px) { 
   .vueperslides--fixed-height {
     height: 14rem;
+    margin-bottom: 4%;
+  }
+}
+@media (min-width: 1400px) { 
+  .vueperslides--fixed-height {
+    height: 30rem;
     margin-bottom: 4%;
   }
 }
