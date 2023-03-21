@@ -153,4 +153,23 @@ img{
     height: 100%;
   }
 }
+@media (min-width: 1400px) { 
+  .card{
+    height: 530px;
+    border-radius: 16px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  img{
+    max-height: 420px;
+    height: 420px;
+  }
+  .fb{
+    width: 700px;
+    height: 100%;
+  }
+}
 </style>
