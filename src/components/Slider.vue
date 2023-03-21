@@ -33,6 +33,12 @@
     height: 450px; 
   }
 }
+@media (min-width: 1400px) { 
+  .vueperslides--fixed-height {
+    height: 700px;
+    object-fit: cover;
+  }
+}
 </style>
 
 <script>
