@@ -86,7 +86,7 @@
                       <span class="m-0 fw-bold text-muted">Stok {{cart.stok}} &nbsp;</span>
                     <div class="float-end">
                       <div class="border d-inline rounded p-1 ps-1">
-                        <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
+                        <a @click="subtQty(cart.slug)" v-if="cart.pivot.qty >1" class="qty"><i class="fas fa-minus-circle"></i></a> <span class="fw-bold"> {{cart.pivot.qty}} </span> <a @click="addQty(cart.slug)" v-if="parseInt(cart.pivot.qty) < parseInt(cart.stok) " class="qty text-primary"><i class="fas fa-plus-circle"></i></a>
                       </div> &nbsp; &nbsp;
                       <a @click="deleteCart(cart.slug)" class="qty text-danger"><i class="fas fa-trash"></i></a>
                     </div>
