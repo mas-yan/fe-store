@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 
 const Api = axios.create({
-    baseURL: 'https://i-book-store.up.railway.app/api'
+    baseURL: 'https://literasiku.heiyan.web.id/api'
 })
 
 export default Api
